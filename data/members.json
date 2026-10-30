@@ -5,7 +5,36 @@
     "color": "#F5C400",
     "colorName": "노랑",
     "facts": [
-      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+      {
+        "label": "활동명",
+        "value": "HITOMI(히토미)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "본명",
+        "value": "혼다 히토미",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "국적",
+        "value": "일본",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "생일",
+        "value": "2001년 10월 6일",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "경력",
+        "value": "아이즈원(IZ*ONE) 멤버 출신, 세이마이네임 리더",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "데뷔",
+        "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버",
+        "source": "https://www.koreaherald.com/article/3494054"
+      }
     ]
   },
   {
@@ -14,7 +43,31 @@
     "color": "#9B6BFF",
     "colorName": "보라",
     "facts": [
-      { "label": "합류", "value": "2025년 합류, 세이마이네임이 8인조가 됨", "source": "https://sbsstar.net/article/N1008173749/say-my-name-welcomes-new-member-shuie-transforms-into-an-8member-group" }
+      {
+        "label": "활동명",
+        "value": "SHUIE(슈이)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "본명",
+        "value": "양슈멍(杨舒萌)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "국적",
+        "value": "중국",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "생일",
+        "value": "2004년 6월 6일",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "합류",
+        "value": "2025년 합류, 세이마이네임이 8인조가 됨",
+        "source": "https://sbsstar.net/article/N1008173749/say-my-name-welcomes-new-member-shuie-transforms-into-an-8member-group"
+      }
     ]
   },
   {
@@ -23,7 +76,31 @@
     "color": "#FF7EB6",
     "colorName": "분홍",
     "facts": [
-      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+      {
+        "label": "활동명",
+        "value": "MEI(메이)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "본명",
+        "value": "테라다 메이(寺田 萌衣)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "국적",
+        "value": "일본",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "생일",
+        "value": "2005년 9월 27일",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "데뷔",
+        "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버",
+        "source": "https://www.koreaherald.com/article/3494054"
+      }
     ]
   },
   {
@@ -32,7 +109,31 @@
     "color": "#F2414B",
     "colorName": "빨강",
     "facts": [
-      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+      {
+        "label": "활동명",
+        "value": "KANNY(카니)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "본명",
+        "value": "나팟사난 깨우꽁",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "국적",
+        "value": "태국",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "생일",
+        "value": "2005년 12월 26일",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "데뷔",
+        "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버",
+        "source": "https://www.koreaherald.com/article/3494054"
+      }
     ]
   },
   {
@@ -41,7 +142,31 @@
     "color": "#FF8A2B",
     "colorName": "주황",
     "facts": [
-      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+      {
+        "label": "활동명",
+        "value": "SOHA(소하)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "본명",
+        "value": "정민하",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "국적",
+        "value": "대한민국",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "생일",
+        "value": "2006년 7월 26일",
+        "source": "https://weverse.io/saymyname/artist/3-237198891?hl=ko"
+      },
+      {
+        "label": "데뷔",
+        "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버",
+        "source": "https://www.koreaherald.com/article/3494054"
+      }
     ]
   },
   {
@@ -50,7 +175,31 @@
     "color": "#FFFFFF",
     "colorName": "하양",
     "facts": [
-      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+      {
+        "label": "활동명",
+        "value": "DOHEE(도희)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "본명",
+        "value": "김도희",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "국적",
+        "value": "대한민국",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "생일",
+        "value": "2006년 12월 9일",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "데뷔",
+        "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버",
+        "source": "https://www.koreaherald.com/article/3494054"
+      }
     ]
   },
   {
@@ -60,7 +209,31 @@
     "colorDark": "#C9CCD2",
     "colorName": "검정",
     "facts": [
-      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+      {
+        "label": "활동명",
+        "value": "JUNHWI(준휘)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "본명",
+        "value": "서준휘",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "국적",
+        "value": "대한민국",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "생일",
+        "value": "2007년 6월 11일",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "데뷔",
+        "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버",
+        "source": "https://www.koreaherald.com/article/3494054"
+      }
     ]
   },
   {
@@ -69,7 +242,31 @@
     "color": "#2DBE6C",
     "colorName": "초록",
     "facts": [
-      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+      {
+        "label": "활동명",
+        "value": "SEUNGJU(승주)",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "본명",
+        "value": "윤승주",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "국적",
+        "value": "대한민국",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "생일",
+        "value": "2010년 9월 24일",
+        "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+      },
+      {
+        "label": "데뷔",
+        "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버",
+        "source": "https://www.koreaherald.com/article/3494054"
+      }
     ]
   }
 ]

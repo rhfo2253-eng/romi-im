@@ -12,8 +12,8 @@ const shortsCount = episodes.reduce((n, e) => n + e.shorts.length, 0);
 
 // 다가오는 날은 보는 날짜에 따라 바뀌므로 브라우저에서 계산한다
 const days = [
-  ...events.map((e) => ({ date: e.date, title: e.title, repeat: e.repeat === 'yearly' })),
-  ...discography.map((r) => ({ date: r.releaseDate, title: `${r.title} 발매`, repeat: false })),
+  ...events.map((e) => ({ date: e.date, title: e.title, repeat: e.repeat === 'yearly', birthday: e.type === 'birthday' })),
+  ...discography.map((r) => ({ date: r.releaseDate, title: `${r.title} 발매`, repeat: false, birthday: false })),
 ];
 ---
 <Base current="home">
@@ -89,7 +89,7 @@ const days = [
   function renderUpcoming() {
     const ul = document.getElementById('upcoming');
     if (!ul) return;
-    const days: { date: string; title: string; repeat: boolean }[] = JSON.parse(ul.dataset.days || '[]');
+    const days: { date: string; title: string; repeat: boolean; birthday: boolean }[] = JSON.parse(ul.dataset.days || '[]');
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const list = days.flatMap((d) => {
@@ -98,7 +98,7 @@ const days = [
         let next = new Date(today.getFullYear(), m - 1, day);
         if (next < today) next = new Date(today.getFullYear() + 1, m - 1, day);
         const years = next.getFullYear() - y;
-        return [{ at: next, title: years > 0 ? `${d.title} (${years}주년)` : d.title }];
+        return [{ at: next, title: years > 0 ? `${d.title} (${years}${d.birthday ? '번째' : '주년'})` : d.title }];
       }
       const at = new Date(y, m - 1, day);
       return at >= today ? [{ at, title: d.title }] : [];

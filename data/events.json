@@ -6,5 +6,69 @@
     "type": "anniversary",
     "title": "세이마이네임 데뷔 기념일",
     "source": "https://www.koreaherald.com/article/3494054"
+  },
+  {
+    "id": "birthday-tomi",
+    "date": "2001-10-06",
+    "repeat": "yearly",
+    "type": "birthday",
+    "title": "토미 생일",
+    "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+  },
+  {
+    "id": "birthday-shuie",
+    "date": "2004-06-06",
+    "repeat": "yearly",
+    "type": "birthday",
+    "title": "슈이 생일",
+    "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+  },
+  {
+    "id": "birthday-mei",
+    "date": "2005-09-27",
+    "repeat": "yearly",
+    "type": "birthday",
+    "title": "메이 생일",
+    "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+  },
+  {
+    "id": "birthday-kanny",
+    "date": "2005-12-26",
+    "repeat": "yearly",
+    "type": "birthday",
+    "title": "카니 생일",
+    "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+  },
+  {
+    "id": "birthday-soha",
+    "date": "2006-07-26",
+    "repeat": "yearly",
+    "type": "birthday",
+    "title": "소하 생일",
+    "source": "https://weverse.io/saymyname/artist/3-237198891?hl=ko"
+  },
+  {
+    "id": "birthday-dohee",
+    "date": "2006-12-09",
+    "repeat": "yearly",
+    "type": "birthday",
+    "title": "도희 생일",
+    "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+  },
+  {
+    "id": "birthday-junhwi",
+    "date": "2007-06-11",
+    "repeat": "yearly",
+    "type": "birthday",
+    "title": "준휘 생일",
+    "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+  },
+  {
+    "id": "birthday-seungju",
+    "date": "2010-09-24",
+    "repeat": "yearly",
+    "type": "birthday",
+    "title": "승주 생일",
+    "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
   }
 ]

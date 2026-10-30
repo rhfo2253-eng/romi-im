@@ -5,7 +5,7 @@
     "type": "미니 1집",
     "releaseDate": "2024-10-16",
     "titleTrack": "WaveWay",
-    "mv": null,
+    "mv": "https://www.youtube.com/watch?v=LzeUBByxQKo",
     "source": "https://www.koreaherald.com/article/3494054"
   },
   {
@@ -14,7 +14,7 @@
     "type": "미니 2집",
     "releaseDate": "2025-03-13",
     "titleTrack": "ShaLala",
-    "mv": null,
+    "mv": "https://www.youtube.com/watch?v=rPEfIvfmCxM",
     "source": "https://news.tf.co.kr/read/ogmeta/2186798.htm"
   },
   {
@@ -23,7 +23,7 @@
     "type": "싱글",
     "releaseDate": "2025-08-01",
     "titleTrack": "iLy",
-    "mv": null,
+    "mv": "https://www.youtube.com/watch?v=XceS5vnJvUg",
     "source": "https://m.etnews.com/20250731000157"
   },
   {
@@ -32,7 +32,25 @@
     "type": "미니 3집",
     "releaseDate": "2025-12-29",
     "titleTrack": "UFO (ATTENT!ON)",
-    "mv": null,
+    "mv": "https://www.youtube.com/watch?v=jSg7yxu-3n4",
     "source": "https://www.starnewskorea.com/star/2025/12/18/2025121809361345692"
+  },
+  {
+    "id": "sweet-and-sour",
+    "title": "Sweet & Sour",
+    "type": "OST",
+    "releaseDate": "2026-04-25",
+    "titleTrack": "Sweet & Sour (쿠팡플레이 '로맨스의 절댓값' OST Part.2)",
+    "mv": null,
+    "source": "https://www.sportsworldi.com/newsView/20260425503576"
+  },
+  {
+    "id": "your-scent",
+    "title": "너의향기",
+    "type": "참여곡",
+    "releaseDate": "2026-06-15",
+    "titleTrack": "너의향기 (한류시작 20th 프로젝트 Part.8)",
+    "mv": null,
+    "source": "https://music.bugs.co.kr/artist/80400319"
   }
 ]

@@ -111,7 +111,7 @@ const kinds = [
         const t = it.href ? document.createElement('a') : document.createElement('span');
         if (it.href) (t as HTMLAnchorElement).href = it.href;
         t.className = 't';
-        t.textContent = it.title + (it.years > 0 ? ` (${it.years}주년)` : '') + (it.sample ? ' (샘플)' : '');
+        t.textContent = it.title + (it.years > 0 ? ` (${it.years}${it.kind === 'birthday' ? '번째' : '주년'})` : '') + (it.sample ? ' (샘플)' : '');
         li.append(d, k, t);
         if (it.source) {
           const s = document.createElement('a');

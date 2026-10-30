@@ -1,0 +1,46 @@
+{
+  "sample": true,
+  "id": "261012_샘플저녁라이브",
+  "title": "샘플: 다 같이 하는 저녁 라이브 압축본",
+  "liveDate": "2026-10-12",
+  "publishDate": "2026-10-14",
+  "youtubeId": "SAMPLE_261012",
+  "duration": 1265,
+  "members": [
+    "hitomi",
+    "mei",
+    "kanny",
+    "seungju"
+  ],
+  "anniversary": null,
+  "chapters": [
+    {
+      "title": "인사와 근황",
+      "time": 0
+    },
+    {
+      "title": "저녁 메뉴 이야기",
+      "time": 142
+    },
+    {
+      "title": "팬 질문 답하기",
+      "time": 410
+    },
+    {
+      "title": "즉석 챌린지",
+      "time": 735
+    },
+    {
+      "title": "끝인사",
+      "time": 1190
+    }
+  ],
+  "shorts": [
+    {
+      "youtubeId": "샘플쇼츠A1",
+      "title": "즉석 챌린지 모음"
+    }
+  ],
+  "weverseUrl": "https://weverse.io/saymyname/live",
+  "thumbnail": null
+}

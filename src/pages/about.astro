@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import { href, contactEmail, channelUrl } from '../lib/data';
+---
+<Base title="사이트 소개" current="about">
+  <header class="page-head">
+    <p class="eyebrow">Romi_Im</p>
+    <h1>사이트 소개</h1>
+  </header>
+  <div class="cards">
+    <section class="card box notice">
+      <h2>비공식 팬 사이트예요</h2>
+      <p>Romi_Im은 세이마이네임(SAY MY NAME) 팬이 만든 <strong>비공식 팬 아카이브</strong>예요. 소속사와는 관계가 없고, 공식 로고도 쓰지 않아요. 광고도 붙이지 않아요.</p>
+    </section>
+    <section class="card box">
+      <h2>무엇을 모았나요</h2>
+      <p>팬 유튜브 채널 Romi_Im(@smn00000)이 만든 라이브 압축본과 쇼츠, 그리고 세이마이네임의 공개 정보(멤버, 발매 기록, 기념일)를 출처와 함께 모았어요.</p>
+      <a class="btn primary" href={channelUrl} target="_blank" rel="noopener">유튜브 채널 가기 ↗</a>
+    </section>
+    <section class="card box">
+      <h2>연락처</h2>
+      <p>문의, 정정, 삭제 요청은 채널 이메일로 보내 주세요. 요청을 받으면 바로 내려요.</p>
+      <a class="btn" href={`mailto:${contactEmail}`}>{contactEmail}</a>
+    </section>
+    <section class="card box">
+      <h2>지키는 약속</h2>
+      <p>공식 사진을 다시 올리지 않고, 가사와 사생활은 싣지 않아요. 자세한 내용은 운영 원칙에 적어 두었어요.</p>
+      <a class="btn" href={href('/principles/')}>운영 원칙 보기 →</a>
+    </section>
+  </div>
+</Base>
+<style>
+  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+  .box { padding: 22px; display: grid; gap: 12px; align-content: start; justify-items: start; }
+  .box h2 { font-size: 20px; font-weight: 800; }
+  .notice { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+</style>

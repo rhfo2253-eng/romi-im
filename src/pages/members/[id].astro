@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+import EpisodeCard from '../../components/EpisodeCard.astro';
+import { members, episodes, href, episodeHref, type Member } from '../../lib/data';
+
+export function getStaticPaths() {
+  return members.map((m) => ({ params: { id: m.id }, props: { member: m } }));
+}
+const { member: m } = Astro.props as { member: Member };
+const eps = episodes.filter((e) => e.members.includes(m.id));
+const shorts = eps.flatMap((e) => e.shorts.map((s) => ({ ...s, episode: e })));
+---
+<Base title={m.name} current="members">
+  <a class="back" href={href('/members/')}>← 멤버</a>
+  <header class="head card" style={`--c:var(--m-${m.id})`}>
+    <span class="swatch" aria-hidden="true"></span>
+    <div>
+      <p class="eyebrow">SAY MY NAME</p>
+      <h1>{m.name}</h1>
+      <p class="muted">멤버 색 <strong class="color">{m.colorName}</strong>{m.colorSource && <> <a class="source" href={m.colorSource} target="_blank" rel="noopener">출처</a></>}</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="section-title"><h2>공개 정보</h2></div>
+    <dl class="facts card">
+      {m.facts.map((f) => (
+        <div>
+          <dt>{f.label}</dt>
+          <dd>{f.value} <a class="source" href={f.source} target="_blank" rel="noopener">출처</a></dd>
+        </div>
+      ))}
+    </dl>
+    <p class="note muted">공개 자료에서 확인한 정보만 출처와 함께 실어요. 틀린 곳이 있으면 알려 주세요.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><h2>{m.name}의 압축본</h2><a href={`${href('/episodes/')}?member=${m.id}`}>거르기로 보기 →</a></div>
+    {eps.length ? <div class="grid">{eps.map((e) => <EpisodeCard episode={e} />)}</div> : <p class="empty">아직 없어요.</p>}
+  </section>
+
+  {shorts.length > 0 && (
+    <section class="section">
+      <div class="section-title"><h2>쇼츠</h2></div>
+      <ul class="shorts">
+        {shorts.map((s) => (
+          <li><a href={s.episode.sample ? episodeHref(s.episode.id) : `https://www.youtube.com/shorts/${s.youtubeId}`}>{s.title}{s.episode.sample && ' (샘플)'}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>
+<style>
+  .back { display: inline-block; margin: 6px 0 16px; font-size: 14px; font-weight: 700; color: var(--muted); text-decoration: none; }
+  .head { padding: 22px; display: flex; gap: 18px; align-items: center; border-top: 6px solid var(--c); }
+  .swatch { width: 64px; height: 64px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px var(--line); flex: none; }
+  h1 { font-size: clamp(32px, 8vw, 48px); font-weight: 800; }
+  .color { text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+  .facts { margin: 0; padding: 8px 18px; }
+  .facts div { display: grid; grid-template-columns: 70px 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .facts div:last-child { border-bottom: 0; }
+  dt { color: var(--muted); font-size: 14px; }
+  dd { margin: 0; }
+  .note { font-size: 13px; margin-top: 8px; }
+  .shorts { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+</style>

@@ -1,0 +1,15 @@
+---
+import { thumbOf, formatDuration, type Episode } from '../lib/data';
+interface Props { episode: Episode; eager?: boolean }
+const { episode, eager = false } = Astro.props;
+const src = thumbOf(episode);
+---
+<div class="thumb">
+  {src
+    ? <img src={src} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    : <div class="thumb-placeholder"><span>샘플 썸네일<br /><small>실제 편이 들어오면 채널 썸네일이 보여요</small></span></div>}
+  <span class="len">{formatDuration(episode.duration)}</span>
+</div>
+<style>
+  small { font-weight: 500; font-size: 12px; }
+</style>

@@ -1,0 +1,30 @@
+---
+import { episodeHref, formatDate, type Episode } from '../lib/data';
+import MemberDots from './MemberDots.astro';
+import SampleBadge from './SampleBadge.astro';
+import Thumb from './Thumb.astro';
+interface Props { episode: Episode }
+const { episode: e } = Astro.props;
+---
+<a class="card lift ep" href={episodeHref(e.id)}>
+  <Thumb episode={e} />
+  <div class="body">
+    <div class="meta">
+      <span>{formatDate(e.liveDate)} 라이브</span>
+      <MemberDots ids={e.members} />
+    </div>
+    <h3>{e.title}</h3>
+    <div class="badges">
+      <SampleBadge show={!!e.sample} />
+      {e.anniversary && <span class="badge accent">{e.anniversary}</span>}
+    </div>
+  </div>
+</a>
+<style>
+  .ep { padding: 8px; }
+  .body { padding: 10px 6px 6px; display: grid; gap: 6px; }
+  .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  h3 { font-size: 16px; font-weight: 700; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badges:empty { display: none; }
+</style>

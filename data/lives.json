@@ -1,0 +1,42 @@
+[
+  {
+    "id": "261012-sample-live-a",
+    "sample": true,
+    "date": "2026-10-12",
+    "title": "샘플: 다 같이 하는 저녁 라이브",
+    "members": ["hitomi", "mei", "kanny", "seungju"],
+    "duration": 4980,
+    "weverseUrl": "https://weverse.io/saymyname/live",
+    "episode": "261012_샘플저녁라이브"
+  },
+  {
+    "id": "261019-sample-live-b",
+    "sample": true,
+    "date": "2026-10-19",
+    "title": "샘플: 데뷔 2주년 축하 라이브",
+    "members": ["hitomi", "shuie", "mei", "kanny", "soha", "dohee", "junhwi", "seungju"],
+    "duration": 6120,
+    "weverseUrl": "https://weverse.io/saymyname/live",
+    "episode": "261019_샘플2주년라이브"
+  },
+  {
+    "id": "261024-sample-live-c",
+    "sample": true,
+    "date": "2026-10-24",
+    "title": "샘플: 짧은 새벽 라이브",
+    "members": ["soha", "dohee"],
+    "duration": 1320,
+    "weverseUrl": "https://weverse.io/saymyname/live",
+    "episode": "261024_샘플새벽라이브"
+  },
+  {
+    "id": "261026-sample-live-d",
+    "sample": true,
+    "date": "2026-10-26",
+    "title": "샘플: 압축본이 없는 라이브",
+    "members": ["junhwi"],
+    "duration": 960,
+    "weverseUrl": "https://weverse.io/saymyname/live",
+    "episode": null
+  }
+]

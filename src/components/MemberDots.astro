@@ -1,0 +1,16 @@
+---
+import { memberById } from '../lib/data';
+interface Props { ids: string[]; names?: boolean }
+const { ids, names = false } = Astro.props;
+const list = ids.map((id) => memberById.get(id)).filter((m) => m !== undefined);
+---
+<span class="dots" aria-label={`나온 멤버: ${list.map((m) => m.name).join(', ')}`}>
+  {list.map((m) => (
+    names
+      ? <span class="named"><span class="dot" style={`background:var(--m-${m.id})`}></span>{m.name}</span>
+      : <span class="dot" style={`background:var(--m-${m.id})`} title={m.name}></span>
+  ))}
+</span>
+<style>
+  .named { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; margin-right: 8px; }
+</style>

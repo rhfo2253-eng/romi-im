@@ -4,9 +4,8 @@ import { members, episodes, href } from '../../lib/data';
 ---
 <Base title="멤버" current="members">
   <header class="page-head">
-    <p class="eyebrow">SAY MY NAME</p>
     <h1>멤버</h1>
-    <p>세이마이네임은 8명이에요. 공개된 정보만, 출처와 함께 적어요.</p>
+    <p>세이마이네임 멤버 {members.length}명. 멤버를 누르면 생일, 본명, 출연 압축본 표시.</p>
   </header>
   <div class="members">
     {members.map((m) => {
@@ -24,9 +23,8 @@ import { members, episodes, href } from '../../lib/data';
 <style>
   .members { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 720px) { .members { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .member { padding: 18px; display: grid; gap: 4px; position: relative; overflow: hidden; }
-  .member::after { content: ''; position: absolute; left: 18px; right: 18px; bottom: 0; height: 4px; border-radius: 4px 4px 0 0; background: var(--c); box-shadow: inset 0 0 0 1px var(--line); }
-  .swatch { width: 40px; height: 40px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px var(--line); margin-bottom: 10px; }
-  h2 { font-size: 22px; font-weight: 800; }
+  .member { padding: 14px; display: grid; gap: 4px; position: relative; overflow: hidden; }
+  .swatch { width: 14px; height: 14px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px var(--line); margin-bottom: 6px; }
+  h2 { font-size: 19px; font-weight: 800; }
   .muted { font-size: 13px; }
 </style>

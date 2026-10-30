@@ -70,5 +70,89 @@
     "type": "birthday",
     "title": "승주 생일",
     "source": "https://ko.wikipedia.org/wiki/SAY_MY_NAME_(%EC%9D%8C%EC%95%85_%EA%B7%B8%EB%A3%B9)"
+  },
+  {
+    "id": "2025-12-31-countdown",
+    "date": "2025-12-31",
+    "type": "broadcast",
+    "title": "KBS '2026 카운트다운 쇼 LIGHT NOW' 출연 (KBS1·KBS 유튜브 생중계)",
+    "source": "https://m.news.nate.com/view/20251231n19859"
+  },
+  {
+    "id": "2026-01-01-sk-knights",
+    "date": "2026-01-01",
+    "type": "event",
+    "title": "프로농구 서울 SK 경기 시투",
+    "source": "https://imnews.imbc.com/news/2025/enter/article/6790274_36758.html"
+  },
+  {
+    "id": "2026-01-03-vleague",
+    "date": "2026-01-03",
+    "type": "event",
+    "title": "V-리그 현대건설 경기 시구",
+    "source": "https://imnews.imbc.com/news/2025/enter/article/6790274_36758.html"
+  },
+  {
+    "id": "2026-01-04-gagconcert",
+    "date": "2026-01-04",
+    "type": "broadcast",
+    "title": "KBS2 '개그콘서트' 출연 ('심곡 파출소' 코너 게스트)",
+    "source": "https://m.news.nate.com/view/20260102n21568"
+  },
+  {
+    "id": "2026-08-04-boryeong",
+    "date": "2026-08-04",
+    "type": "broadcast",
+    "title": "KBS '2026 보령머드축제 K-POP SUPER LIVE' 무대 공개 (iLy, UFO)",
+    "source": "https://www.youtube.com/watch?v=7XgSyjxqfxs"
+  },
+  {
+    "id": "2026-10-17-fancon",
+    "date": "2026-10-17",
+    "type": "event",
+    "title": "데뷔 2주년 팬콘서트 'SAY MY ACADEMY' (한전아트센터, 오후 2시·7시)",
+    "source": "https://sports.khan.co.kr/en/article/202610191800007"
+  },
+  {
+    "id": "2026-11-16-paris",
+    "date": "2026-11-16",
+    "type": "event",
+    "title": "'2026 SAY MY NAME FANNECT in PARIS' 첫 단독 공연 (파리 Salle Pleyel)",
+    "source": "https://www.topstarnews.net/news/articleView.html?idxno=16260113"
+  },
+  {
+    "id": "2026-06-21-kbsjoy",
+    "date": "2026-06-21",
+    "type": "broadcast",
+    "title": "KBS Joy '닥치고 한일전' 히토미 출연 (오후 8시)",
+    "source": "https://x.com/sa2m2nam3/status/2068645100511789322"
+  },
+  {
+    "id": "2026-07-19-tokyomx",
+    "date": "2026-07-19",
+    "type": "broadcast",
+    "title": "TOKYO MX '宣伝に夢中！' VTR 출연 (11:55, 일본)",
+    "source": "https://x.com/sa2m2nam3_JP/status/2077589047225008322"
+  },
+  {
+    "id": "2026-09-06-kstreet",
+    "date": "2026-09-06",
+    "type": "event",
+    "title": "파리 K-Street Festival 2026 헤드라이너 공연",
+    "source": "https://sports.khan.co.kr/en/article/202609050012007/"
+  },
+  {
+    "id": "2026-10-20-idolstable-plus",
+    "date": "2026-10-20",
+    "type": "broadcast",
+    "title": "Mnet Plus 'IDOL'S TABLE' 히토미 출연 (오후 8시)",
+    "source": "https://x.com/sa2m2nam3/status/2112494032404562013"
+  },
+  {
+    "id": "2026-10-21-idolstable",
+    "date": "2026-10-21",
+    "type": "broadcast",
+    "title": "Mnet 'IDOL'S TABLE' 히토미 출연 (오후 8시)",
+    "source": "https://x.com/sa2m2nam3/status/2112856420215382253"
   }
 ]

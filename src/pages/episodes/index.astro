@@ -11,14 +11,17 @@ const index = episodes.map((e) => ({
   ym: e.liveDate.slice(0, 7),
   anniv: !!e.anniversary,
   sample: !!e.sample,
-  chapters: e.chapters.map((c) => ({ title: c.title, at: formatDuration(c.time), href: episodeHref(e.id, c.time) })),
+  chapters: e.chapters.map((c, i) => ({
+    title: c.title,
+    at: c.time != null ? formatDuration(c.time) : `${i + 1}번째`,
+    href: c.time != null ? episodeHref(e.id, c.time) : episodeHref(e.id),
+  })),
 }));
 ---
 <Base title="압축본" current="episodes">
   <header class="page-head">
-    <p class="eyebrow">라이브 압축본</p>
     <h1>압축본</h1>
-    <p>제목과 장면 이름으로 찾을 수 있어요. 장면을 누르면 그 시간부터 바로 재생돼요.</p>
+    <p>제목·장면 이름 검색. 검색 결과의 장면 클릭 시 해당 시간부터 재생.</p>
   </header>
 
   <div class="tools" id="ep-tools" data-index={JSON.stringify(index)}>
@@ -56,7 +59,7 @@ const index = episodes.map((e) => ({
       </div>
     ))}
   </div>
-  <p class="empty" id="none" hidden>조건에 맞는 압축본이 없어요.</p>
+  <p class="empty" id="none" hidden>조건에 맞는 압축본 없음</p>
 </Base>
 
 <script>
@@ -148,8 +151,8 @@ const index = episodes.map((e) => ({
     text-decoration: none; padding: 12px 14px; border-radius: var(--radius-sm);
     background: var(--card); border: 1px solid var(--line);
   }
-  .scenes :global(a:hover) { border-color: var(--accent-strong); }
-  .scenes :global(.time) { grid-row: span 2; font-weight: 800; font-size: 13px; background: var(--accent); color: var(--accent-ink); padding: 5px 9px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+  .scenes :global(a:hover) { border-color: var(--line-strong); }
+  .scenes :global(.time) { grid-row: span 2; font-weight: 800; font-size: 13px; border: 1px solid var(--line); padding: 3px 8px; border-radius: 6px; font-variant-numeric: tabular-nums; }
   .scenes :global(.from) { font-size: 13px; color: var(--muted); }
   .ep-item[hidden] { display: none; }
 </style>

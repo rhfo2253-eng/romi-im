@@ -19,7 +19,7 @@ const embed = (id: string, start = 0, autoplay = false) =>
       <div class="player card" id="player" data-yt={e.sample ? '' : e.youtubeId}>
         {e.sample ? (
           <div class="thumb-placeholder">
-            <span>샘플 편이라 영상이 없어요<br /><small id="picked">장면을 누르면 실제 편에서는 그 시간부터 재생돼요</small></span>
+            <span>샘플 데이터 · 영상 없음<br /><small id="picked">실제 편에서는 장면 클릭 시 해당 시간부터 재생</small></span>
           </div>
         ) : (
           <iframe
@@ -35,13 +35,13 @@ const embed = (id: string, start = 0, autoplay = false) =>
       <header class="info">
         <div class="badges">
           <SampleBadge show={!!e.sample} />
-          {e.anniversary && <span class="badge accent">{e.anniversary}</span>}
+          {e.anniversary && <span class="badge">{e.anniversary}</span>}
         </div>
         <h1>{e.title}</h1>
         <dl>
           <div><dt>라이브</dt><dd>{formatDate(e.liveDate)}</dd></div>
-          <div><dt>압축본 공개</dt><dd>{formatDate(e.publishDate)}</dd></div>
-          <div><dt>길이</dt><dd>{formatDuration(e.duration)}</dd></div>
+          {e.publishDate && <div><dt>압축본 공개</dt><dd>{formatDate(e.publishDate)}</dd></div>}
+          {e.duration != null && <div><dt>길이</dt><dd>{formatDuration(e.duration)}</dd></div>}
         </dl>
         <MemberDots ids={e.members} names />
         <div class="links">
@@ -54,10 +54,10 @@ const embed = (id: string, start = 0, autoplay = false) =>
     <aside class="card chapters">
       <h2>장면 {e.chapters.length}개</h2>
       <ol>
-        {e.chapters.map((c) => (
+        {e.chapters.map((c, i) => (
           <li>
-            <button type="button" data-t={c.time}>
-              <span class="time">{formatDuration(c.time)}</span>
+            <button type="button" data-t={c.time ?? ''}>
+              <span class="time">{c.time != null ? formatDuration(c.time) : i + 1}</span>
               <span>{c.title}</span>
             </button>
           </li>
@@ -94,21 +94,21 @@ const embed = (id: string, start = 0, autoplay = false) =>
     const buttons = [...document.querySelectorAll<HTMLButtonElement>('.chapters button[data-t]')];
     const fmt = (t: number) => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
 
-    function seek(t: number, autoplay: boolean) {
-      buttons.forEach((b) => b.toggleAttribute('data-active', Number(b.dataset.t) === t));
+    function seek(t: number, autoplay: boolean, btn?: HTMLButtonElement) {
+      buttons.forEach((b) => b.toggleAttribute('data-active', btn ? b === btn : b.dataset.t !== '' && Number(b.dataset.t) === t));
       if (yt) {
         const iframe = player!.querySelector('iframe');
         if (iframe) {
           iframe.src = `https://www.youtube-nocookie.com/embed/${yt}?rel=0&playsinline=1&start=${t}${autoplay ? '&autoplay=1' : ''}`;
         }
       } else if (picked) {
-        picked.textContent = `선택한 장면: ${fmt(t)} (실제 편에서는 여기부터 재생돼요)`;
+        picked.textContent = `선택한 장면: ${fmt(t)}`;
       }
     }
 
     buttons.forEach((b) => b.addEventListener('click', () => {
-      const t = Number(b.dataset.t);
-      seek(t, true);
+      const t = Number(b.dataset.t || 0);
+      seek(t, true, b);
       if (matchMedia('(max-width: 899px)').matches) player.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }));
 
@@ -141,8 +141,8 @@ const embed = (id: string, start = 0, autoplay = false) =>
     border: 0; border-radius: 12px; padding: 10px; cursor: pointer;
   }
   .chapters button:hover { background: var(--bg-soft); }
-  .chapters button[data-active] { background: color-mix(in srgb, var(--accent) 35%, transparent); }
-  .time { flex: none; min-width: 56px; font-weight: 800; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--accent-text); }
+  .chapters button[data-active] { background: var(--bg-soft); font-weight: 700; box-shadow: inset 3px 0 0 var(--accent); }
+  .time { flex: none; min-width: 56px; font-weight: 800; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); }
   .shorts { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .short { margin: 0; padding: 8px; }
   .vert { aspect-ratio: 9 / 16; border-radius: 14px; overflow: hidden; }

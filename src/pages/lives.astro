@@ -6,11 +6,10 @@ import { lives, episodeHref, formatDate, formatDuration } from '../lib/data';
 ---
 <Base title="라이브 기록" current="lives">
   <header class="page-head">
-    <p class="eyebrow">위버스 라이브</p>
     <h1>라이브 기록</h1>
-    <p>압축하지 않은 라이브까지 모두 적어 둔 목록이에요. 노란 표시가 있으면 압축본이 있어요.</p>
+    <p>위버스 라이브 전체 목록. 압축본이 있는 라이브는 "압축본 보기" 링크 표시. 압축본 없는 라이브도 포함.</p>
   </header>
-  {lives.length === 0 ? <p class="empty">아직 기록이 없어요.</p> : (
+  {lives.length === 0 ? <p class="empty">등록된 라이브 없음</p> : (
     <ol class="lives">
       {lives.map((l) => (
         <li class="card live">
@@ -25,7 +24,7 @@ import { lives, episodeHref, formatDate, formatDuration } from '../lib/data';
             </div>
             <MemberDots ids={l.members} names />
             <div class="actions">
-              {l.episode && <a class="badge accent" href={episodeHref(l.episode)}>압축본 있음 →</a>}
+              {l.episodes.map((id, i) => <a class="badge strong" href={episodeHref(id)}>{l.episodes.length > 1 ? `압축본 ${i + 1}편 보기` : '압축본 보기'}</a>)}
               {l.weverseUrl && <a class="badge" href={l.weverseUrl} target="_blank" rel="noopener">위버스 ↗</a>}
             </div>
           </div>
@@ -45,4 +44,5 @@ import { lives, episodeHref, formatDate, formatDuration } from '../lib/data';
   .title { display: flex; gap: 8px; align-items: center; font-weight: 700; }
   .actions { display: flex; gap: 6px; flex-wrap: wrap; }
   .actions a { text-decoration: none; }
+  .strong { color: var(--text); border-color: var(--line-strong); font-weight: 700; }
 </style>

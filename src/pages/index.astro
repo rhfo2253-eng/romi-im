@@ -4,11 +4,25 @@ import EpisodeCard from '../components/EpisodeCard.astro';
 import MemberDots from '../components/MemberDots.astro';
 import SampleBadge from '../components/SampleBadge.astro';
 import Thumb from '../components/Thumb.astro';
-import { episodes, members, events, discography, href, episodeHref, formatDate, channelUrl } from '../lib/data';
+import { episodes, members, lives, events, discography, href, episodeHref, formatDate, channelUrl } from '../lib/data';
 
 const [latest, ...rest] = episodes;
 const recent = rest.slice(0, 4);
 const shortsCount = episodes.reduce((n, e) => n + e.shorts.length, 0);
+const scheduleCount = events.filter((e) => e.type === 'broadcast' || e.type === 'event').length;
+
+const menu = [
+  { name: '압축본', count: `${episodes.length}편`, desc: '장면 이름 검색, 멤버·월별 보기', path: '/episodes/' },
+  { name: '쇼츠', count: `${shortsCount}개`, desc: '압축본에서 나온 세로 영상', path: '/shorts/' },
+  { name: '멤버', count: `${members.length}명`, desc: '생일, 멤버 색, 출연 압축본', path: '/members/' },
+  { name: '라이브 기록', count: `${lives.length}회`, desc: '압축본 없는 라이브 포함 전체 목록', path: '/lives/' },
+  { name: '디스코그래피', count: `${discography.length}개`, desc: '발매일, 타이틀곡, 뮤직비디오', path: '/discography/' },
+  { name: '달력', count: `일정 ${scheduleCount}개`, desc: '생일, 발매일, 방송 출연, 공연', path: '/calendar/' },
+  { name: '처음 오신 분께', count: '용어 6개', desc: '멤버 이름, 팬덤 이름, 자주 쓰는 말', path: '/guide/' },
+  { name: '운영 원칙', count: '8개 항목', desc: '싣는 정보 기준, 삭제 요청 방법', path: '/principles/' },
+  { name: '사이트 소개', count: '연락처', desc: '비공식 팬 사이트 안내, 문의 메일', path: '/about/' },
+  { name: '유튜브 채널', count: '@smn00000', desc: 'Romi_Im 채널로 이동', url: channelUrl },
+];
 
 // 다가오는 날은 보는 날짜에 따라 바뀌므로 브라우저에서 계산한다
 const days = [
@@ -18,68 +32,57 @@ const days = [
 ---
 <Base current="home">
   <section class="hero">
-    <p class="eyebrow">세이마이네임 비공식 팬 아카이브</p>
-    <h1>로미를 위한<br />세마넴 라이브 압축본</h1>
-    <p class="muted">Romi_Im 채널의 라이브 압축본과 세이마이네임 공개 정보를 한곳에 모았어요.</p>
+    <h1>Romi_Im</h1>
+    <p class="muted">세이마이네임 위버스 라이브 압축본 모음 · 비공식 팬 사이트</p>
+    <form class="search" action={href('/episodes/')} method="get" role="search">
+      <label class="sr" for="home-q">압축본 장면 검색</label>
+      <input class="input" id="home-q" name="q" type="search" placeholder="장면 이름 검색 (예: 케이크)" autocomplete="off" />
+      <button class="btn primary" type="submit">검색</button>
+    </form>
   </section>
 
-  <div class="bento">
-    {latest ? (
-      <a class="card lift tile latest" href={episodeHref(latest.id)}>
-        <div class="tile-label"><span class="badge accent">최신 압축본</span><SampleBadge show={!!latest.sample} /></div>
-        <Thumb episode={latest} eager />
-        <div class="latest-body">
-          <h2>{latest.title}</h2>
-          <div class="row">
-            <span class="muted">{formatDate(latest.liveDate)} 라이브 · 장면 {latest.chapters.length}개</span>
-            <MemberDots ids={latest.members} />
+  <section class="section">
+    <div class="section-title"><h2>전체 메뉴</h2></div>
+    <ul class="menu">
+      {menu.map((m) => (
+        <li>
+          <a class="card lift item" href={m.url ?? href(m.path!)} target={m.url ? '_blank' : undefined} rel={m.url ? 'noopener' : undefined}>
+            <span class="name">{m.name}{m.url && ' ↗'}</span>
+            <span class="count">{m.count}</span>
+            <span class="desc">{m.desc}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <div class="two">
+    <section class="section">
+      <div class="section-title"><h2>최신 압축본</h2><a href={href('/episodes/')}>전체 보기</a></div>
+      {latest ? (
+        <a class="card lift latest" href={episodeHref(latest.id)}>
+          <Thumb episode={latest} eager />
+          <div class="latest-body">
+            <h3>{latest.title}</h3>
+            <p class="meta">
+              <span>{formatDate(latest.liveDate)} 라이브 · 장면 {latest.chapters.length}개</span>
+              <MemberDots ids={latest.members} />
+            </p>
+            <SampleBadge show={!!latest.sample} />
           </div>
-        </div>
-      </a>
-    ) : (
-      <div class="card tile latest empty">아직 올라온 압축본이 없어요.</div>
-    )}
+        </a>
+      ) : <p class="empty">등록된 압축본 없음</p>}
+    </section>
 
-    <div class="card tile upcoming">
-      <h2 class="tile-title">다가오는 날</h2>
-      <ul id="upcoming" data-days={JSON.stringify(days)}><li class="muted">불러오는 중…</li></ul>
-      <a class="more" href={href('/calendar/')}>달력 보기 →</a>
-    </div>
-
-    <a class="card lift tile members" href={href('/members/')}>
-      <h2 class="tile-title">멤버 {members.length}명</h2>
-      <MemberDots ids={members.map((m) => m.id)} names />
-    </a>
-
-    <a class="card lift tile yellow" href={href('/episodes/')}>
-      <span class="big">{episodes.length}</span>
-      <span>압축본 전체 보기 · 장면 검색</span>
-    </a>
-
-    <a class="card lift tile" href={href('/shorts/')}>
-      <span class="big">{shortsCount}</span>
-      <span>쇼츠 모아보기</span>
-    </a>
-
-    <a class="card lift tile" href={href('/guide/')}>
-      <h2 class="tile-title">처음 오셨나요?</h2>
-      <span class="muted">멤버 이름, 팬덤 이름, 자주 나오는 말을 정리했어요.</span>
-    </a>
-
-    <a class="card lift tile" href={href('/lives/')}>
-      <h2 class="tile-title">라이브 기록</h2>
-      <span class="muted">압축하지 않은 라이브까지 전부</span>
-    </a>
-
-    <a class="card lift tile channel" href={channelUrl} target="_blank" rel="noopener">
-      <h2 class="tile-title">유튜브 채널 ↗</h2>
-      <span class="muted">Romi_Im (@smn00000)</span>
-    </a>
+    <section class="section">
+      <div class="section-title"><h2>다가오는 날</h2><a href={href('/calendar/')}>달력</a></div>
+      <ul class="rows upcoming" id="upcoming" data-days={JSON.stringify(days)}></ul>
+    </section>
   </div>
 
   {recent.length > 0 && (
     <section class="section">
-      <div class="section-title"><h2>최근 편</h2><a href={href('/episodes/')}>전체 보기 →</a></div>
+      <div class="section-title"><h2>최근 압축본</h2><a href={href('/episodes/')}>전체 보기</a></div>
       <div class="grid">{recent.map((e) => <EpisodeCard episode={e} />)}</div>
     </section>
   )}
@@ -102,13 +105,13 @@ const days = [
       }
       const at = new Date(y, m - 1, day);
       return at >= today ? [{ at, title: d.title }] : [];
-    }).sort((a, b) => +a.at - +b.at).slice(0, 4);
+    }).sort((a, b) => +a.at - +b.at).slice(0, 5);
 
     ul.replaceChildren();
     if (!list.length) {
       const li = document.createElement('li');
       li.className = 'muted';
-      li.textContent = '등록된 날이 없어요.';
+      li.textContent = '등록된 날 없음';
       ul.append(li);
       return;
     }
@@ -118,9 +121,12 @@ const days = [
       const dday = document.createElement('span');
       dday.className = 'dday';
       dday.textContent = diff === 0 ? '오늘' : `D-${diff}`;
+      const date = document.createElement('span');
+      date.className = 'date';
+      date.textContent = `${item.at.getMonth() + 1}/${item.at.getDate()}`;
       const text = document.createElement('span');
-      text.textContent = `${item.at.getMonth() + 1}월 ${item.at.getDate()}일 · ${item.title}`;
-      li.append(dday, text);
+      text.textContent = item.title;
+      li.append(dday, date, text);
       ul.append(li);
     }
   }
@@ -128,30 +134,27 @@ const days = [
 </script>
 
 <style>
-  .hero { padding: 24px 0 26px; display: grid; gap: 10px; }
-  .hero h1 { font-size: clamp(34px, 9vw, 64px); font-weight: 800; letter-spacing: -0.035em; }
-  .bento { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tile { padding: 18px; display: flex; flex-direction: column; gap: 10px; min-height: 130px; }
-  .tile-title { font-size: 18px; font-weight: 800; }
-  .latest, .upcoming, .members, .channel { grid-column: span 2; }
-  .latest { padding: 10px; gap: 0; }
-  .latest .tile-label { display: flex; gap: 6px; padding: 6px 6px 10px; }
-  .latest-body { padding: 14px 8px 8px; display: grid; gap: 8px; }
-  .latest h2 { font-size: clamp(20px, 4.5vw, 28px); font-weight: 800; }
-  .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14px; }
-  .yellow { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
-  .big { font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin-top: auto; }
-  .tile > span:last-child { font-weight: 600; font-size: 14px; }
-  .upcoming ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-  .upcoming :global(li) { display: flex; gap: 10px; align-items: center; font-size: 15px; }
-  .upcoming :global(.dday) { flex: none; min-width: 52px; text-align: center; font-size: 12px; font-weight: 800; padding: 4px 8px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); }
-  .more { margin-top: auto; font-size: 14px; font-weight: 700; color: var(--muted); text-decoration: none; }
-  .empty { display: grid; place-items: center; color: var(--muted); }
+  .hero { padding: 24px 0 4px; display: grid; gap: 6px; }
+  .hero h1 { font-size: clamp(30px, 7vw, 40px); font-weight: 800; }
+  .search { display: flex; gap: 8px; margin-top: 14px; }
+  .search .btn { flex: none; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
-  @media (min-width: 760px) {
-    .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .latest { grid-column: span 2; grid-row: span 3; }
-    .upcoming { grid-column: span 2; }
-    .members { grid-column: span 2; }
-  }
+  .menu { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 720px) { .menu { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  .item { height: 100%; padding: 14px; display: grid; gap: 2px; align-content: start; }
+  .name { font-size: 16px; font-weight: 800; }
+  .count { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .desc { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 4px; }
+
+  .two { display: grid; gap: 0 24px; }
+  @media (min-width: 860px) { .two { grid-template-columns: 3fr 2fr; } }
+  .latest { padding: 8px; }
+  .latest-body { padding: 10px 6px 6px; display: grid; gap: 6px; justify-items: start; }
+  .latest h3 { font-size: 18px; font-weight: 800; }
+  .meta { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+
+  .upcoming :global(li) { display: flex; gap: 12px; align-items: baseline; padding: 11px 2px; font-size: 15px; }
+  .upcoming :global(.dday) { flex: none; width: 48px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .upcoming :global(.date) { flex: none; width: 44px; color: var(--muted); font-variant-numeric: tabular-nums; }
 </style>

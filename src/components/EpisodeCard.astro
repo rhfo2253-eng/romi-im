@@ -16,7 +16,7 @@ const { episode: e } = Astro.props;
     <h3>{e.title}</h3>
     <div class="badges">
       <SampleBadge show={!!e.sample} />
-      {e.anniversary && <span class="badge accent">{e.anniversary}</span>}
+      {e.anniversary && <span class="badge">{e.anniversary}</span>}
     </div>
   </div>
 </a>

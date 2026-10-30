@@ -65,12 +65,12 @@ export const contactEmail = 'rhfo4333@gmail.com';
 export const channelUrl = 'https://www.youtube.com/@smn00000';
 
 /** 한 달력에 모든 날: 기념일, 발매일, 압축본 공개일 */
-export interface DayItem { date: string; title: string; kind: 'anniversary' | 'release' | 'episode' | 'birthday'; href?: string; source?: string; sample?: boolean; repeat: boolean }
+export interface DayItem { date: string; title: string; kind: 'anniversary' | 'release' | 'episode' | 'birthday' | 'broadcast' | 'event'; href?: string; source?: string; sample?: boolean; repeat: boolean }
 
 export function calendarItems(): DayItem[] {
   const items: DayItem[] = [];
   for (const ev of events) {
-    items.push({ date: ev.date, title: ev.title, kind: ev.type === 'birthday' ? 'birthday' : 'anniversary', source: ev.source, repeat: ev.repeat === 'yearly' });
+    items.push({ date: ev.date, title: ev.title, kind: (['birthday', 'broadcast', 'event'].includes(ev.type) ? ev.type : 'anniversary') as DayItem['kind'], source: ev.source, repeat: ev.repeat === 'yearly' });
   }
   for (const r of discography) {
     if (!r.releaseDate) continue;

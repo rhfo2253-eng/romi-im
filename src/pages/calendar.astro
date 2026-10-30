@@ -7,13 +7,15 @@ const kinds = [
   { key: 'birthday', label: '생일' },
   { key: 'anniversary', label: '기념일' },
   { key: 'release', label: '발매일' },
+  { key: 'broadcast', label: '방송·유튜브 출연' },
+  { key: 'event', label: '공연·행사' },
   { key: 'episode', label: '압축본 공개' },
 ];
 ---
 <Base title="달력" current="calendar">
   <header class="page-head">
     <h1>달력</h1>
-    <p>생일, 데뷔 기념일, 발매일, 압축본 공개일.</p>
+    <p>생일, 데뷔 기념일, 발매일, 방송·유튜브 출연, 공연·행사, 압축본 공개일.</p>
   </header>
 
   <div class="cal card" id="cal" data-items={JSON.stringify(items)}>
@@ -158,6 +160,8 @@ const kinds = [
   :global(.k-anniversary) { background: var(--accent); }
   :global(.k-release) { background: #4c8dff; }
   :global(.k-episode) { background: var(--muted); }
+  :global(.k-broadcast) { background: #f97316; }
+  :global(.k-event) { background: #10b981; }
   .legend { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); }
   .legend li { display: flex; align-items: center; gap: 6px; }
   .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }

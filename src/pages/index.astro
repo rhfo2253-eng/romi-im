@@ -9,7 +9,7 @@ import { episodes, members, lives, events, discography, href, episodeHref, forma
 const [latest, ...rest] = episodes;
 const recent = rest.slice(0, 4);
 const shortsCount = episodes.reduce((n, e) => n + e.shorts.length, 0);
-const birthdayCount = events.filter((e) => e.type === 'birthday').length;
+const scheduleCount = events.filter((e) => e.type === 'broadcast' || e.type === 'event').length;
 
 const menu = [
   { name: '압축본', count: `${episodes.length}편`, desc: '장면 이름 검색, 멤버·월별 보기', path: '/episodes/' },
@@ -17,7 +17,7 @@ const menu = [
   { name: '멤버', count: `${members.length}명`, desc: '생일, 멤버 색, 출연 압축본', path: '/members/' },
   { name: '라이브 기록', count: `${lives.length}회`, desc: '압축본 없는 라이브 포함 전체 목록', path: '/lives/' },
   { name: '디스코그래피', count: `${discography.length}개`, desc: '발매일, 타이틀곡, 뮤직비디오', path: '/discography/' },
-  { name: '달력', count: `생일 ${birthdayCount}개`, desc: '생일, 데뷔일, 발매일, 압축본 공개일', path: '/calendar/' },
+  { name: '달력', count: `일정 ${scheduleCount}개`, desc: '생일, 발매일, 방송 출연, 공연', path: '/calendar/' },
   { name: '처음 오신 분께', count: '용어 6개', desc: '멤버 이름, 팬덤 이름, 자주 쓰는 말', path: '/guide/' },
   { name: '운영 원칙', count: '8개 항목', desc: '싣는 정보 기준, 삭제 요청 방법', path: '/principles/' },
   { name: '사이트 소개', count: '연락처', desc: '비공식 팬 사이트 안내, 문의 메일', path: '/about/' },

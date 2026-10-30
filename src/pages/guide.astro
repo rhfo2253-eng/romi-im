@@ -3,39 +3,35 @@ import Base from '../layouts/Base.astro';
 import { members, href } from '../lib/data';
 
 const words = [
-  { word: '세마넴', mean: '세이마이네임(SAY MY NAME)을 줄여 부르는 말이에요.' },
-  { word: '로미', mean: '세이마이네임 팬을 부르는 이름이에요.' },
-  { word: '라이브 · 라방', mean: '멤버들이 위버스에서 하는 실시간 방송이에요.' },
-  { word: '압축본', mean: '긴 라이브에서 재미있는 부분만 모아 짧게 만든 영상이에요. 이 사이트의 중심이에요.' },
-  { word: '장면(챕터)', mean: '압축본 안의 구간이에요. 장면 이름을 누르면 그 시간부터 바로 재생돼요.' },
-  { word: '쇼츠', mean: '라이브에서 나온 1분 안팎의 세로 영상이에요.' },
+  { word: '세마넴', mean: '세이마이네임(SAY MY NAME)의 줄임말' },
+  { word: '로미', mean: '세이마이네임 팬덤 이름' },
+  { word: '라이브 · 라방', mean: '멤버가 위버스에서 하는 실시간 방송' },
+  { word: '압축본', mean: '1~2시간짜리 라이브에서 주요 장면만 골라 10~30분으로 줄인 영상' },
+  { word: '장면(챕터)', mean: '압축본 안의 구간. 장면 이름을 누르면 해당 시간부터 재생' },
+  { word: '쇼츠', mean: '라이브에서 잘라 낸 1분 이내 세로 영상' },
 ];
 ---
 <Base title="처음 오신 분께" current="guide">
   <header class="page-head">
-    <p class="eyebrow">어서 오세요</p>
     <h1>처음 오신 분께</h1>
-    <p>세이마이네임이 처음이라면 여기부터 보세요.</p>
+    <p>멤버 이름과 사이트에서 쓰는 말 정리.</p>
   </header>
 
   <section class="section">
-    <div class="section-title"><h2>멤버 이름 읽는 법</h2><a href={href('/members/')}>멤버 보기 →</a></div>
-    <div class="names">
+    <div class="section-title"><h2>멤버 {members.length}명</h2><a href={href('/members/')}>멤버 페이지</a></div>
+    <ul class="names">
       {members.map((m) => (
-        <a class="card lift name" href={href(`/members/${m.id}/`)}>
-          <span class="dot" style={`background:var(--m-${m.id})`}></span>
-          <strong>{m.name}</strong>
-        </a>
+        <li><a href={href(`/members/${m.id}/`)}><span class="dot" style={`background:var(--m-${m.id})`}></span>{m.name}</a></li>
       ))}
-    </div>
-    <p class="muted small">이름 옆 동그라미는 멤버 색이에요. 사이트 곳곳에서 누가 나왔는지 이 색 점으로 보여 드려요.</p>
+    </ul>
+    <p class="muted small">이름 앞 점 = 멤버 색. 압축본 목록에서 출연 멤버를 이 점으로 표시.</p>
   </section>
 
   <section class="section">
-    <div class="section-title"><h2>자주 나오는 말</h2></div>
-    <dl class="words">
+    <div class="section-title"><h2>자주 쓰는 말</h2></div>
+    <dl class="rows words">
       {words.map((w) => (
-        <div class="card word">
+        <div>
           <dt>{w.word}</dt>
           <dd>{w.mean}</dd>
         </div>
@@ -44,23 +40,24 @@ const words = [
   </section>
 
   <section class="section">
-    <div class="section-title"><h2>이렇게 둘러보세요</h2></div>
+    <div class="section-title"><h2>사용법</h2></div>
     <ol class="steps">
-      <li><a href={href('/')}>홈</a>에서 최신 압축본을 봐요.</li>
-      <li><a href={href('/episodes/')}>압축본</a>에서 보고 싶은 장면을 검색해요.</li>
-      <li><a href={href('/calendar/')}>달력</a>에서 다가오는 기념일을 확인해요.</li>
+      <li><a href={href('/episodes/')}>압축본</a> 검색창에 장면 이름 입력 (예: 케이크)</li>
+      <li>검색 결과의 장면 클릭 → 해당 시간부터 재생</li>
+      <li><a href={href('/calendar/')}>달력</a>에서 생일·기념일 확인</li>
     </ol>
   </section>
 </Base>
 <style>
-  .names { display: grid; gap: 10px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 10px; }
-  .name { padding: 14px 8px; display: grid; justify-items: center; gap: 6px; font-size: 18px; }
+  .names { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .names a { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 4px; border: 1px solid var(--line); border-radius: var(--radius-sm); text-decoration: none; font-weight: 700; }
+  .names a:hover { border-color: var(--line-strong); }
   .small { font-size: 13px; }
-  .words { margin: 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
-  .word { padding: 18px; }
-  dt { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
-  dt::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-strong); margin-right: 8px; vertical-align: middle; }
+  .words { margin: 0; }
+  .words div { display: grid; gap: 2px; padding: 12px 2px; border-bottom: 1px solid var(--line); }
+  @media (min-width: 640px) { .words div { grid-template-columns: 140px 1fr; } }
+  dt { font-weight: 700; }
   dd { margin: 0; color: var(--muted); }
-  .steps { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+  .steps { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
   .steps a { font-weight: 700; }
 </style>

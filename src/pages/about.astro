@@ -4,34 +4,23 @@ import { href, contactEmail, channelUrl } from '../lib/data';
 ---
 <Base title="사이트 소개" current="about">
   <header class="page-head">
-    <p class="eyebrow">Romi_Im</p>
     <h1>사이트 소개</h1>
+    <p>세이마이네임(SAY MY NAME) 팬이 운영하는 비공식 사이트. 소속사(인코드)와 관계없음.</p>
   </header>
-  <div class="cards">
-    <section class="card box notice">
-      <h2>비공식 팬 사이트예요</h2>
-      <p>Romi_Im은 세이마이네임(SAY MY NAME) 팬이 만든 <strong>비공식 팬 아카이브</strong>예요. 소속사와는 관계가 없고, 공식 로고도 쓰지 않아요. 광고도 붙이지 않아요.</p>
-    </section>
-    <section class="card box">
-      <h2>무엇을 모았나요</h2>
-      <p>팬 유튜브 채널 Romi_Im(@smn00000)이 만든 라이브 압축본과 쇼츠, 그리고 세이마이네임의 공개 정보(멤버, 발매 기록, 기념일)를 출처와 함께 모았어요.</p>
-      <a class="btn primary" href={channelUrl} target="_blank" rel="noopener">유튜브 채널 가기 ↗</a>
-    </section>
-    <section class="card box">
-      <h2>연락처</h2>
-      <p>문의, 정정, 삭제 요청은 채널 이메일로 보내 주세요. 요청을 받으면 바로 내려요.</p>
-      <a class="btn" href={`mailto:${contactEmail}`}>{contactEmail}</a>
-    </section>
-    <section class="card box">
-      <h2>지키는 약속</h2>
-      <p>공식 사진을 다시 올리지 않고, 가사와 사생활은 싣지 않아요. 자세한 내용은 운영 원칙에 적어 두었어요.</p>
-      <a class="btn" href={href('/principles/')}>운영 원칙 보기 →</a>
-    </section>
-  </div>
+
+  <dl class="rows info">
+    <div><dt>운영</dt><dd>유튜브 채널 Romi_Im (<a href={channelUrl} target="_blank" rel="noopener">@smn00000</a>)</dd></div>
+    <div><dt>싣는 것</dt><dd>채널이 만든 라이브 압축본·쇼츠, 세이마이네임 공개 정보(멤버, 발매 기록, 기념일)와 출처</dd></div>
+    <div><dt>싣지 않는 것</dt><dd>공식 사진·영상 파일, 노래 가사, 사생활, 루머, 광고, 공식 로고</dd></div>
+    <div><dt>문의·삭제 요청</dt><dd><a href={`mailto:${contactEmail}`}>{contactEmail}</a> · 요청 확인 즉시 삭제</dd></div>
+    <div><dt>기준</dt><dd><a href={href('/principles/')}>운영 원칙</a> 8개 항목</dd></div>
+  </dl>
 </Base>
 <style>
-  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
-  .box { padding: 22px; display: grid; gap: 12px; align-content: start; justify-items: start; }
-  .box h2 { font-size: 20px; font-weight: 800; }
-  .notice { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+  .info { margin: 0; }
+  .info div { display: grid; gap: 4px; padding: 14px 2px; border-bottom: 1px solid var(--line); }
+  @media (min-width: 640px) { .info div { grid-template-columns: 140px 1fr; } }
+  dt { font-weight: 700; }
+  dd { margin: 0; color: var(--muted); }
+  dd a { color: var(--text); }
 </style>

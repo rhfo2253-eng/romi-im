@@ -40,8 +40,8 @@ const embed = (id: string, start = 0, autoplay = false) =>
         <h1>{e.title}</h1>
         <dl>
           <div><dt>라이브</dt><dd>{formatDate(e.liveDate)}</dd></div>
-          <div><dt>압축본 공개</dt><dd>{formatDate(e.publishDate)}</dd></div>
-          <div><dt>길이</dt><dd>{formatDuration(e.duration)}</dd></div>
+          {e.publishDate && <div><dt>압축본 공개</dt><dd>{formatDate(e.publishDate)}</dd></div>}
+          {e.duration != null && <div><dt>길이</dt><dd>{formatDuration(e.duration)}</dd></div>}
         </dl>
         <MemberDots ids={e.members} names />
         <div class="links">
@@ -54,10 +54,10 @@ const embed = (id: string, start = 0, autoplay = false) =>
     <aside class="card chapters">
       <h2>장면 {e.chapters.length}개</h2>
       <ol>
-        {e.chapters.map((c) => (
+        {e.chapters.map((c, i) => (
           <li>
-            <button type="button" data-t={c.time}>
-              <span class="time">{formatDuration(c.time)}</span>
+            <button type="button" data-t={c.time ?? ''}>
+              <span class="time">{c.time != null ? formatDuration(c.time) : i + 1}</span>
               <span>{c.title}</span>
             </button>
           </li>
@@ -94,8 +94,8 @@ const embed = (id: string, start = 0, autoplay = false) =>
     const buttons = [...document.querySelectorAll<HTMLButtonElement>('.chapters button[data-t]')];
     const fmt = (t: number) => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
 
-    function seek(t: number, autoplay: boolean) {
-      buttons.forEach((b) => b.toggleAttribute('data-active', Number(b.dataset.t) === t));
+    function seek(t: number, autoplay: boolean, btn?: HTMLButtonElement) {
+      buttons.forEach((b) => b.toggleAttribute('data-active', btn ? b === btn : b.dataset.t !== '' && Number(b.dataset.t) === t));
       if (yt) {
         const iframe = player!.querySelector('iframe');
         if (iframe) {
@@ -107,8 +107,8 @@ const embed = (id: string, start = 0, autoplay = false) =>
     }
 
     buttons.forEach((b) => b.addEventListener('click', () => {
-      const t = Number(b.dataset.t);
-      seek(t, true);
+      const t = Number(b.dataset.t || 0);
+      seek(t, true, b);
       if (matchMedia('(max-width: 899px)').matches) player.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }));
 

@@ -8,5 +8,5 @@ const src = thumbOf(episode);
   {src
     ? <img src={src} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
     : <div class="thumb-placeholder"><span>샘플 · 썸네일 없음</span></div>}
-  <span class="len">{formatDuration(episode.duration)}</span>
+  {episode.duration != null && <span class="len">{formatDuration(episode.duration)}</span>}
 </div>

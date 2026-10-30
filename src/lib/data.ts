@@ -7,16 +7,17 @@ export interface Fact { label: string; value: string; source: string }
 export interface Member {
   id: string; name: string; color: string; colorDark?: string; colorName: string; colorSource?: string; facts: Fact[];
 }
-export interface Chapter { title: string; time: number }
+/** time: 장면 시작 초. 모르면 null(누르면 처음부터 재생) */
+export interface Chapter { title: string; time: number | null }
 export interface Short { youtubeId: string; title: string }
 export interface Episode {
-  sample?: boolean; id: string; title: string; liveDate: string; publishDate: string;
-  youtubeId: string; duration: number; members: string[]; anniversary: string | null;
+  sample?: boolean; id: string; no?: number; title: string; liveTitle?: string; liveDate: string; publishDate: string | null;
+  youtubeId: string; duration: number | null; members: string[]; anniversary: string | null;
   chapters: Chapter[]; shorts: Short[]; weverseUrl: string | null; thumbnail: string | null;
 }
 export interface Live {
   sample?: boolean; id: string; date: string; title: string; members: string[];
-  duration: number | null; weverseUrl: string | null; episode: string | null;
+  duration: number | null; weverseUrl: string | null; episodes: string[];
 }
 export interface Release {
   id: string; title: string; type: string; releaseDate: string | null; status?: string; titleTrack: string | null;
@@ -35,7 +36,7 @@ export const events = eventsJson as SiteEvent[];
 
 const episodeModules = import.meta.glob<Episode>('../../data/episodes/*.json', { eager: true, import: 'default' });
 export const episodes = Object.values(episodeModules).toSorted((a, b) =>
-  b.liveDate.localeCompare(a.liveDate) || b.publishDate.localeCompare(a.publishDate));
+  b.liveDate.localeCompare(a.liveDate) || (a.no ?? 0) - (b.no ?? 0));
 
 export const memberById = new Map(members.map((m) => [m.id, m]));
 
@@ -77,6 +78,7 @@ export function calendarItems(): DayItem[] {
     items.push({ date: r.releaseDate, title: `${r.title} 발매`, kind: 'release', href: href('/discography/'), source: r.source, repeat: false });
   }
   for (const e of episodes) {
+    if (!e.publishDate) continue;
     items.push({ date: e.publishDate, title: `압축본 공개: ${e.title}`, kind: 'episode', href: episodeHref(e.id), sample: e.sample, repeat: false });
   }
   return items;

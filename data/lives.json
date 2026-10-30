@@ -1,42 +1,140 @@
 [
   {
-    "id": "261012-sample-live-a",
-    "sample": true,
-    "date": "2026-10-12",
-    "title": "샘플: 다 같이 하는 저녁 라이브",
-    "members": ["hitomi", "mei", "kanny", "seungju"],
-    "duration": 4980,
-    "weverseUrl": "https://weverse.io/saymyname/live",
-    "episode": "261012_샘플저녁라이브"
+    "id": "261018-3",
+    "date": "2026-10-18",
+    "title": "2주년 팬콘서트 끝나고 새벽 라이브",
+    "members": [
+      "soha"
+    ],
+    "duration": 1919,
+    "weverseUrl": "https://weverse.io/saymyname/live/4-242775671",
+    "episodes": [
+      "261018_팬콘끝새벽라이브"
+    ]
   },
   {
-    "id": "261019-sample-live-b",
-    "sample": true,
-    "date": "2026-10-19",
-    "title": "샘플: 데뷔 2주년 축하 라이브",
-    "members": ["hitomi", "shuie", "mei", "kanny", "soha", "dohee", "junhwi", "seungju"],
-    "duration": 6120,
-    "weverseUrl": "https://weverse.io/saymyname/live",
-    "episode": "261019_샘플2주년라이브"
+    "id": "261016-2",
+    "date": "2026-10-16",
+    "title": "세마넴 데뷔 2주년",
+    "members": [],
+    "duration": 1141,
+    "weverseUrl": "https://weverse.io/saymyname/live/1-181036825",
+    "episodes": [
+      "261016_데뷔2주년"
+    ]
   },
   {
-    "id": "261024-sample-live-c",
-    "sample": true,
-    "date": "2026-10-24",
-    "title": "샘플: 짧은 새벽 라이브",
-    "members": ["soha", "dohee"],
-    "duration": 1320,
-    "weverseUrl": "https://weverse.io/saymyname/live",
-    "episode": "261024_샘플새벽라이브"
+    "id": "261013-1",
+    "date": "2026-10-13",
+    "title": "끝나지 않는 팬콘 연습",
+    "members": [
+      "hitomi",
+      "dohee",
+      "junhwi"
+    ],
+    "duration": 836,
+    "weverseUrl": "https://weverse.io/saymyname/live/1-180971234",
+    "episodes": [
+      "261013_팬콘연습"
+    ]
   },
   {
-    "id": "261026-sample-live-d",
-    "sample": true,
-    "date": "2026-10-26",
-    "title": "샘플: 압축본이 없는 라이브",
-    "members": ["junhwi"],
-    "duration": 960,
-    "weverseUrl": "https://weverse.io/saymyname/live",
-    "episode": null
+    "id": "261004-4",
+    "date": "2026-10-04",
+    "title": "세마넴 고생했엉~",
+    "members": [
+      "hitomi",
+      "junhwi",
+      "mei",
+      "soha"
+    ],
+    "duration": 1778,
+    "weverseUrl": "https://weverse.io/saymyname/live/3-242073609",
+    "episodes": [
+      "261004_고생했엉"
+    ]
+  },
+  {
+    "id": "261003-8",
+    "date": "2026-10-03",
+    "title": "Spider-Nan🕷️",
+    "members": [
+      "kanny"
+    ],
+    "duration": 7672,
+    "weverseUrl": "https://weverse.io/saymyname/live/3-242020216",
+    "episodes": [
+      "261003_스파이더난1",
+      "261003_스파이더난2"
+    ]
+  },
+  {
+    "id": "261001-7",
+    "date": "2026-10-01",
+    "title": "여러분 10월입니닷",
+    "members": [
+      "soha",
+      "mei",
+      "hitomi",
+      "junhwi"
+    ],
+    "duration": 1430,
+    "weverseUrl": "https://weverse.io/saymyname/live/2-180633790",
+    "episodes": [
+      "261001_10월입니닷"
+    ]
+  },
+  {
+    "id": "260929-11",
+    "date": "2026-09-29",
+    "title": "세마넴이랑 놀장",
+    "members": [
+      "dohee",
+      "soha",
+      "junhwi",
+      "seungju",
+      "mei"
+    ],
+    "duration": 2605,
+    "weverseUrl": "https://weverse.io/saymyname/live/3-241884786",
+    "episodes": [
+      "260929_세마넴이랑놀장"
+    ]
+  },
+  {
+    "id": "260927-6",
+    "date": "2026-09-27",
+    "title": "메이의 스물한 번째 생일",
+    "members": [
+      "mei",
+      "dohee"
+    ],
+    "duration": 3640,
+    "weverseUrl": "https://weverse.io/saymyname/live/4-241793054",
+    "episodes": [
+      "260927_메이생일"
+    ]
+  },
+  {
+    "id": "260924-9",
+    "date": "2026-09-24",
+    "title": "승주의 열여섯 번째 생일",
+    "members": [
+      "seungju"
+    ],
+    "duration": 4927,
+    "weverseUrl": "https://weverse.io/saymyname/live/1-180512867",
+    "episodes": [
+      "260924_승주생일"
+    ]
+  },
+  {
+    "id": "260922-12",
+    "date": "2026-09-22",
+    "title": "세마넴 할리갈리 대회",
+    "members": [],
+    "duration": null,
+    "weverseUrl": "https://weverse.io/saymyname/live/0-180442527",
+    "episodes": []
   }
 ]

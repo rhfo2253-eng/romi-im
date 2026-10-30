@@ -17,14 +17,16 @@
 | 칸 | 뜻 | 예 |
 |---|---|---|
 | `id` | 파일 이름과 같게 | `"261019_2주년라이브"` |
+| `no` | 몇 편인지(선택) | `2` |
+| `liveTitle` | 위버스 라이브 원래 제목(선택) | `"세마넴 데뷔 2주년"` |
 | `title` | 압축본 제목 | `"데뷔 2주년 축하 라이브 압축본"` |
 | `liveDate` | 원본 라이브 날짜 | `"2026-10-19"` |
-| `publishDate` | 압축본 유튜브 공개일 | `"2026-10-21"` |
+| `publishDate` | 압축본 유튜브 공개일, 모르면 `null` | `"2026-10-21"` |
 | `youtubeId` | 유튜브 영상 id(`watch?v=` 뒤 11자) | `"dQw4w9WgXcQ"` |
-| `duration` | 영상 길이(초) | `1840` |
+| `duration` | 영상 길이(초), 모르면 `null` | `1840` |
 | `members` | 나온 멤버 id 목록 | `["hitomi", "mei"]` |
 | `anniversary` | 기념일 편이면 이름, 아니면 `null` | `"데뷔 2주년"` |
-| `chapters` | 장면 목록. `title`(장면 이름), `time`(시작 초) | `[{"title": "인사", "time": 0}]` |
+| `chapters` | 장면 목록. `title`(장면 이름), `time`(시작 초, 모르면 `null` → 누르면 처음부터 재생) | `[{"title": "인사", "time": 0}]` |
 | `shorts` | 이 라이브에서 나온 쇼츠. `youtubeId`, `title` | `[{"youtubeId": "...", "title": "..."}]` |
 | `weverseUrl` | 원본 위버스 라이브 주소, 없으면 `null` | |
 | `thumbnail` | 따로 쓸 썸네일 주소. `null`이면 유튜브 썸네일(채널이 만든 것)을 씀 | `null` |
@@ -44,7 +46,7 @@
 | `members` | 나온 멤버 id 목록 |
 | `duration` | 길이(초), 모르면 `null` |
 | `weverseUrl` | 위버스 주소, 없으면 `null` |
-| `episode` | 압축본이 있으면 그 압축본 `id`, 없으면 `null` |
+| `episodes` | 이 라이브로 만든 압축본 `id` 목록. 한 라이브를 여러 편으로 나눴으면 여러 개, 없으면 `[]` |
 | `sample` | 샘플이면 `true` |
 
 ## `members.json` — 멤버

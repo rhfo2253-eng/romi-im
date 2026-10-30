@@ -7,7 +7,7 @@ import { lives, episodeHref, formatDate, formatDuration } from '../lib/data';
 <Base title="라이브 기록" current="lives">
   <header class="page-head">
     <h1>라이브 기록</h1>
-    <p>위버스 라이브 전체 목록. 압축본이 있는 라이브는 "압축본 보기" 링크 표시.</p>
+    <p>위버스 라이브 전체 목록. 압축본이 있는 라이브는 "압축본 보기" 링크 표시. 압축본 없는 라이브도 포함.</p>
   </header>
   {lives.length === 0 ? <p class="empty">등록된 라이브 없음</p> : (
     <ol class="lives">
@@ -24,7 +24,7 @@ import { lives, episodeHref, formatDate, formatDuration } from '../lib/data';
             </div>
             <MemberDots ids={l.members} names />
             <div class="actions">
-              {l.episode && <a class="badge strong" href={episodeHref(l.episode)}>압축본 보기</a>}
+              {l.episodes.map((id, i) => <a class="badge strong" href={episodeHref(id)}>{l.episodes.length > 1 ? `압축본 ${i + 1}편 보기` : '압축본 보기'}</a>)}
               {l.weverseUrl && <a class="badge" href={l.weverseUrl} target="_blank" rel="noopener">위버스 ↗</a>}
             </div>
           </div>

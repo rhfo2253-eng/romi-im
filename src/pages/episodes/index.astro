@@ -11,7 +11,11 @@ const index = episodes.map((e) => ({
   ym: e.liveDate.slice(0, 7),
   anniv: !!e.anniversary,
   sample: !!e.sample,
-  chapters: e.chapters.map((c) => ({ title: c.title, at: formatDuration(c.time), href: episodeHref(e.id, c.time) })),
+  chapters: e.chapters.map((c, i) => ({
+    title: c.title,
+    at: c.time != null ? formatDuration(c.time) : `${i + 1}번째`,
+    href: c.time != null ? episodeHref(e.id, c.time) : episodeHref(e.id),
+  })),
 }));
 ---
 <Base title="압축본" current="episodes">

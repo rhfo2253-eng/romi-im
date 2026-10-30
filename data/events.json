@@ -119,5 +119,40 @@
     "type": "event",
     "title": "'2026 SAY MY NAME FANNECT in PARIS' 첫 단독 공연 (파리 Salle Pleyel)",
     "source": "https://www.topstarnews.net/news/articleView.html?idxno=16260113"
+  },
+  {
+    "id": "2026-06-21-kbsjoy",
+    "date": "2026-06-21",
+    "type": "broadcast",
+    "title": "KBS Joy '닥치고 한일전' 히토미 출연 (오후 8시)",
+    "source": "https://x.com/sa2m2nam3/status/2068645100511789322"
+  },
+  {
+    "id": "2026-07-19-tokyomx",
+    "date": "2026-07-19",
+    "type": "broadcast",
+    "title": "TOKYO MX '宣伝に夢中！' VTR 출연 (11:55, 일본)",
+    "source": "https://x.com/sa2m2nam3_JP/status/2077589047225008322"
+  },
+  {
+    "id": "2026-09-06-kstreet",
+    "date": "2026-09-06",
+    "type": "event",
+    "title": "파리 K-Street Festival 2026 헤드라이너 공연",
+    "source": "https://sports.khan.co.kr/en/article/202609050012007/"
+  },
+  {
+    "id": "2026-10-20-idolstable-plus",
+    "date": "2026-10-20",
+    "type": "broadcast",
+    "title": "Mnet Plus 'IDOL'S TABLE' 히토미 출연 (오후 8시)",
+    "source": "https://x.com/sa2m2nam3/status/2112494032404562013"
+  },
+  {
+    "id": "2026-10-21-idolstable",
+    "date": "2026-10-21",
+    "type": "broadcast",
+    "title": "Mnet 'IDOL'S TABLE' 히토미 출연 (오후 8시)",
+    "source": "https://x.com/sa2m2nam3/status/2112856420215382253"
   }
 ]

@@ -13,7 +13,7 @@ const shortsCount = episodes.reduce((n, e) => n + e.shorts.length, 0);
 // 다가오는 날은 보는 날짜에 따라 바뀌므로 브라우저에서 계산한다
 const days = [
   ...events.map((e) => ({ date: e.date, title: e.title, repeat: e.repeat === 'yearly', birthday: e.type === 'birthday' })),
-  ...discography.map((r) => ({ date: r.releaseDate, title: `${r.title} 발매`, repeat: false, birthday: false })),
+  ...discography.filter((r) => r.releaseDate).map((r) => ({ date: r.releaseDate!, title: `${r.title} 발매`, repeat: false, birthday: false })),
 ];
 ---
 <Base current="home">

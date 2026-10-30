@@ -5,7 +5,7 @@ import eventsJson from '../../data/events.json';
 
 export interface Fact { label: string; value: string; source: string }
 export interface Member {
-  id: string; name: string; color: string; colorDark?: string; colorName: string; facts: Fact[];
+  id: string; name: string; color: string; colorDark?: string; colorName: string; colorSource?: string; facts: Fact[];
 }
 export interface Chapter { title: string; time: number }
 export interface Short { youtubeId: string; title: string }
@@ -19,7 +19,7 @@ export interface Live {
   duration: number | null; weverseUrl: string | null; episode: string | null;
 }
 export interface Release {
-  id: string; title: string; type: string; releaseDate: string; titleTrack: string | null;
+  id: string; title: string; type: string; releaseDate: string | null; status?: string; titleTrack: string | null;
   mv: string | null; source: string;
 }
 export interface SiteEvent {
@@ -28,7 +28,9 @@ export interface SiteEvent {
 
 export const members = membersJson as Member[];
 export const lives = (livesJson as Live[]).toSorted((a, b) => b.date.localeCompare(a.date));
-export const discography = (discographyJson as Release[]).toSorted((a, b) => b.releaseDate.localeCompare(a.releaseDate));
+// 발매일이 정해지지 않은 예정작이 맨 앞
+export const discography = (discographyJson as Release[]).toSorted((a, b) =>
+  (b.releaseDate ?? '9999').localeCompare(a.releaseDate ?? '9999'));
 export const events = eventsJson as SiteEvent[];
 
 const episodeModules = import.meta.glob<Episode>('../../data/episodes/*.json', { eager: true, import: 'default' });
@@ -71,6 +73,7 @@ export function calendarItems(): DayItem[] {
     items.push({ date: ev.date, title: ev.title, kind: ev.type === 'birthday' ? 'birthday' : 'anniversary', source: ev.source, repeat: ev.repeat === 'yearly' });
   }
   for (const r of discography) {
+    if (!r.releaseDate) continue;
     items.push({ date: r.releaseDate, title: `${r.title} 발매`, kind: 'release', href: href('/discography/'), source: r.source, repeat: false });
   }
   for (const e of episodes) {

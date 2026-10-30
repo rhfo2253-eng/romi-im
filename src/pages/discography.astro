@@ -13,7 +13,9 @@ import { discography, formatDate } from '../lib/data';
       <li class:list={['card', 'lift', 'release', { first: i === 0 }]}>
         <div class="when">
           <span class="badge">{r.type}</span>
-          <time datetime={r.releaseDate}>{formatDate(r.releaseDate)}</time>
+          {r.releaseDate
+            ? <time datetime={r.releaseDate}>{formatDate(r.releaseDate)}</time>
+            : <span class="badge accent">{r.status ?? '발매일 미정'}</span>}
         </div>
         <h2>{r.title}</h2>
         {r.titleTrack && <p class="muted">타이틀곡 <strong>{r.titleTrack}</strong></p>}

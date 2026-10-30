@@ -5,7 +5,7 @@
 공통 규칙
 - 날짜는 `YYYY-MM-DD` 형식(예: `2026-10-19`)으로 씁니다.
 - 길이와 시간은 **초** 단위 숫자로 씁니다(예: 3분 25초 → `205`).
-- 멤버는 아래 멤버 id로 적습니다: `tomi` `shuie` `mei` `kanny` `soha` `dohee` `junhwi` `seungju`
+- 멤버는 아래 멤버 id로 적습니다: `hitomi` `shuie` `mei` `kanny` `soha` `dohee` `junhwi` `seungju`
 - `"sample": true`가 붙은 항목은 화면 확인용 샘플입니다. 사이트에 "샘플" 표시가 붙습니다. 실제 데이터가 들어오면 샘플 파일·항목은 지웁니다.
 - 세이마이네임 공개 정보(멤버, 디스코그래피, 기념일)에는 반드시 `source`(출처 URL)를 답니다. 출처가 없으면 넣지 않습니다.
 - 가사, 사생활, 루머, 공식 사진·영상 파일은 넣지 않습니다.
@@ -22,7 +22,7 @@
 | `publishDate` | 압축본 유튜브 공개일 | `"2026-10-21"` |
 | `youtubeId` | 유튜브 영상 id(`watch?v=` 뒤 11자) | `"dQw4w9WgXcQ"` |
 | `duration` | 영상 길이(초) | `1840` |
-| `members` | 나온 멤버 id 목록 | `["tomi", "mei"]` |
+| `members` | 나온 멤버 id 목록 | `["hitomi", "mei"]` |
 | `anniversary` | 기념일 편이면 이름, 아니면 `null` | `"데뷔 2주년"` |
 | `chapters` | 장면 목록. `title`(장면 이름), `time`(시작 초) | `[{"title": "인사", "time": 0}]` |
 | `shorts` | 이 라이브에서 나온 쇼츠. `youtubeId`, `title` | `[{"youtubeId": "...", "title": "..."}]` |
@@ -56,6 +56,7 @@
 | `color` | 멤버 색(점, 밑줄, 필터 칩에만 씀) |
 | `colorDark` | 어두운 모드에서 대신 쓸 색(선택). 준휘처럼 검정이면 밝은 회색으로 |
 | `colorName` | 색 이름(예: `"노랑"`) |
+| `colorSource` | 멤버 색 출처 URL |
 | `facts` | 공개 정보 목록. 항목마다 `label`, `value`, `source`(출처 URL) |
 
 생일을 확인하면 `facts`에 `{"label": "생일", "value": "10월 6일", "source": "..."}`처럼 넣고, 달력에도 보이게 `events.json`에 `type: "birthday"`로 추가합니다.
@@ -67,7 +68,8 @@
 | `id` | 겹치지 않는 이름 |
 | `title` | 앨범·싱글 제목 |
 | `type` | `"미니 1집"`, `"싱글"` 등 |
-| `releaseDate` | 발매일 |
+| `releaseDate` | 발매일. 발표만 되고 날짜가 안 정해졌으면 `null` |
+| `status` | 날짜가 없을 때 대신 보일 말(예: `"발매 예정 · 일자 미정"`) |
 | `titleTrack` | 타이틀곡 제목 |
 | `mv` | 공식 뮤직비디오 유튜브 주소, 모르면 `null` |
 | `source` | 출처 URL |

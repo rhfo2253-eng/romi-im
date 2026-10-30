@@ -17,7 +17,7 @@ const shorts = eps.flatMap((e) => e.shorts.map((s) => ({ ...s, episode: e })));
     <div>
       <p class="eyebrow">SAY MY NAME</p>
       <h1>{m.name}</h1>
-      <p class="muted">멤버 색 <strong class="color">{m.colorName}</strong></p>
+      <p class="muted">멤버 색 <strong class="color">{m.colorName}</strong>{m.colorSource && <> <a class="source" href={m.colorSource} target="_blank" rel="noopener">출처</a></>}</p>
     </div>
   </header>
 

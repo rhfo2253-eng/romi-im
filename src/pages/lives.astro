@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import MemberDots from '../components/MemberDots.astro';
+import SampleBadge from '../components/SampleBadge.astro';
+import { lives, episodeHref, formatDate, formatDuration } from '../lib/data';
+---
+<Base title="라이브 기록" current="lives">
+  <header class="page-head">
+    <p class="eyebrow">위버스 라이브</p>
+    <h1>라이브 기록</h1>
+    <p>압축하지 않은 라이브까지 모두 적어 둔 목록이에요. 노란 표시가 있으면 압축본이 있어요.</p>
+  </header>
+  {lives.length === 0 ? <p class="empty">아직 기록이 없어요.</p> : (
+    <ol class="lives">
+      {lives.map((l) => (
+        <li class="card live">
+          <div class="date">
+            <strong>{formatDate(l.date)}</strong>
+            {l.duration != null && <span class="muted">{formatDuration(l.duration)}</span>}
+          </div>
+          <div class="body">
+            <div class="title">
+              <SampleBadge show={!!l.sample} />
+              <span>{l.title}</span>
+            </div>
+            <MemberDots ids={l.members} names />
+            <div class="actions">
+              {l.episode && <a class="badge accent" href={episodeHref(l.episode)}>압축본 있음 →</a>}
+              {l.weverseUrl && <a class="badge" href={l.weverseUrl} target="_blank" rel="noopener">위버스 ↗</a>}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  )}
+</Base>
+<style>
+  .lives { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .live { padding: 16px; display: grid; gap: 10px; }
+  @media (min-width: 640px) { .live { grid-template-columns: 130px 1fr; } }
+  .date { display: flex; gap: 10px; align-items: baseline; }
+  @media (min-width: 640px) { .date { flex-direction: column; gap: 2px; } }
+  .date .muted { font-size: 13px; font-variant-numeric: tabular-nums; }
+  .body { display: grid; gap: 8px; }
+  .title { display: flex; gap: 8px; align-items: center; font-weight: 700; }
+  .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .actions a { text-decoration: none; }
+</style>

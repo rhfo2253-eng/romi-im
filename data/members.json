@@ -1,0 +1,75 @@
+[
+  {
+    "id": "tomi",
+    "name": "토미",
+    "color": "#F5C400",
+    "colorName": "노랑",
+    "facts": [
+      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+    ]
+  },
+  {
+    "id": "shuie",
+    "name": "슈이",
+    "color": "#9B6BFF",
+    "colorName": "보라",
+    "facts": [
+      { "label": "합류", "value": "2025년 합류, 세이마이네임이 8인조가 됨", "source": "https://sbsstar.net/article/N1008173749/say-my-name-welcomes-new-member-shuie-transforms-into-an-8member-group" }
+    ]
+  },
+  {
+    "id": "mei",
+    "name": "메이",
+    "color": "#FF7EB6",
+    "colorName": "분홍",
+    "facts": [
+      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+    ]
+  },
+  {
+    "id": "kanny",
+    "name": "카니",
+    "color": "#F2414B",
+    "colorName": "빨강",
+    "facts": [
+      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+    ]
+  },
+  {
+    "id": "soha",
+    "name": "소하",
+    "color": "#FF8A2B",
+    "colorName": "주황",
+    "facts": [
+      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+    ]
+  },
+  {
+    "id": "dohee",
+    "name": "도희",
+    "color": "#FFFFFF",
+    "colorName": "하양",
+    "facts": [
+      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+    ]
+  },
+  {
+    "id": "junhwi",
+    "name": "준휘",
+    "color": "#1A1A1A",
+    "colorDark": "#C9CCD2",
+    "colorName": "검정",
+    "facts": [
+      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+    ]
+  },
+  {
+    "id": "seungju",
+    "name": "승주",
+    "color": "#2DBE6C",
+    "colorName": "초록",
+    "facts": [
+      { "label": "데뷔", "value": "2024년 10월 16일, 세이마이네임 데뷔 멤버", "source": "https://www.koreaherald.com/article/3494054" }
+    ]
+  }
+]

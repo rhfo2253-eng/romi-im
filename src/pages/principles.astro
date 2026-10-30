@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import { contactEmail } from '../lib/data';
+
+const updated = '2026-10-30';
+const rules = [
+  { promise: '비공식 팬 사이트라고 분명히 밝혀요.', why: '소속사나 멤버가 만든 곳으로 오해하지 않도록 모든 페이지 맨 아래에 적어 둬요. 공식 로고도 쓰지 않아요.' },
+  { promise: '공식으로 공개된 정보만 실어요.', why: '멤버 정보는 공식 채널과 공식 프로필, 그걸 전한 기사에 나온 것만 넣고 옆에 출처 링크를 달아요. 출처가 없으면 싣지 않아요.' },
+  { promise: '사생활과 루머는 다루지 않아요.', why: '멤버가 직접 공개하지 않은 일은 팬 사이트가 퍼뜨릴 일이 아니라고 생각해요.' },
+  { promise: '공식 사진은 올리지 않아요. 영상은 유튜브로만 보여 드려요.', why: '공식 사진과 영상은 만든 곳의 것이에요. 영상은 유튜브 퍼가기와 링크로만 보여 드리고, 이미지는 채널이 직접 만든 썸네일만 써요.' },
+  { promise: '노래 가사는 싣지 않아요.', why: '가사는 저작물이라서 곡 제목과 공식 링크만 적어요.' },
+  { promise: '다른 팬이나 그룹을 깎아내리지 않아요.', why: '순위 비교나 비난 글은 넣지 않아요. 좋아하는 마음만 모으는 곳이었으면 해요.' },
+  { promise: '광고를 붙이지 않아요.', why: '돈을 벌려고 만든 곳이 아니에요.' },
+  { promise: '요청을 받으면 바로 내려요.', why: `잘못된 정보나 내려야 할 내용이 있으면 ${contactEmail}로 알려 주세요. 확인하는 대로 고치거나 지워요.` },
+];
+---
+<Base title="운영 원칙" current="principles">
+  <header class="page-head">
+    <p class="eyebrow">지키는 선</p>
+    <h1>운영 원칙</h1>
+    <p>이 사이트를 꾸리면서 지키는 약속이에요. 원칙이 바뀌면 아래 날짜를 고쳐 적어요.</p>
+  </header>
+
+  <ol class="rules">
+    {rules.map((r, i) => (
+      <li class="card rule">
+        <span class="n">{String(i + 1).padStart(2, '0')}</span>
+        <div>
+          <h2>{r.promise}</h2>
+          <p class="muted">{r.why}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <section class="card request">
+    <h2>삭제·정정 요청하는 법</h2>
+    <ol>
+      <li>어느 페이지의 어떤 내용인지 적어 주세요(주소를 붙여 주시면 좋아요).</li>
+      <li>내려야 하거나 고쳐야 하는 이유를 짧게 적어 주세요.</li>
+      <li><a href={`mailto:${contactEmail}?subject=${encodeURIComponent('[Romi_Im] 삭제·정정 요청')}`}>{contactEmail}</a>로 보내 주세요.</li>
+    </ol>
+    <p><strong>요청을 받으면 바로 내립니다.</strong></p>
+  </section>
+
+  <p class="updated muted">마지막으로 고친 날: <time datetime={updated}>{updated.replace(/-/g, '. ')}.</time></p>
+</Base>
+<style>
+  .rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .rule { padding: 18px; display: flex; gap: 14px; align-items: flex-start; }
+  .n { flex: none; font-weight: 800; font-size: 14px; background: var(--accent); color: var(--accent-ink); border-radius: 10px; padding: 4px 8px; font-variant-numeric: tabular-nums; }
+  .rule h2 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+  .request { margin-top: 24px; padding: 22px; display: grid; gap: 10px; border: 2px solid var(--accent-strong); }
+  .request h2 { font-size: 20px; font-weight: 800; }
+  .request ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+  .updated { margin-top: 20px; font-size: 14px; }
+</style>

@@ -1,0 +1,154 @@
+---
+import Base from '../../layouts/Base.astro';
+import MemberDots from '../../components/MemberDots.astro';
+import SampleBadge from '../../components/SampleBadge.astro';
+import { episodes, href, formatDate, formatDuration, type Episode } from '../../lib/data';
+
+export function getStaticPaths() {
+  return episodes.map((e) => ({ params: { id: e.id }, props: { episode: e } }));
+}
+const { episode: e } = Astro.props as { episode: Episode };
+const embed = (id: string, start = 0, autoplay = false) =>
+  `https://www.youtube-nocookie.com/embed/${id}?rel=0&playsinline=1${start ? `&start=${start}` : ''}${autoplay ? '&autoplay=1' : ''}`;
+---
+<Base title={e.title} current="episodes" description={`${formatDate(e.liveDate)} 세이마이네임 라이브 압축본. 장면 ${e.chapters.length}개.`}>
+  <a class="back" href={href('/episodes/')}>← 압축본 목록</a>
+
+  <div class="layout">
+    <div class="main-col">
+      <div class="player card" id="player" data-yt={e.sample ? '' : e.youtubeId}>
+        {e.sample ? (
+          <div class="thumb-placeholder">
+            <span>샘플 편이라 영상이 없어요<br /><small id="picked">장면을 누르면 실제 편에서는 그 시간부터 재생돼요</small></span>
+          </div>
+        ) : (
+          <iframe
+            src={embed(e.youtubeId)}
+            title={e.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        )}
+      </div>
+
+      <header class="info">
+        <div class="badges">
+          <SampleBadge show={!!e.sample} />
+          {e.anniversary && <span class="badge accent">{e.anniversary}</span>}
+        </div>
+        <h1>{e.title}</h1>
+        <dl>
+          <div><dt>라이브</dt><dd>{formatDate(e.liveDate)}</dd></div>
+          <div><dt>압축본 공개</dt><dd>{formatDate(e.publishDate)}</dd></div>
+          <div><dt>길이</dt><dd>{formatDuration(e.duration)}</dd></div>
+        </dl>
+        <MemberDots ids={e.members} names />
+        <div class="links">
+          {!e.sample && <a class="btn primary" href={`https://www.youtube.com/watch?v=${e.youtubeId}`} target="_blank" rel="noopener">유튜브에서 보기 ↗</a>}
+          {e.weverseUrl && <a class="btn" href={e.weverseUrl} target="_blank" rel="noopener">원본 위버스 라이브 ↗</a>}
+        </div>
+      </header>
+    </div>
+
+    <aside class="card chapters">
+      <h2>장면 {e.chapters.length}개</h2>
+      <ol>
+        {e.chapters.map((c) => (
+          <li>
+            <button type="button" data-t={c.time}>
+              <span class="time">{formatDuration(c.time)}</span>
+              <span>{c.title}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </aside>
+  </div>
+
+  {e.shorts.length > 0 && (
+    <section class="section">
+      <div class="section-title"><h2>이 라이브의 쇼츠</h2></div>
+      <div class="shorts">
+        {e.shorts.map((s) => (
+          <figure class="card short">
+            <div class="vert">
+              {e.sample
+                ? <div class="thumb-placeholder"><span>샘플 쇼츠</span></div>
+                : <iframe src={embed(s.youtubeId)} title={s.title} loading="lazy" allowfullscreen></iframe>}
+            </div>
+            <figcaption>{s.title}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  )}
+</Base>
+
+<script>
+  function setup() {
+    const player = document.getElementById('player');
+    if (!player) return;
+    const yt = player.dataset.yt;
+    const picked = document.getElementById('picked');
+    const buttons = [...document.querySelectorAll<HTMLButtonElement>('.chapters button[data-t]')];
+    const fmt = (t: number) => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
+
+    function seek(t: number, autoplay: boolean) {
+      buttons.forEach((b) => b.toggleAttribute('data-active', Number(b.dataset.t) === t));
+      if (yt) {
+        const iframe = player!.querySelector('iframe');
+        if (iframe) {
+          iframe.src = `https://www.youtube-nocookie.com/embed/${yt}?rel=0&playsinline=1&start=${t}${autoplay ? '&autoplay=1' : ''}`;
+        }
+      } else if (picked) {
+        picked.textContent = `선택한 장면: ${fmt(t)} (실제 편에서는 여기부터 재생돼요)`;
+      }
+    }
+
+    buttons.forEach((b) => b.addEventListener('click', () => {
+      const t = Number(b.dataset.t);
+      seek(t, true);
+      if (matchMedia('(max-width: 899px)').matches) player.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+
+    const t = Number(new URLSearchParams(location.search).get('t'));
+    if (t > 0) seek(t, true);
+  }
+  document.addEventListener('astro:page-load', setup);
+</script>
+
+<style>
+  .back { display: inline-block; margin: 6px 0 16px; font-size: 14px; font-weight: 700; color: var(--muted); text-decoration: none; }
+  .layout { display: grid; gap: 18px; }
+  .player { aspect-ratio: 16 / 9; overflow: hidden; padding: 0; scroll-margin-top: 72px; }
+  .player iframe, .vert iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .info { display: grid; gap: 12px; margin-top: 18px; }
+  .info h1 { font-size: clamp(24px, 5.5vw, 34px); font-weight: 800; }
+  .badges { display: flex; gap: 6px; }
+  .badges:empty { display: none; }
+  dl { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; font-size: 14px; }
+  dl div { display: flex; gap: 6px; }
+  dt { color: var(--muted); }
+  dd { margin: 0; font-weight: 600; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chapters { padding: 18px; align-self: start; }
+  .chapters h2 { font-size: 17px; font-weight: 800; margin-bottom: 10px; }
+  .chapters ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .chapters button {
+    width: 100%; display: flex; gap: 12px; align-items: center; text-align: left;
+    font: inherit; font-size: 15px; color: var(--text); background: transparent;
+    border: 0; border-radius: 12px; padding: 10px; cursor: pointer;
+  }
+  .chapters button:hover { background: var(--bg-soft); }
+  .chapters button[data-active] { background: color-mix(in srgb, var(--accent) 35%, transparent); }
+  .time { flex: none; min-width: 56px; font-weight: 800; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--accent-text); }
+  .shorts { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .short { margin: 0; padding: 8px; }
+  .vert { aspect-ratio: 9 / 16; border-radius: 14px; overflow: hidden; }
+  figcaption { padding: 8px 4px 2px; font-size: 14px; font-weight: 600; }
+  @media (min-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 1fr) 340px; }
+    .chapters { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow: auto; }
+  }
+</style>

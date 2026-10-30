@@ -1,0 +1,58 @@
+{
+  "sample": true,
+  "id": "261019_샘플2주년라이브",
+  "title": "샘플: 데뷔 2주년 축하 라이브 압축본",
+  "liveDate": "2026-10-19",
+  "publishDate": "2026-10-21",
+  "youtubeId": "SAMPLE_261019",
+  "duration": 1840,
+  "members": [
+    "tomi",
+    "shuie",
+    "mei",
+    "kanny",
+    "soha",
+    "dohee",
+    "junhwi",
+    "seungju"
+  ],
+  "anniversary": "데뷔 2주년",
+  "chapters": [
+    {
+      "title": "2주년 인사",
+      "time": 0
+    },
+    {
+      "title": "케이크 촛불 끄기",
+      "time": 205
+    },
+    {
+      "title": "1년 전 오늘 돌아보기",
+      "time": 520
+    },
+    {
+      "title": "로미에게 하는 말",
+      "time": 980
+    },
+    {
+      "title": "단체 노래",
+      "time": 1420
+    },
+    {
+      "title": "끝인사",
+      "time": 1760
+    }
+  ],
+  "shorts": [
+    {
+      "youtubeId": "샘플쇼츠B1",
+      "title": "케이크 촛불 끄는 순간"
+    },
+    {
+      "youtubeId": "샘플쇼츠B2",
+      "title": "로미에게 하는 말"
+    }
+  ],
+  "weverseUrl": "https://weverse.io/saymyname/live",
+  "thumbnail": null
+}

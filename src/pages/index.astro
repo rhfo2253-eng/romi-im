@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import EpisodeCard from '../components/EpisodeCard.astro';
+import MemberDots from '../components/MemberDots.astro';
+import SampleBadge from '../components/SampleBadge.astro';
+import Thumb from '../components/Thumb.astro';
+import { episodes, members, events, discography, href, episodeHref, formatDate, channelUrl } from '../lib/data';
+
+const [latest, ...rest] = episodes;
+const recent = rest.slice(0, 4);
+const shortsCount = episodes.reduce((n, e) => n + e.shorts.length, 0);
+
+// 다가오는 날은 보는 날짜에 따라 바뀌므로 브라우저에서 계산한다
+const days = [
+  ...events.map((e) => ({ date: e.date, title: e.title, repeat: e.repeat === 'yearly' })),
+  ...discography.map((r) => ({ date: r.releaseDate, title: `${r.title} 발매`, repeat: false })),
+];
+---
+<Base current="home">
+  <section class="hero">
+    <p class="eyebrow">세이마이네임 비공식 팬 아카이브</p>
+    <h1>로미를 위한<br />세마넴 라이브 압축본</h1>
+    <p class="muted">Romi_Im 채널의 라이브 압축본과 세이마이네임 공개 정보를 한곳에 모았어요.</p>
+  </section>
+
+  <div class="bento">
+    {latest ? (
+      <a class="card lift tile latest" href={episodeHref(latest.id)}>
+        <div class="tile-label"><span class="badge accent">최신 압축본</span><SampleBadge show={!!latest.sample} /></div>
+        <Thumb episode={latest} eager />
+        <div class="latest-body">
+          <h2>{latest.title}</h2>
+          <div class="row">
+            <span class="muted">{formatDate(latest.liveDate)} 라이브 · 장면 {latest.chapters.length}개</span>
+            <MemberDots ids={latest.members} />
+          </div>
+        </div>
+      </a>
+    ) : (
+      <div class="card tile latest empty">아직 올라온 압축본이 없어요.</div>
+    )}
+
+    <div class="card tile upcoming">
+      <h2 class="tile-title">다가오는 날</h2>
+      <ul id="upcoming" data-days={JSON.stringify(days)}><li class="muted">불러오는 중…</li></ul>
+      <a class="more" href={href('/calendar/')}>달력 보기 →</a>
+    </div>
+
+    <a class="card lift tile members" href={href('/members/')}>
+      <h2 class="tile-title">멤버 {members.length}명</h2>
+      <MemberDots ids={members.map((m) => m.id)} names />
+    </a>
+
+    <a class="card lift tile yellow" href={href('/episodes/')}>
+      <span class="big">{episodes.length}</span>
+      <span>압축본 전체 보기 · 장면 검색</span>
+    </a>
+
+    <a class="card lift tile" href={href('/shorts/')}>
+      <span class="big">{shortsCount}</span>
+      <span>쇼츠 모아보기</span>
+    </a>
+
+    <a class="card lift tile" href={href('/guide/')}>
+      <h2 class="tile-title">처음 오셨나요?</h2>
+      <span class="muted">멤버 이름, 팬덤 이름, 자주 나오는 말을 정리했어요.</span>
+    </a>
+
+    <a class="card lift tile" href={href('/lives/')}>
+      <h2 class="tile-title">라이브 기록</h2>
+      <span class="muted">압축하지 않은 라이브까지 전부</span>
+    </a>
+
+    <a class="card lift tile channel" href={channelUrl} target="_blank" rel="noopener">
+      <h2 class="tile-title">유튜브 채널 ↗</h2>
+      <span class="muted">Romi_Im (@smn00000)</span>
+    </a>
+  </div>
+
+  {recent.length > 0 && (
+    <section class="section">
+      <div class="section-title"><h2>최근 편</h2><a href={href('/episodes/')}>전체 보기 →</a></div>
+      <div class="grid">{recent.map((e) => <EpisodeCard episode={e} />)}</div>
+    </section>
+  )}
+</Base>
+
+<script>
+  function renderUpcoming() {
+    const ul = document.getElementById('upcoming');
+    if (!ul) return;
+    const days: { date: string; title: string; repeat: boolean }[] = JSON.parse(ul.dataset.days || '[]');
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const list = days.flatMap((d) => {
+      const [y, m, day] = d.date.split('-').map(Number);
+      if (d.repeat) {
+        let next = new Date(today.getFullYear(), m - 1, day);
+        if (next < today) next = new Date(today.getFullYear() + 1, m - 1, day);
+        const years = next.getFullYear() - y;
+        return [{ at: next, title: years > 0 ? `${d.title} (${years}주년)` : d.title }];
+      }
+      const at = new Date(y, m - 1, day);
+      return at >= today ? [{ at, title: d.title }] : [];
+    }).sort((a, b) => +a.at - +b.at).slice(0, 4);
+
+    ul.replaceChildren();
+    if (!list.length) {
+      const li = document.createElement('li');
+      li.className = 'muted';
+      li.textContent = '등록된 날이 없어요.';
+      ul.append(li);
+      return;
+    }
+    for (const item of list) {
+      const diff = Math.round((+item.at - +today) / 86400000);
+      const li = document.createElement('li');
+      const dday = document.createElement('span');
+      dday.className = 'dday';
+      dday.textContent = diff === 0 ? '오늘' : `D-${diff}`;
+      const text = document.createElement('span');
+      text.textContent = `${item.at.getMonth() + 1}월 ${item.at.getDate()}일 · ${item.title}`;
+      li.append(dday, text);
+      ul.append(li);
+    }
+  }
+  document.addEventListener('astro:page-load', renderUpcoming);
+</script>
+
+<style>
+  .hero { padding: 24px 0 26px; display: grid; gap: 10px; }
+  .hero h1 { font-size: clamp(34px, 9vw, 64px); font-weight: 800; letter-spacing: -0.035em; }
+  .bento { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile { padding: 18px; display: flex; flex-direction: column; gap: 10px; min-height: 130px; }
+  .tile-title { font-size: 18px; font-weight: 800; }
+  .latest, .upcoming, .members, .channel { grid-column: span 2; }
+  .latest { padding: 10px; gap: 0; }
+  .latest .tile-label { display: flex; gap: 6px; padding: 6px 6px 10px; }
+  .latest-body { padding: 14px 8px 8px; display: grid; gap: 8px; }
+  .latest h2 { font-size: clamp(20px, 4.5vw, 28px); font-weight: 800; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14px; }
+  .yellow { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+  .big { font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin-top: auto; }
+  .tile > span:last-child { font-weight: 600; font-size: 14px; }
+  .upcoming ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .upcoming :global(li) { display: flex; gap: 10px; align-items: center; font-size: 15px; }
+  .upcoming :global(.dday) { flex: none; min-width: 52px; text-align: center; font-size: 12px; font-weight: 800; padding: 4px 8px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); }
+  .more { margin-top: auto; font-size: 14px; font-weight: 700; color: var(--muted); text-decoration: none; }
+  .empty { display: grid; place-items: center; color: var(--muted); }
+
+  @media (min-width: 760px) {
+    .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .latest { grid-column: span 2; grid-row: span 3; }
+    .upcoming { grid-column: span 2; }
+    .members { grid-column: span 2; }
+  }
+</style>

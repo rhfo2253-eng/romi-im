@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import { discography, formatDate } from '../lib/data';
+---
+<Base title="디스코그래피" current="discography">
+  <header class="page-head">
+    <p class="eyebrow">발매 기록</p>
+    <h1>디스코그래피</h1>
+    <p>앨범 제목, 타이틀곡, 발매일만 적어요. 가사는 싣지 않아요. 곡은 공식 링크로 들어 주세요.</p>
+  </header>
+  <ol class="timeline">
+    {discography.map((r, i) => (
+      <li class:list={['card', 'lift', 'release', { first: i === 0 }]}>
+        <div class="when">
+          <span class="badge">{r.type}</span>
+          <time datetime={r.releaseDate}>{formatDate(r.releaseDate)}</time>
+        </div>
+        <h2>{r.title}</h2>
+        {r.titleTrack && <p class="muted">타이틀곡 <strong>{r.titleTrack}</strong></p>}
+        <div class="links">
+          {r.mv
+            ? <a class="btn primary" href={r.mv} target="_blank" rel="noopener">공식 뮤직비디오 ↗</a>
+            : <span class="muted small">공식 뮤직비디오 링크 준비 중</span>}
+          <a class="source" href={r.source} target="_blank" rel="noopener">출처</a>
+        </div>
+      </li>
+    ))}
+  </ol>
+</Base>
+<style>
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  .release { padding: 20px; display: grid; gap: 8px; align-content: start; }
+  .release.first { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+  .release.first .muted, .release.first .source { color: inherit; opacity: .75; }
+  .release.first .badge { background: rgba(0,0,0,.1); color: inherit; }
+  .when { display: flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 600; }
+  h2 { font-size: 24px; font-weight: 800; }
+  .links { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+  .small { font-size: 13px; }
+</style>

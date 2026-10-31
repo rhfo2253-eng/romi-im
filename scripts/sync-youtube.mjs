@@ -1,10 +1,11 @@
-// 유튜브 채널의 공개 영상을 보고 data/episodes/ 를 갱신한다. GitHub Actions에서 매시간 실행.
+// 유튜브 채널(@smn00000)을 보고 data/episodes/ 를 갱신한다. GitHub Actions에서 매시간 실행.
 //
-// - 이미 있는 편: 영상이 공개되면 publishDate를 채운다(비공개인 동안은 사이트에 안 보임).
-//   설명란에 "0:00 장면 이름" 줄이 있고 장면 시간이 비어 있으면 시간을 채운다.
-// - 새 편: 제목에 "세마넴 라이브 압축"이 들어간 공개 영상이 데이터에 없으면 새 파일을 만든다.
+// - 채널 "동영상" 탭에 공개된 영상 = 압축본. 데이터에 없으면 새 파일을 만든다.
+// - 이미 있는 편: 비어 있는 공개일·길이·장면 시간·멤버·위버스 주소를 영상 정보로 채운다.
+//   채널에 없는 편(비공개·예약)은 공개일을 비워 둬서 사이트에 안 보인다.
+// - 채널 "Shorts" 탭의 쇼츠는 설명란의 본편 링크를 보고 해당 편에 붙인다.
 //
-// 로그인이나 API 키 없이 공개 정보(채널 RSS, oEmbed)만 쓴다.
+// 로그인이나 API 키 없이 누구나 볼 수 있는 채널 페이지와 영상 정보만 쓴다.
 // 사용: node scripts/sync-youtube.mjs [--dry-run]
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
@@ -12,40 +13,93 @@ import { join } from 'node:path';
 
 const HANDLE = 'smn00000';
 const EPISODE_DIR = 'data/episodes';
-const MARK = '세마넴 라이브 압축';
+const LIVES_FILE = 'data/lives.json';
 const dryRun = process.argv.includes('--dry-run');
+const CLIENT = { clientName: 'WEB', clientVersion: '2.20251001.00.00', hl: 'ko', gl: 'KR' };
 
 const MEMBER_NAMES = {
-  hitomi: ['히토미', '토미'], shuie: ['슈이'], mei: ['메이'], kanny: ['카니'],
-  soha: ['소하'], dohee: ['도희'], junhwi: ['준휘'], seungju: ['승주'],
+  hitomi: ['히토미', '토미', '히부장'], shuie: ['슈이'], mei: ['메이'], kanny: ['카니'],
+  soha: ['소하', '민하'], dohee: ['도희'], junhwi: ['준휘'], seungju: ['승주'],
 };
 
 const kstDate = (d) => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(d);
 
-async function get(url) {
-  const res = await fetch(url, { headers: { 'accept-language': 'ko' } });
-  return res;
+/** 객체 안에서 key 이름이 같은 값을 모두 찾는다 */
+function findAll(obj, key, out = []) {
+  if (Array.isArray(obj)) obj.forEach((x) => findAll(x, key, out));
+  else if (obj && typeof obj === 'object') {
+    for (const [k, v] of Object.entries(obj)) {
+      if (k === key) out.push(v);
+      findAll(v, key, out);
+    }
+  }
+  return out;
 }
 
-async function channelId() {
-  if (process.env.YT_CHANNEL_ID) return process.env.YT_CHANNEL_ID;
-  const html = await (await get(`https://www.youtube.com/@${HANDLE}`)).text();
-  const m = html.match(/"channelId":"(UC[\w-]{22})"/) || html.match(/channel\/(UC[\w-]{22})/);
-  if (!m) throw new Error('채널 id를 찾지 못함');
-  return m[1];
+async function innertube(endpoint, body) {
+  const res = await fetch(`https://www.youtube.com/youtubei/v1/${endpoint}?prettyPrint=false`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'accept-language': 'ko-KR' },
+    body: JSON.stringify({ context: { client: CLIENT }, ...body }),
+  });
+  if (!res.ok) throw new Error(`${endpoint} ${res.status}`);
+  return res.json();
 }
 
-const decode = (s) => s
-  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
-  .replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+/** "1:02:03" → 3723 */
+const toSeconds = (t) => t?.match(/^\d+(:\d{2}){1,2}$/) ? t.split(':').reduce((a, n) => a * 60 + Number(n), 0) : null;
 
-export function parseFeed(xml) {
-  return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => ({
-    id: e.match(/<yt:videoId>([\w-]{11})<\/yt:videoId>/)?.[1],
-    title: decode(e.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? ''),
-    published: e.match(/<published>([^<]+)<\/published>/)?.[1],
-    description: decode(e.match(/<media:description>([\s\S]*?)<\/media:description>/)?.[1] ?? ''),
-  })).filter((v) => v.id);
+/** 썸네일 위 길이 표시 (동영상 탭에만 있음) */
+export const lengths = new Map();
+
+/** 채널 탭(videos, shorts)의 영상 id 목록. 다음 페이지가 있으면 끝까지 넘긴다. */
+async function listTab(tab) {
+  const html = await (await fetch(`https://www.youtube.com/@${HANDLE}/${tab}`, { headers: { 'accept-language': 'ko-KR' } })).text();
+  const start = html.indexOf('ytInitialData = ');
+  if (start < 0) throw new Error(`${tab} 탭을 읽지 못함`);
+  let data = JSON.parse(html.slice(start + 'ytInitialData = '.length).match(/^(\{[\s\S]*?\});<\/script>/)[1]);
+  const ids = [];
+  for (let page = 0; page < 20; page++) {
+    for (const l of findAll(data, 'lockupViewModel')) {
+      if (!l.contentId) continue;
+      ids.push(l.contentId);
+      const sec = toSeconds(findAll(l, 'thumbnailBadgeViewModel')[0]?.text);
+      if (sec) lengths.set(l.contentId, sec);
+    }
+    for (const s of findAll(data, 'shortsLockupViewModel')) {
+      const id = findAll(s, 'videoId')[0];
+      if (id) ids.push(id);
+    }
+    const token = findAll(data, 'continuationCommand').map((c) => c.token)[0];
+    if (!token) break;
+    data = await innertube('browse', { continuation: token });
+  }
+  return [...new Set(ids)];
+}
+
+function parseKoreanDate(text) {
+  const m = text?.match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})/);
+  return m ? `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}` : null;
+}
+
+/** 영상 한 개의 제목, 공개일, 설명란, 설명란 속 링크 */
+async function videoInfo(id) {
+  const d = await innertube('next', { videoId: id });
+  const desc = findAll(d, 'attributedDescription')[0];
+  const title = findAll(d, 'videoPrimaryInfoRenderer').flatMap((r) => r.title?.runs ?? []).map((r) => r.text).join('')
+    || findAll(d, 'reelPlayerHeaderRenderer').map((r) => r.reelTitleText?.runs?.map((x) => x.text).join(''))[0]
+    || '';
+  const links = findAll(desc, 'url').map((u) => {
+    const q = u.match(/[?&]q=([^&]+)/);
+    return q ? decodeURIComponent(q[1]) : u;
+  });
+  return {
+    id,
+    title,
+    publishDate: parseKoreanDate(findAll(d, 'dateText')[0]?.simpleText ?? findAll(d, 'publishDate')[0]?.simpleText),
+    description: desc?.content ?? '',
+    links,
+  };
 }
 
 /** 설명란의 "0:00 인사", "1:02:03 - 마무리" 같은 줄을 장면 목록으로 */
@@ -59,71 +113,106 @@ export function parseChapters(description) {
   return list.length >= 3 && list[0].time === 0 ? list : null;
 }
 
-/** 공개(또는 일부 공개) 영상이면 true, 비공개·삭제면 false */
-async function isWatchable(id) {
-  const res = await get(`https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`);
-  return res.ok;
+/** 제목 끝의 (261013), (20250324), - 251225 같은 라이브 날짜 */
+export function liveDateOf(title) {
+  const m = title.match(/(?:\(|-\s*)(20)?(\d{2})(\d{2})(\d{2})\)?/g);
+  if (!m) return null;
+  const [, , yy, mm, dd] = m.at(-1).match(/(20)?(\d{2})(\d{2})(\d{2})/);
+  return Number(mm) >= 1 && Number(mm) <= 12 ? `20${yy}-${mm}-${dd}` : null;
 }
 
-export function newEpisode(v) {
-  const code = v.title.match(/\((\d{6})\)\s*$/)?.[1];
-  if (!code) return null;
-  const liveDate = `20${code.slice(0, 2)}-${code.slice(2, 4)}-${code.slice(4, 6)}`;
-  const title = v.title.replace(new RegExp(`\\s*\\(${MARK}\\)\\s*\\(\\d{6}\\)\\s*$`), '').trim();
-  const members = Object.entries(MEMBER_NAMES)
-    .filter(([, names]) => names.some((n) => title.includes(n) && !(n === '토미' && title.includes('히토미'))))
-    .map(([id]) => id);
-  return {
-    id: `${code}_${v.id}`,
-    title,
-    liveDate,
-    publishDate: kstDate(new Date(v.published)),
-    youtubeId: v.id,
-    duration: null,
-    members,
-    anniversary: null,
-    chapters: parseChapters(v.description) ?? [],
-    shorts: [],
-    weverseUrl: v.description.match(/https:\/\/weverse\.io\/saymyname\/live\/[\w-]+/)?.[0] ?? null,
-    thumbnail: null,
-  };
+export function cleanTitle(title) {
+  return title
+    .replace(/\s*\(세마넴 라이브 압축\)/, '')
+    .replace(/\s*(?:\((?:20)?\d{6}\)|-\s*\d{6})/g, '')
+    .replace(/\s+/g, ' ')
+    .trim() || title;
 }
+
+export function membersIn(text) {
+  return Object.entries(MEMBER_NAMES)
+    .filter(([, names]) => names.some((n) => text.includes(n)))
+    .map(([id]) => id);
+}
+
+const weverseOf = (info) => info.links.find((u) => u.includes('weverse.io/saymyname/live/')) ?? null;
 
 async function main() {
   const files = readdirSync(EPISODE_DIR).filter((f) => f.endsWith('.json'));
   const episodes = files.map((f) => ({ file: join(EPISODE_DIR, f), data: JSON.parse(readFileSync(join(EPISODE_DIR, f), 'utf8')) }));
   const byYoutube = new Map(episodes.map((e) => [e.data.youtubeId, e]));
+  const knownShorts = new Set(episodes.flatMap((e) => e.data.shorts.map((s) => s.youtubeId)));
+  const lives = JSON.parse(readFileSync(LIVES_FILE, 'utf8'));
+  let livesChanged = false;
+  const changed = new Map();
+  const log = [];
+  const mark = (e, why) => { changed.set(e.file, e); log.push(`${why}: ${e.data.title}`); };
 
-  const feed = parseFeed(await (await get(`https://www.youtube.com/feeds/videos.xml?channel_id=${await channelId()}`)).text());
-  const feedById = new Map(feed.map((v) => [v.id, v]));
-  const changes = [];
-  const save = (e, why) => {
-    changes.push(`${why}: ${e.data.title}`);
-    if (!dryRun) writeFileSync(e.file, JSON.stringify(e.data, null, 2) + '\n');
-  };
-
-  for (const e of episodes) {
-    if (e.data.sample) continue;
-    const v = feedById.get(e.data.youtubeId);
-    let changed = false;
-    if (!e.data.publishDate) {
-      // 채널 목록(최근 15개)에 있으면 그 공개일, 없으면 공개 여부만 확인하고 오늘 날짜
-      if (v) { e.data.publishDate = kstDate(new Date(v.published)); changed = true; }
-      else if (await isWatchable(e.data.youtubeId)) { e.data.publishDate = kstDate(new Date()); changed = true; }
+  const videoIds = await listTab('videos');
+  for (const id of videoIds) {
+    const e = byYoutube.get(id);
+    const d = e?.data;
+    if (d && d.duration == null && lengths.has(id)) { d.duration = lengths.get(id); mark(e, '길이'); }
+    const needs = !d || !d.publishDate || d.chapters.some((c) => c.time == null) || !d.weverseUrl;
+    if (!needs) continue;
+    const info = await videoInfo(id);
+    const chapters = parseChapters(info.description);
+    if (!d) {
+      const liveDate = liveDateOf(info.title) ?? info.publishDate;
+      const data = {
+        id: `${liveDate.replace(/-/g, '').slice(2)}_${id}`,
+        title: cleanTitle(info.title),
+        liveDate,
+        publishDate: info.publishDate,
+        youtubeId: id,
+        duration: lengths.get(id) ?? null,
+        members: membersIn(`${info.title} ${info.description}`),
+        anniversary: null,
+        chapters: chapters ?? [],
+        shorts: [],
+        weverseUrl: weverseOf(info),
+        thumbnail: null,
+      };
+      const ne = { file: join(EPISODE_DIR, `${data.id}.json`), data };
+      byYoutube.set(id, ne);
+      mark(ne, '새 편');
+      // 라이브 기록에도 연결: 같은 위버스 라이브가 있으면 거기에, 없으면 새 줄
+      const live = data.weverseUrl && lives.find((l) => l.weverseUrl === data.weverseUrl);
+      if (live) live.episodes.push(data.id);
+      else lives.push({ id: data.id, date: liveDate, title: data.title, members: data.members, duration: null, weverseUrl: data.weverseUrl, episodes: [data.id] });
+      livesChanged = true;
+      continue;
     }
-    const chapters = v && parseChapters(v.description);
-    if (chapters && e.data.chapters.some((c) => c.time == null)) { e.data.chapters = chapters; changed = true; }
-    if (changed) save(e, '갱신');
+    let touched = false;
+    if (!d.publishDate && info.publishDate) { d.publishDate = info.publishDate; touched = true; }
+    if (chapters && d.chapters.some((c) => c.time == null)) { d.chapters = chapters; touched = true; }
+    if (!d.weverseUrl && weverseOf(info)) { d.weverseUrl = weverseOf(info); touched = true; }
+    if (!d.members.length) {
+      const found = membersIn(`${info.title} ${info.description}`);
+      if (found.length) { d.members = found; touched = true; }
+    }
+    if (touched) mark(e, '갱신');
   }
 
-  for (const v of feed) {
-    if (byYoutube.has(v.id) || !v.title.includes(MARK)) continue;
-    const data = newEpisode(v);
-    if (!data) continue;
-    save({ file: join(EPISODE_DIR, `${data.id}.json`), data }, '새 편');
+  for (const id of await listTab('shorts')) {
+    if (knownShorts.has(id)) continue;
+    const info = await videoInfo(id);
+    const main = info.links.map((u) => u.match(/watch\?v=([\w-]{11})/)?.[1]).find((v) => v && byYoutube.has(v));
+    if (!main) continue;
+    const e = byYoutube.get(main);
+    e.data.shorts.push({ youtubeId: id, title: info.title.replace(/\s*#\S+/g, '').trim() });
+    knownShorts.add(id);
+    mark(e, '쇼츠 추가');
   }
 
-  console.log(changes.length ? changes.join('\n') : '바뀐 것 없음');
+  if (!dryRun) {
+    for (const e of changed.values()) writeFileSync(e.file, JSON.stringify(e.data, null, 2) + '\n');
+    if (livesChanged) {
+      lives.sort((a, b) => b.date.localeCompare(a.date));
+      writeFileSync(LIVES_FILE, JSON.stringify(lives, null, 2) + '\n');
+    }
+  }
+  console.log(log.length ? log.join('\n') : '바뀐 것 없음');
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

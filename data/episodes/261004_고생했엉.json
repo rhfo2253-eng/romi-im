@@ -6,7 +6,7 @@
   "liveDate": "2026-10-04",
   "publishDate": "2026-10-26",
   "youtubeId": "9j9do0jar1A",
-  "duration": null,
+  "duration": 739,
   "members": [
     "hitomi",
     "junhwi",
@@ -16,40 +16,44 @@
   "anniversary": null,
   "chapters": [
     {
+      "title": "예고",
+      "time": 0
+    },
+    {
       "title": "강남페스티벌 끝나고",
-      "time": null
+      "time": 23
     },
     {
       "title": "비 오는 무대",
-      "time": null
+      "time": 109
     },
     {
       "title": "오늘을 위해 참았다",
-      "time": null
+      "time": 183
     },
     {
       "title": "팬콘 안 오면 후회해요",
-      "time": null
+      "time": 256
     },
     {
       "title": "토미에게 바톤 터치",
-      "time": null
+      "time": 314
     },
     {
       "title": "한 달 동안 양배추 3kg",
-      "time": null
+      "time": 356
     },
     {
       "title": "치즈 늘어나기 대결",
-      "time": null
+      "time": 406
     },
     {
       "title": "생일엔 치즈케이크",
-      "time": null
+      "time": 545
     },
     {
       "title": "핑크 메이크업 & 마무리",
-      "time": null
+      "time": 620
     }
   ],
   "shorts": [

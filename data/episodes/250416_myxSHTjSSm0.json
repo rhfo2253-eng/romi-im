@@ -5,11 +5,14 @@
   "publishDate": "2025-07-14",
   "youtubeId": "myxSHTjSSm0",
   "duration": 1321,
-  "members": [],
+  "members": [
+    "dohee",
+    "seungju"
+  ],
   "anniversary": null,
   "chapters": [],
   "shorts": [],
   "weverseUrl": "https://weverse.io/saymyname/live/1-158096760",
   "thumbnail": null,
-  "membersFrom": "title"
+  "membersFrom": "manual"
 }

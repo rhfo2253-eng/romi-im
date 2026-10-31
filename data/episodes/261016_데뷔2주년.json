@@ -6,41 +6,45 @@
   "liveDate": "2026-10-16",
   "publishDate": "2026-10-26",
   "youtubeId": "7XoR3_HRTnE",
-  "duration": null,
+  "duration": 697,
   "members": [],
   "anniversary": "데뷔 2주년",
   "chapters": [
     {
+      "title": "예고",
+      "time": 0
+    },
+    {
       "title": "2주년 인사 & 셀프 축하 노래",
-      "time": null
+      "time": 19
     },
     {
       "title": "여기가 어디게요? 내일 콘서트 공연장",
-      "time": null
+      "time": 62
     },
     {
       "title": "깜짝 선물: 종이 케이크",
-      "time": null
+      "time": 148
     },
     {
       "title": "설레고 떨리는 콘서트 전날",
-      "time": null
+      "time": 252
     },
     {
       "title": "13년생 로미 등장",
-      "time": null
+      "time": 299
     },
     {
       "title": "연습 일상 & 꿀잠 비결",
-      "time": null
+      "time": 332
     },
     {
       "title": "2주년 한마디",
-      "time": null
+      "time": 428
     },
     {
       "title": "콘서트 당부 & 마무리",
-      "time": null
+      "time": 632
     }
   ],
   "shorts": [

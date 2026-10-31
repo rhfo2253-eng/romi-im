@@ -6,71 +6,75 @@
   "liveDate": "2026-10-18",
   "publishDate": "2026-10-26",
   "youtubeId": "chs6uoWm7xE",
-  "duration": null,
+  "duration": 864,
   "members": [
     "soha"
   ],
   "anniversary": null,
   "chapters": [
     {
+      "title": "예고",
+      "time": 0
+    },
+    {
       "title": "팬콘 끝나고 바로 라이브",
-      "time": null
+      "time": 21
     },
     {
       "title": "벌써 2주년",
-      "time": null
+      "time": 83
     },
     {
       "title": "신곡 「꾸꾸꾸」 3~4일 연습",
-      "time": null
+      "time": 113
     },
     {
       "title": "Twinkle 유닛: 도희·승주·소하",
-      "time": null
+      "time": 142
     },
     {
       "title": "토미·준휘 질투 나요",
-      "time": null
+      "time": 213
     },
     {
       "title": "벌써 다음 콘서트 생각",
-      "time": null
+      "time": 274
     },
     {
       "title": "만능 소화제 소하",
-      "time": null
+      "time": 313
     },
     {
       "title": "로미 빼면 나는 시체",
-      "time": null
+      "time": 364
     },
     {
       "title": "100주년까지 콘서트 하려면",
-      "time": null
+      "time": 461
     },
     {
       "title": "로미랑은 운명",
-      "time": null
+      "time": 528
     },
     {
       "title": "스포 장인 소하",
-      "time": null
+      "time": 576
     },
     {
       "title": "컴백은 언제?",
-      "time": null
+      "time": 608
     },
     {
       "title": "레전드 「꾸꾸꾸」 제목 스포 사건",
-      "time": null
+      "time": 646
     },
     {
       "title": "소하를 알려면 아직 한참",
-      "time": null
+      "time": 757
     },
     {
       "title": "새벽 12시 40분, 마무리",
-      "time": null
+      "time": 828
     }
   ],
   "shorts": [

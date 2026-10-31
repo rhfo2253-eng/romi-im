@@ -2,6 +2,7 @@ import membersJson from '../../data/members.json';
 import livesJson from '../../data/lives.json';
 import discographyJson from '../../data/discography.json';
 import eventsJson from '../../data/events.json';
+import photosJson from '../../data/photos.json';
 
 export interface Fact { label: string; value: string; source: string }
 export interface Member {
@@ -28,15 +29,30 @@ export interface SiteEvent {
 }
 
 export const members = membersJson as Member[];
-export const lives = (livesJson as Live[]).toSorted((a, b) => b.date.localeCompare(a.date));
 // 발매일이 정해지지 않은 예정작이 맨 앞
 export const discography = (discographyJson as Release[]).toSorted((a, b) =>
   (b.releaseDate ?? '9999').localeCompare(a.releaseDate ?? '9999'));
 export const events = eventsJson as SiteEvent[];
 
 const episodeModules = import.meta.glob<Episode>('../../data/episodes/*.json', { eager: true, import: 'default' });
-export const episodes = Object.values(episodeModules).toSorted((a, b) =>
+
+/** 빌드한 날(한국 시간). 공개일이 이날 이후거나 비어 있는 편은 아직 비공개로 보고 사이트에서 뺀다. */
+const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
+const isPublic = (e: Episode) => e.sample || (e.publishDate != null && e.publishDate <= today);
+
+export const episodes = Object.values(episodeModules).filter(isPublic).toSorted((a, b) =>
   b.liveDate.localeCompare(a.liveDate) || (a.no ?? 0) - (b.no ?? 0));
+const publicIds = new Set(episodes.map((e) => e.id));
+
+// 비공개 편으로 가는 링크는 라이브 기록에서도 뺀다
+export const lives = (livesJson as Live[])
+  .map((l) => ({ ...l, episodes: l.episodes.filter((id) => publicIds.has(id)) }))
+  .toSorted((a, b) => b.date.localeCompare(a.date));
+
+export interface Photo {
+  url: string; platform: 'x' | 'instagram' | 'weverse'; date: string; members: string[]; note?: string;
+}
+export const photos = (photosJson as Photo[]).toSorted((a, b) => b.date.localeCompare(a.date));
 
 export const memberById = new Map(members.map((m) => [m.id, m]));
 

@@ -6,7 +6,7 @@
   "liveDate": "2026-10-13",
   "publishDate": "2026-10-26",
   "youtubeId": "mcd3eFIIIGo",
-  "duration": null,
+  "duration": 495,
   "members": [
     "hitomi",
     "dohee",
@@ -15,40 +15,44 @@
   "anniversary": null,
   "chapters": [
     {
+      "title": "예고",
+      "time": 0
+    },
+    {
       "title": "인사 & 끝나지 않는 연습",
-      "time": null
+      "time": 30
     },
     {
       "title": "팬콘 오시나요?",
-      "time": null
+      "time": 79
     },
     {
       "title": "5시간 연습하고 왔어요",
-      "time": null
+      "time": 125
     },
     {
       "title": "팬콘 드레스 코드는 키링",
-      "time": null
+      "time": 176
     },
     {
       "title": "근육통 장난 아니에요",
-      "time": null
+      "time": 213
     },
     {
       "title": "스포 해 달라는 로미",
-      "time": null
+      "time": 250
     },
     {
       "title": "두근두근 & 깜짝",
-      "time": null
+      "time": 327
     },
     {
       "title": "빼빼로 만들어 주세요",
-      "time": null
+      "time": 401
     },
     {
       "title": "잠자리 사진에 기겁 & 마무리",
-      "time": null
+      "time": 446
     }
   ],
   "shorts": [

@@ -4,9 +4,9 @@
   "title": "진실게임 하는데 안 들려ㅋㅋ 소하·메이·토미·준휘 새벽 라이브",
   "liveTitle": "여러분 10월입니닷",
   "liveDate": "2026-10-01",
-  "publishDate": null,
+  "publishDate": "2026-10-30",
   "youtubeId": "YgM6udREimY",
-  "duration": null,
+  "duration": 645,
   "members": [
     "soha",
     "mei",
@@ -16,52 +16,56 @@
   "anniversary": null,
   "chapters": [
     {
+      "title": "예고",
+      "time": 0
+    },
+    {
       "title": "어두워서 아무것도 안 보여",
-      "time": null
+      "time": 20
     },
     {
       "title": "필터 바꾸기",
-      "time": null
+      "time": 113
     },
     {
       "title": "준휘 입장, 불 켜면 사고 나",
-      "time": null
+      "time": 144
     },
     {
       "title": "준휘랑 키스하고 싶대",
-      "time": null
+      "time": 174
     },
     {
       "title": "음식송 게임",
-      "time": null
+      "time": 215
     },
     {
       "title": "진실게임은 안 들려",
-      "time": null
+      "time": 301
     },
     {
       "title": "랏코 닮았어요",
-      "time": null
+      "time": 375
     },
     {
       "title": "생일 축하합니다",
-      "time": null
+      "time": 428
     },
     {
       "title": "야식은 뭐 먹지",
-      "time": null
+      "time": 464
     },
     {
       "title": "야식 메뉴 공개",
-      "time": null
+      "time": 513
     },
     {
       "title": "서로 생일 맞히기",
-      "time": null
+      "time": 578
     },
     {
       "title": "마무리",
-      "time": null
+      "time": 617
     }
   ],
   "shorts": [

@@ -2,12 +2,16 @@
 import Base from '../../layouts/Base.astro';
 import MemberDots from '../../components/MemberDots.astro';
 import SampleBadge from '../../components/SampleBadge.astro';
-import { episodes, href, formatDate, formatDuration, type Episode } from '../../lib/data';
+import { episodes, href, formatDate, formatDuration, sameDay, photos, type Episode } from '../../lib/data';
 
 export function getStaticPaths() {
   return episodes.map((e) => ({ params: { id: e.id }, props: { episode: e } }));
 }
 const { episode: e } = Astro.props as { episode: Episode };
+const samePhotos = sameDay.filter((m) => m.episode === e.id).flatMap((m) => {
+  const p = photos.find((x) => x.url === m.photo);
+  return p ? [{ ...m, p }] : [];
+});
 const embed = (id: string, start = 0, autoplay = false) =>
   `https://www.youtube-nocookie.com/embed/${id}?rel=0&playsinline=1${start ? `&start=${start}` : ''}${autoplay ? '&autoplay=1' : ''}`;
 ---
@@ -65,6 +69,21 @@ const embed = (id: string, start = 0, autoplay = false) =>
       </ol>
     </aside>
   </div>
+
+  {samePhotos.length > 0 && (
+    <section class="section">
+      <div class="section-title"><h2>같은 날로 보이는 공식 사진</h2><a href={href('/photos/')}>사진 전체</a></div>
+      <ul class="same">
+        {samePhotos.map((m) => (
+          <li>
+            <a href={m.p.url} target="_blank" rel="noopener">{formatDate(m.p.date)} 공식 {m.p.platform === 'x' ? 'X' : m.p.platform === 'instagram' ? '인스타그램' : '위버스'} 게시물 ↗</a>
+            <span class="muted">{m.status === 'confirmed' ? ' 확인됨' : m.ambiguous ? ' 추정 · 같은 옷이 다른 날에도 보임' : ` 추정 · 비슷함 ${Math.round((m.score ?? 0) * 100)}점`}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="muted note">라이브 화면과 사진의 옷·머리·장소를 비교해 자동으로 추정했습니다. 틀릴 수 있습니다.</p>
+    </section>
+  )}
 
   {e.shorts.length > 0 && (
     <section class="section">
@@ -146,6 +165,9 @@ const embed = (id: string, start = 0, autoplay = false) =>
   .shorts { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .short { margin: 0; padding: 8px; }
   .vert { aspect-ratio: 9 / 16; border-radius: 14px; overflow: hidden; }
+  .same { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+  .same a { font-weight: 600; }
+  .note { font-size: 13px; margin-top: 8px; }
   figcaption { padding: 8px 4px 2px; font-size: 14px; font-weight: 600; }
   @media (min-width: 900px) {
     .layout { grid-template-columns: minmax(0, 1fr) 340px; }

@@ -14,7 +14,7 @@ const words = [
 <Base title="처음 오신 분께" current="guide">
   <header class="page-head">
     <h1>처음 오신 분께</h1>
-    <p>멤버 이름과 사이트에서 쓰는 말 정리.</p>
+    <p>멤버 이름과 사이트에서 쓰는 말을 정리했습니다.</p>
   </header>
 
   <section class="section">
@@ -24,7 +24,7 @@ const words = [
         <li><a href={href(`/members/${m.id}/`)}><span class="dot" style={`background:var(--m-${m.id})`}></span>{m.name}</a></li>
       ))}
     </ul>
-    <p class="muted small">이름 앞 점 = 멤버 색. 압축본 목록에서 출연 멤버를 이 점으로 표시.</p>
+    <p class="muted small">이름 앞의 점은 멤버 색입니다. 압축본 목록에서도 나온 멤버를 이 점으로 보여 줍니다.</p>
   </section>
 
   <section class="section">
@@ -42,9 +42,9 @@ const words = [
   <section class="section">
     <div class="section-title"><h2>사용법</h2></div>
     <ol class="steps">
-      <li><a href={href('/episodes/')}>압축본</a> 검색창에 장면 이름 입력 (예: 케이크)</li>
-      <li>검색 결과의 장면 클릭 → 해당 시간부터 재생</li>
-      <li><a href={href('/calendar/')}>달력</a>에서 생일·기념일 확인</li>
+      <li><a href={href('/episodes/')}>압축본</a> 페이지 검색창에 장면 이름을 입력합니다. (예: 케이크)</li>
+      <li>검색 결과에서 장면을 누르면 그 시간부터 재생됩니다.</li>
+      <li><a href={href('/calendar/')}>달력</a>에서 생일과 기념일을 확인할 수 있습니다.</li>
     </ol>
   </section>
 </Base>

@@ -14,7 +14,7 @@ const platformName = { x: 'X', instagram: '인스타그램', weverse: '위버스
 <Base title="사진" current="photos">
   <header class="page-head">
     <h1>사진</h1>
-    <p>세이마이네임 공식 X·인스타그램 게시물 모음. 사진 파일은 이 사이트에 저장하지 않고 원래 게시물을 그대로 띄움. 게시물이 지워지면 여기서도 안 보임.</p>
+    <p>세이마이네임 공식 X·인스타그램 게시물입니다. 사진 파일은 이 사이트에 저장하지 않고 원래 게시물을 그대로 띄웁니다. 게시물이 지워지면 여기서도 사라집니다.</p>
   </header>
 
   <ul class="official">
@@ -30,7 +30,7 @@ const platformName = { x: 'X', instagram: '인스타그램', weverse: '위버스
     ))}
   </div>
 
-  {photos.length === 0 ? <p class="empty">등록된 게시물 없음</p> : (
+  {photos.length === 0 ? <p class="empty">등록된 게시물이 없습니다.</p> : (
     <ul class="posts">
       {photos.map((p) => (
         <li class="post" data-members={p.members.join(' ')}>
@@ -58,7 +58,7 @@ const platformName = { x: 'X', instagram: '인스타그램', weverse: '위버스
       ))}
     </ul>
   )}
-  <p class="empty" id="photo-none" hidden>이 멤버의 게시물 없음</p>
+  <p class="empty" id="photo-none" hidden>이 멤버의 게시물이 없습니다.</p>
 </Base>
 
 <script>

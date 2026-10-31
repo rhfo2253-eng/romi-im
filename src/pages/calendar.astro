@@ -15,7 +15,7 @@ const kinds = [
 <Base title="달력" current="calendar">
   <header class="page-head">
     <h1>달력</h1>
-    <p>생일, 데뷔 기념일, 발매일, 방송·유튜브 출연, 공연·행사, 압축본 공개일.</p>
+    <p>생일, 데뷔 기념일, 발매일, 방송·유튜브 출연, 공연·행사, 압축본 공개일을 한 달력에 모았습니다.</p>
   </header>
 
   <div class="cal card" id="cal" data-items={JSON.stringify(items)}>
@@ -98,7 +98,7 @@ const kinds = [
       if (!month.length) {
         const li = document.createElement('li');
         li.className = 'empty';
-        li.textContent = '이달 등록된 날 없음';
+        li.textContent = '이달에 등록된 날이 없습니다.';
         list.append(li);
       }
       for (const it of month) {

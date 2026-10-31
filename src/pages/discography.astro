@@ -5,7 +5,7 @@ import { discography, formatDate } from '../lib/data';
 <Base title="디스코그래피" current="discography">
   <header class="page-head">
     <h1>디스코그래피</h1>
-    <p>앨범·싱글 제목, 타이틀곡, 발매일, 공식 뮤직비디오 링크. 가사는 싣지 않음.</p>
+    <p>앨범·싱글 제목, 타이틀곡, 발매일, 공식 뮤직비디오 링크입니다. 가사는 싣지 않습니다.</p>
   </header>
   <ol class="timeline">
     {discography.map((r) => (
@@ -21,7 +21,7 @@ import { discography, formatDate } from '../lib/data';
         <div class="links">
           {r.mv
             ? <a class="btn primary" href={r.mv} target="_blank" rel="noopener">뮤직비디오 ↗</a>
-            : <span class="muted small">뮤직비디오 없음</span>}
+            : <span class="muted small">뮤직비디오가 없습니다</span>}
           <a class="source" href={r.source} target="_blank" rel="noopener">출처</a>
         </div>
       </li>

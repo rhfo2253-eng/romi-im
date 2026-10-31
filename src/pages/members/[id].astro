@@ -30,12 +30,12 @@ const shorts = eps.flatMap((e) => e.shorts.map((s) => ({ ...s, episode: e })));
         </div>
       ))}
     </dl>
-    <p class="note muted">항목별 출처 링크 표시. 오류 제보: 사이트 맨 아래 메일 주소.</p>
+    <p class="note muted">항목마다 출처 링크가 있습니다. 틀린 곳은 사이트 맨 아래 메일 주소로 알려 주세요.</p>
   </section>
 
   <section class="section">
     <div class="section-title"><h2>{m.name}의 압축본</h2><a href={`${href('/episodes/')}?member=${m.id}`}>거르기로 보기 →</a></div>
-    {eps.length ? <div class="grid">{eps.map((e) => <EpisodeCard episode={e} />)}</div> : <p class="empty">출연 압축본 없음</p>}
+    {eps.length ? <div class="grid">{eps.map((e) => <EpisodeCard episode={e} />)}</div> : <p class="empty">나온 압축본이 없습니다.</p>}
   </section>
 
   {shorts.length > 0 && (

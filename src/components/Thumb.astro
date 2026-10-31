@@ -7,6 +7,6 @@ const src = thumbOf(episode);
 <div class="thumb">
   {src
     ? <img src={src} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
-    : <div class="thumb-placeholder"><span>샘플 · 썸네일 없음</span></div>}
+    : <div class="thumb-placeholder"><span>샘플 · 썸네일이 없습니다</span></div>}
   {episode.duration != null && <span class="len">{formatDuration(episode.duration)}</span>}
 </div>

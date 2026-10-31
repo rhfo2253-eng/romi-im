@@ -80,17 +80,21 @@
   "shorts": [
     {
       "youtubeId": "yV4orLtDFE8",
-      "title": "라방에서 신곡 제목을 말해 버린 소하"
+      "title": "라방에서 신곡 제목을 말해 버린 소하",
+      "public": true
     },
     {
       "youtubeId": "tGYBqPovDV8",
-      "title": "마이크 안 대고 불러도 다 들리는 승주 성량"
+      "title": "마이크 안 대고 불러도 다 들리는 승주 성량",
+      "public": true
     },
     {
       "youtubeId": "FQZ-LdMgvbw",
-      "title": "토미·준휘 「썸」 무대에 질투 난 소하"
+      "title": "토미·준휘 「썸」 무대에 질투 난 소하",
+      "public": true
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/4-242775671",
-  "thumbnail": null
+  "thumbnail": null,
+  "membersFrom": "hashtag"
 }

@@ -1,9 +1,9 @@
-// GitHub 이슈 양식(라이브 기록 추가, 사진 추가)으로 받은 내용을 data/에 넣는다.
+// GitHub 이슈 양식(라이브 기록 추가, 사진 추가, 압축본 멤버 고치기)으로 받은 내용을 data/에 넣는다.
 // .github/workflows/add-from-issue.yml에서 실행. 결과 문장은 result.md에 써서 이슈 댓글로 남긴다.
 //
-// 환경 변수: ISSUE_BODY(이슈 본문), ISSUE_LABEL(add-live 또는 add-photo), ISSUE_DATE(이슈 만든 날, ISO)
+// 환경 변수: ISSUE_BODY(이슈 본문), ISSUE_LABEL(add-live, add-photo, fix-members), ISSUE_DATE(이슈 만든 날, ISO)
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 
 const NAMES = { 히토미: 'hitomi', 슈이: 'shuie', 메이: 'mei', 카니: 'kanny', 소하: 'soha', 도희: 'dohee', 준휘: 'junhwi', 승주: 'seungju' };
 const HASHTAGS = {
@@ -94,6 +94,31 @@ if (process.env.ISSUE_LABEL === 'add-photo') {
   if (!urls.length) result.push('게시물 주소를 찾지 못했습니다.');
   photos.sort((a, b) => b.date.localeCompare(a.date));
   writeFileSync('data/photos.json', JSON.stringify(photos, null, 2) + '\n');
+}
+
+if (process.env.ISSUE_LABEL === 'fix-members') {
+  const input = form['압축본 주소'] ?? '';
+  const members = checked(form['나온 멤버 (전부 체크)']);
+  const youtubeId = input.match(/(?:youtu\.be\/|watch\?v=|shorts\/)([\w-]{11})/)?.[1];
+  const siteId = (() => { const m = input.match(/\/episodes\/([^/?#\s]+)/); return m ? decodeURIComponent(m[1]) : null; })();
+  const dir = 'data/episodes';
+  const file = readdirSync(dir).find((f) => {
+    const d = JSON.parse(readFileSync(`${dir}/${f}`, 'utf8'));
+    return (siteId && d.id === siteId) || (youtubeId && (d.youtubeId === youtubeId || d.shorts.some((s) => s.youtubeId === youtubeId)));
+  });
+  if (!file) result.push('해당 압축본을 찾지 못했습니다. 주소를 확인해 주세요.');
+  else if (!members.length) result.push('멤버를 하나 이상 체크해 주세요.');
+  else {
+    const d = JSON.parse(readFileSync(`${dir}/${file}`, 'utf8'));
+    d.members = members;
+    d.membersFrom = 'manual';
+    writeFileSync(`${dir}/${file}`, JSON.stringify(d, null, 2) + '\n');
+    // 라이브 기록에도 같은 멤버를 반영
+    const lives = JSON.parse(readFileSync('data/lives.json', 'utf8'));
+    for (const l of lives) if (l.episodes.includes(d.id)) l.members = members;
+    writeFileSync('data/lives.json', JSON.stringify(lives, null, 2) + '\n');
+    result.push(`멤버를 고쳤습니다: ${d.title} → ${form['나온 멤버 (전부 체크)'].match(/- \[[xX]\] \S+/g).map((x) => x.slice(6)).join(', ')}`);
+  }
 }
 
 writeFileSync('result.md', result.join('\n') + '\n\n사이트에는 1~3분 뒤 반영됩니다. 틀린 내용은 data/ 파일에서 고치거나 지우면 됩니다.\n');

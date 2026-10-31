@@ -1,0 +1,174 @@
+---
+import Base from '../layouts/Base.astro';
+import MemberDots from '../components/MemberDots.astro';
+import { photos, members, formatDate, formatDuration, officialVideos, officialAccounts } from '../lib/data';
+
+const platformName = { x: 'X', instagram: '인스타그램', weverse: '위버스' } as const;
+const [latest, ...moreVideos] = officialVideos;
+const embed = (id: string) => `https://www.youtube-nocookie.com/embed/${id}?rel=0&playsinline=1`;
+---
+<Base title="공식 채널" current="official">
+  <header class="page-head">
+    <h1>공식 채널</h1>
+    <p>세이마이네임 공식 계정과 공식 유튜브 최신 영상, 공식 SNS 게시물을 모았습니다. 공식 게시물은 이 사이트에 저장하지 않고 원래 게시물을 그대로 띄웁니다.</p>
+  </header>
+
+  <nav class="jump" aria-label="이 페이지 안 바로가기">
+    <a href="#accounts">공식 계정</a>
+    <a href="#videos">공식 유튜브 최신 영상</a>
+    <a href="#posts">공식 SNS 게시물</a>
+  </nav>
+
+  <section class="section" id="accounts">
+    <div class="section-title"><h2>공식 계정</h2></div>
+    <ul class="accounts">
+      {officialAccounts.map((a) => (
+        <li>
+          <a class="card lift account" href={a.url} target="_blank" rel="noopener">
+            <strong>{a.name} ↗</strong>
+            <span class="muted">{a.handle}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="muted small">공식 유튜브 채널 정보에 걸린 링크와 공식 계정이 직접 안내한 주소만 넣었습니다.</p>
+  </section>
+
+  <section class="section" id="videos">
+    <div class="section-title"><h2>공식 유튜브 최신 영상</h2><a href="https://www.youtube.com/@sa2m2nam3/videos" target="_blank" rel="noopener">채널에서 전체 보기 ↗</a></div>
+    {latest ? (
+      <>
+        <div class="player card">
+          <iframe src={embed(latest.youtubeId)} title={latest.title} loading="lazy" allow="encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <p class="latest-title"><strong>{latest.title}</strong> <span class="muted">{latest.publishDate && formatDate(latest.publishDate)}</span></p>
+        <ol class="rows videos">
+          {moreVideos.map((v) => (
+            <li>
+              <a href={`https://www.youtube.com/watch?v=${v.youtubeId}`} target="_blank" rel="noopener">
+                <span class="date">{v.publishDate ? formatDate(v.publishDate) : ''}</span>
+                <span class="title">{v.title}</span>
+                <span class="len">{formatDuration(v.duration)}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        <p class="muted small">매시간 공식 채널을 확인해 새 영상을 올립니다.</p>
+      </>
+    ) : <p class="empty">불러온 영상이 없습니다.</p>}
+  </section>
+
+  <section class="section" id="posts">
+    <div class="section-title"><h2>공식 SNS 게시물</h2><a href="https://github.com/rhfo2253-eng/romi-im/issues/new?template=photo.yml" target="_blank" rel="noopener">게시물 추가 ↗</a></div>
+    <div class="chip-row" role="group" aria-label="멤버로 거르기" id="photo-filter">
+      <button class="chip" type="button" data-member="" aria-pressed="true">전체</button>
+      {members.map((m) => (
+        <button class="chip" type="button" data-member={m.id} aria-pressed="false">
+          <span class="dot" style={`background:var(--m-${m.id})`}></span>{m.name}
+        </button>
+      ))}
+    </div>
+    {photos.length === 0 ? <p class="empty">등록된 게시물이 없습니다.</p> : (
+      <ul class="posts">
+        {photos.map((p) => (
+          <li class="post" data-members={p.members.join(' ')}>
+            <div class="meta">
+              <span>{formatDate(p.date)} · {platformName[p.platform]}</span>
+              <MemberDots ids={p.members} />
+            </div>
+            {p.platform === 'x' && (
+              <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none">
+                <a href={p.url.replace('://x.com/', '://twitter.com/')}>{p.note ?? '공식 X 게시물'} (불러오는 중)</a>
+              </blockquote>
+            )}
+            {p.platform === 'instagram' && (
+              <blockquote class="instagram-media" data-instgrm-permalink={p.url} data-instgrm-version="14">
+                <a href={p.url}>{p.note ?? '공식 인스타그램 게시물'} (불러오는 중)</a>
+              </blockquote>
+            )}
+            {p.platform === 'weverse' && (
+              <a class="card lift link" href={p.url} target="_blank" rel="noopener">
+                <strong>위버스에서 보기 ↗</strong>
+                {p.note && <span class="muted">{p.note}</span>}
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
+    <p class="empty" id="photo-none" hidden>이 멤버의 게시물이 없습니다.</p>
+  </section>
+</Base>
+
+<script>
+  // X·인스타그램이 제공하는 퍼가기 스크립트. 페이지에 게시물이 있을 때만 한 번 불러온다.
+  function loadScript(src: string) {
+    if (document.querySelector(`script[src="${src}"]`)) return false;
+    const s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    document.body.append(s);
+    return true;
+  }
+
+  function setup() {
+    const filter = document.getElementById('photo-filter');
+    if (!filter) return;
+
+    const w = window as unknown as {
+      twttr?: { widgets?: { load: (el?: Element) => void } };
+      instgrm?: { Embeds?: { process: () => void } };
+    };
+    if (document.querySelector('.twitter-tweet')) {
+      if (!loadScript('https://platform.twitter.com/widgets.js')) w.twttr?.widgets?.load();
+    }
+    if (document.querySelector('.instagram-media')) {
+      if (!loadScript('https://www.instagram.com/embed.js')) w.instgrm?.Embeds?.process();
+    }
+
+    const chips = [...filter.querySelectorAll<HTMLButtonElement>('[data-member]')];
+    const posts = [...document.querySelectorAll<HTMLElement>('.post')];
+    const none = document.getElementById('photo-none')!;
+    chips.forEach((c) => c.addEventListener('click', () => {
+      const id = c.dataset.member || '';
+      chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      let shown = 0;
+      posts.forEach((p) => {
+        const ok = !id || (p.dataset.members || '').split(' ').includes(id);
+        p.hidden = !ok;
+        if (ok) shown++;
+      });
+      none.hidden = shown > 0 || posts.length === 0;
+    }));
+  }
+  document.addEventListener('astro:page-load', setup);
+</script>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: 6px; }
+  .jump a { font-size: 14px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
+  .jump a:hover { border-color: var(--line-strong); }
+  section[id] { scroll-margin-top: 110px; }
+  .accounts { list-style: none; margin: 0 0 8px; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 720px) { .accounts { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  .account { padding: 12px; display: grid; gap: 2px; height: 100%; }
+  .account strong { font-size: 15px; }
+  .account span { font-size: 12px; overflow-wrap: anywhere; }
+  .small { font-size: 13px; }
+  .player { aspect-ratio: 16 / 9; overflow: hidden; padding: 0; }
+  .player iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .latest-title { margin: 10px 0 14px; display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+  .videos a { display: grid; grid-template-columns: 84px 1fr auto; gap: 10px; align-items: baseline; padding: 10px 2px; text-decoration: none; font-size: 14px; }
+  .videos a:hover .title { text-decoration: underline; }
+  .videos .date, .videos .len { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+  #photo-filter { margin-bottom: 18px; }
+  .posts { list-style: none; margin: 0; padding: 0; columns: 1; column-gap: 16px; }
+  @media (min-width: 720px) { .posts { columns: 2; } }
+  @media (min-width: 1000px) { .posts { columns: 3; } }
+  .post { break-inside: avoid; margin-bottom: 16px; }
+  .post[hidden] { display: none; }
+  .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .post :global(.twitter-tweet), .post :global(.instagram-media) { margin: 0 !important; }
+  blockquote { margin: 0; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); font-size: 14px; }
+  .link { padding: 16px; display: grid; gap: 4px; }
+</style>

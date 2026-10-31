@@ -2,16 +2,12 @@
 import Base from '../../layouts/Base.astro';
 import MemberDots from '../../components/MemberDots.astro';
 import SampleBadge from '../../components/SampleBadge.astro';
-import { episodes, href, formatDate, formatDuration, sameDay, photos, type Episode } from '../../lib/data';
+import { episodes, href, formatDate, formatDuration, type Episode } from '../../lib/data';
 
 export function getStaticPaths() {
   return episodes.map((e) => ({ params: { id: e.id }, props: { episode: e } }));
 }
 const { episode: e } = Astro.props as { episode: Episode };
-const samePhotos = sameDay.filter((m) => m.episode === e.id).flatMap((m) => {
-  const p = photos.find((x) => x.url === m.photo);
-  return p ? [{ ...m, p }] : [];
-});
 const embed = (id: string, start = 0, autoplay = false) =>
   `https://www.youtube-nocookie.com/embed/${id}?rel=0&playsinline=1${start ? `&start=${start}` : ''}${autoplay ? '&autoplay=1' : ''}`;
 ---
@@ -47,7 +43,12 @@ const embed = (id: string, start = 0, autoplay = false) =>
           {e.publishDate && <div><dt>압축본 공개</dt><dd>{formatDate(e.publishDate)}</dd></div>}
           {e.duration != null && <div><dt>길이</dt><dd>{formatDuration(e.duration)}</dd></div>}
         </dl>
-        <MemberDots ids={e.members} names />
+        <div class="members-row">
+          <MemberDots ids={e.members} names />
+          {(e.membersFrom === 'title' || !e.members.length) && !e.sample && (
+            <a class="unverified" href="https://github.com/rhfo2253-eng/romi-im/issues/new?template=members.yml" target="_blank" rel="noopener">{e.members.length ? '멤버 미확인 (제목으로 추정)' : '멤버 미확인'}</a>
+          )}
+        </div>
         <div class="links">
           {!e.sample && <a class="btn primary" href={`https://www.youtube.com/watch?v=${e.youtubeId}`} target="_blank" rel="noopener">유튜브에서 보기 ↗</a>}
           {e.weverseUrl && <a class="btn" href={e.weverseUrl} target="_blank" rel="noopener">원본 위버스 라이브 ↗</a>}
@@ -69,21 +70,6 @@ const embed = (id: string, start = 0, autoplay = false) =>
       </ol>
     </aside>
   </div>
-
-  {samePhotos.length > 0 && (
-    <section class="section">
-      <div class="section-title"><h2>같은 날로 보이는 공식 사진</h2><a href={href('/photos/')}>사진 전체</a></div>
-      <ul class="same">
-        {samePhotos.map((m) => (
-          <li>
-            <a href={m.p.url} target="_blank" rel="noopener">{formatDate(m.p.date)} 공식 {m.p.platform === 'x' ? 'X' : m.p.platform === 'instagram' ? '인스타그램' : '위버스'} 게시물 ↗</a>
-            <span class="muted">{m.status === 'confirmed' ? ' 확인됨' : m.ambiguous ? ' 추정 · 같은 옷이 다른 날에도 보임' : ` 추정 · 비슷함 ${Math.round((m.score ?? 0) * 100)}점`}</span>
-          </li>
-        ))}
-      </ul>
-      <p class="muted note">라이브 화면과 사진의 옷·머리·장소를 비교해 자동으로 추정했습니다. 틀릴 수 있습니다.</p>
-    </section>
-  )}
 
   {e.shorts.length > 0 && (
     <section class="section">
@@ -151,6 +137,8 @@ const embed = (id: string, start = 0, autoplay = false) =>
   dt { color: var(--muted); }
   dd { margin: 0; font-weight: 600; }
   .links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .members-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+  .unverified { font-size: 12px; color: var(--muted); border: 1px dashed var(--line-strong); border-radius: 6px; padding: 2px 6px; text-decoration: none; }
   .chapters { padding: 18px; align-self: start; }
   .chapters h2 { font-size: 17px; font-weight: 800; margin-bottom: 10px; }
   .chapters ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
@@ -165,9 +153,6 @@ const embed = (id: string, start = 0, autoplay = false) =>
   .shorts { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .short { margin: 0; padding: 8px; }
   .vert { aspect-ratio: 9 / 16; border-radius: 14px; overflow: hidden; }
-  .same { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
-  .same a { font-weight: 600; }
-  .note { font-size: 13px; margin-top: 8px; }
   figcaption { padding: 8px 4px 2px; font-size: 14px; font-weight: 600; }
   @media (min-width: 900px) {
     .layout { grid-template-columns: minmax(0, 1fr) 340px; }

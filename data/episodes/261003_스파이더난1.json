@@ -72,15 +72,18 @@
   "shorts": [
     {
       "youtubeId": "IguQ0AgTVm8",
-      "title": "라이브 중 벽에 거미가 있다는 댓글"
+      "title": "라이브 중 벽에 거미가 있다는 댓글",
+      "public": false
     },
     {
       "youtubeId": "bMPzLN7Q_GM",
-      "title": "데뷔하고 처음 올린 카니의 커버곡"
+      "title": "데뷔하고 처음 올린 카니의 커버곡",
+      "public": false
     },
     {
       "youtubeId": "HpUcbq-Toyg",
-      "title": "오디션 보는 로미에게 카니가 주는 팁"
+      "title": "오디션 보는 로미에게 카니가 주는 팁",
+      "public": false
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/3-242020216",

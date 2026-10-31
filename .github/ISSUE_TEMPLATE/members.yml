@@ -1,0 +1,25 @@
+name: 압축본 멤버 고치기
+description: 압축본에 나온 멤버가 틀렸거나 비어 있을 때 고칩니다. 고친 멤버는 자동 갱신으로 다시 바뀌지 않습니다.
+title: "멤버 고치기"
+body:
+  - type: input
+    id: episode
+    attributes:
+      label: 압축본 주소
+      description: 사이트의 압축본 페이지 주소나 유튜브 영상 주소를 붙여 넣으세요.
+      placeholder: "https://rhfo2253-eng.github.io/romi-im/episodes/... 또는 https://youtu.be/..."
+    validations:
+      required: true
+  - type: checkboxes
+    id: members
+    attributes:
+      label: 나온 멤버 (전부 체크)
+      options:
+        - label: 히토미
+        - label: 슈이
+        - label: 메이
+        - label: 카니
+        - label: 소하
+        - label: 도희
+        - label: 준휘
+        - label: 승주

@@ -8,9 +8,9 @@
   "youtubeId": "YgM6udREimY",
   "duration": 645,
   "members": [
-    "soha",
-    "mei",
     "hitomi",
+    "mei",
+    "soha",
     "junhwi"
   ],
   "anniversary": null,
@@ -71,17 +71,21 @@
   "shorts": [
     {
       "youtubeId": "WY_YmSK05PI",
-      "title": "지금 준휘랑 키스하고 싶대 \"난 못 받아들여\""
+      "title": "지금 준휘랑 키스하고 싶대 \"난 못 받아들여\"",
+      "public": false
     },
     {
       "youtubeId": "6YoZuZuoCQ0",
-      "title": "진실게임 하는데 아무도 안 들림"
+      "title": "진실게임 하는데 아무도 안 들림",
+      "public": false
     },
     {
       "youtubeId": "5wGIHAl-Av4",
-      "title": "토미 언니는 랏코(해달) 닮았어요"
+      "title": "토미 언니는 랏코(해달) 닮았어요",
+      "public": false
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/2-180633790",
-  "thumbnail": null
+  "thumbnail": null,
+  "membersFrom": "hashtag"
 }

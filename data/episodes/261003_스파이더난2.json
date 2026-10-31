@@ -64,15 +64,18 @@
   "shorts": [
     {
       "youtubeId": "tw-__Tcs8Eo",
-      "title": "처음 불러 보는 한국 노래 다시 다시 다시!"
+      "title": "처음 불러 보는 한국 노래 다시 다시 다시!",
+      "public": false
     },
     {
       "youtubeId": "Kuwsu4OwVis",
-      "title": "이 노래만 부르면 눈물 나는 카니"
+      "title": "이 노래만 부르면 눈물 나는 카니",
+      "public": false
     },
     {
       "youtubeId": "ihk2mv3qwjM",
-      "title": "멤버들이랑 꼭 같이 가고 싶은 카니의 태국 여행"
+      "title": "멤버들이랑 꼭 같이 가고 싶은 카니의 태국 여행",
+      "public": false
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/3-242020216",

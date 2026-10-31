@@ -3,8 +3,7 @@ import livesJson from '../../data/lives.json';
 import discographyJson from '../../data/discography.json';
 import eventsJson from '../../data/events.json';
 import photosJson from '../../data/photos.json';
-import sameDayJson from '../../data/sameday.json';
-import sameDayReviewJson from '../../data/sameday-review.json';
+import officialVideosJson from '../../data/official-videos.json';
 
 export interface Fact { label: string; value: string; source: string }
 export interface Member {
@@ -12,15 +11,20 @@ export interface Member {
 }
 /** time: 장면 시작 초. 모르면 null(누르면 처음부터 재생) */
 export interface Chapter { title: string; time: number | null }
-export interface Short { youtubeId: string; title: string }
+/** public: 유튜브에서 공개된 쇼츠인지(자동 갱신이 채움). 공개된 것만 사이트에 보인다. */
+export interface Short { youtubeId: string; title: string; public?: boolean }
 export interface Episode {
   sample?: boolean; id: string; no?: number; title: string; liveTitle?: string; liveDate: string; publishDate: string | null;
   youtubeId: string; duration: number | null; members: string[]; anniversary: string | null;
+  /** hashtag: 설명란 태그, file: 정리 파일, manual: 주인이 고침, title: 제목으로 추정(확인 안 됨) */
+  membersFrom?: 'hashtag' | 'file' | 'manual' | 'title';
   chapters: Chapter[]; shorts: Short[]; weverseUrl: string | null; thumbnail: string | null;
 }
 export interface Live {
   sample?: boolean; id: string; date: string; title: string; members: string[];
   duration: number | null; weverseUrl: string | null; episodes: string[];
+  /** 공식 X의 라이브 시작 공지 */
+  noticeUrl?: string;
 }
 export interface Release {
   id: string; title: string; type: string; releaseDate: string | null; status?: string; titleTrack: string | null;
@@ -42,7 +46,9 @@ const episodeModules = import.meta.glob<Episode>('../../data/episodes/*.json', {
 const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
 const isPublic = (e: Episode) => e.sample || (e.publishDate != null && e.publishDate <= today);
 
-export const episodes = Object.values(episodeModules).filter(isPublic).toSorted((a, b) =>
+export const episodes = Object.values(episodeModules).filter(isPublic)
+  .map((e) => ({ ...e, shorts: e.shorts.filter((s) => e.sample || s.public === true) }))
+  .toSorted((a, b) =>
   b.liveDate.localeCompare(a.liveDate) || (a.no ?? 0) - (b.no ?? 0));
 const publicIds = new Set(episodes.map((e) => e.id));
 
@@ -56,31 +62,24 @@ export interface Photo {
 }
 export const photos = (photosJson as Photo[]).toSorted((a, b) => b.date.localeCompare(a.date));
 
-/**
- * 같은 날 추정: 자동 결과(scripts/sameday.mjs)에 주인 확인(data/sameday-review.json)을 덮어쓴다.
- * - confirmed: 주인이 확인한 짝(자동 결과에 없어도 표시)
- * - rejected: 주인이 아니라고 한 짝(표시 안 함)
- * - 그 밖에는 자동 결과 중 기준을 넘은 것(high)만 표시
- */
-export interface SameDay {
-  photo: string; episode: string; score: number | null; status: 'confirmed' | 'guess'; ambiguous: boolean;
-}
-interface SameDayAuto { photo: string; episode: string; score: number; outfit: number; level: 'high' | 'check'; ambiguous: boolean }
-interface SameDayReview { photo: string; episode: string; status: 'confirmed' | 'rejected' }
-export const sameDay: SameDay[] = (() => {
-  const key = (x: { photo: string; episode: string }) => `${x.photo} ${x.episode}`;
-  const review = new Map((sameDayReviewJson as SameDayReview[]).map((r) => [key(r), r.status]));
-  const list: SameDay[] = [];
-  for (const m of sameDayJson as SameDayAuto[]) {
-    const r = review.get(key(m));
-    if (r === 'rejected' || (m.level !== 'high' && r !== 'confirmed')) continue;
-    list.push({ photo: m.photo, episode: m.episode, score: m.score, status: r === 'confirmed' ? 'confirmed' : 'guess', ambiguous: r === 'confirmed' ? false : m.ambiguous });
-  }
-  for (const r of sameDayReviewJson as SameDayReview[]) {
-    if (r.status === 'confirmed' && !list.some((x) => key(x) === key(r))) list.push({ photo: r.photo, episode: r.episode, score: null, status: 'confirmed', ambiguous: false });
-  }
-  return list.filter((x) => publicIds.has(x.episode));
-})();
+/** 공식 유튜브 채널 최신 영상(scripts/sync-official.mjs가 매시간 채움) */
+export interface OfficialVideo { youtubeId: string; title: string; publishDate: string | null; duration: number | null }
+export const officialVideos = officialVideosJson as OfficialVideo[];
+
+/** 공식 계정. 출처: 공식 유튜브 채널 정보에 걸린 링크, 공식 X·위버스 */
+export const officialAccounts = [
+  { name: '유튜브', handle: '@sa2m2nam3', url: 'https://www.youtube.com/@sa2m2nam3' },
+  { name: 'X', handle: '@sa2m2nam3', url: 'https://x.com/sa2m2nam3' },
+  { name: 'X 일본', handle: '@sa2m2nam3_JP', url: 'https://x.com/sa2m2nam3_JP' },
+  { name: '인스타그램', handle: '@sa2m2nam3', url: 'https://www.instagram.com/sa2m2nam3/' },
+  { name: '틱톡', handle: '@sa2m2nam3', url: 'https://www.tiktok.com/@sa2m2nam3' },
+  { name: '위버스', handle: 'SAY MY NAME', url: 'https://weverse.io/saymyname' },
+  { name: '페이스북', handle: 'official.sa2m2nam3', url: 'https://www.facebook.com/official.sa2m2nam3' },
+  { name: '웨이보', handle: 'SAY MY NAME', url: 'https://weibo.com/u/7962178986' },
+  { name: '일본 팬클럽', handle: 'saymyname.jp', url: 'https://saymyname.jp/' },
+  { name: '소속사 X', handle: '@inkodeofficial', url: 'https://x.com/inkodeofficial' },
+];
+
 
 export const memberById = new Map(members.map((m) => [m.id, m]));
 

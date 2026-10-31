@@ -7,16 +7,19 @@ interface Props { title?: string; description?: string; current?: string }
 const { title, description = '세이마이네임 비공식 팬 아카이브. Romi_Im 채널의 라이브 압축본과 공개 정보를 모아 둡니다.', current = '' } = Astro.props;
 const fullTitle = title ? `${title} · Romi_Im` : 'Romi_Im · 세이마이네임 비공식 팬 아카이브';
 
+// 위쪽 바로가기 막대. 모든 화면에서 항상 보인다.
 const nav = [
+  { key: 'home', label: '홈', path: '/' },
   { key: 'episodes', label: '압축본', path: '/episodes/' },
   { key: 'shorts', label: '쇼츠', path: '/shorts/' },
-  { key: 'photos', label: '사진', path: '/photos/' },
-  { key: 'members', label: '멤버', path: '/members/' },
   { key: 'lives', label: '라이브 기록', path: '/lives/' },
-  { key: 'discography', label: '디스코그래피', path: '/discography/' },
+  { key: 'official', label: '공식 채널', path: '/official/' },
   { key: 'calendar', label: '달력', path: '/calendar/' },
+  { key: 'members', label: '멤버', path: '/members/' },
+  { key: 'discography', label: '디스코그래피', path: '/discography/' },
   { key: 'guide', label: '처음 오신 분께', path: '/guide/' },
   { key: 'about', label: '사이트 소개', path: '/about/' },
+  { key: 'principles', label: '운영 원칙', path: '/principles/' },
 ];
 
 const memberVars = members.map((m) => `--m-${m.id}:${m.color};`).join('');
@@ -60,26 +63,20 @@ const memberCss = `:root{${memberVars}}
           <span class="logo-mark" aria-hidden="true">R</span>
           <span>Romi_Im</span>
         </a>
-        <nav class="links" aria-label="주요 메뉴">
-          {nav.map((n) => (
-            <a href={href(n.path)} data-key={n.key} aria-current={current === n.key ? 'page' : undefined}>{n.label}</a>
-          ))}
-        </nav>
         <div class="nav-actions">
           <button class="icon-btn" id="theme-btn" type="button" aria-label="밝은 모드·어두운 모드 바꾸기">
             <svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></svg>
             <svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
           </button>
-          <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="메뉴 열기">
-            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </button>
         </div>
       </div>
-      <div class="mobile-menu wrap" id="mobile-menu" hidden>
-        <a href={href('/')} data-key="home">홈</a>
-        {nav.map((n) => <a href={href(n.path)} data-key={n.key}>{n.label}</a>)}
-        <a href={href('/principles/')} data-key="principles">운영 원칙</a>
-      </div>
+      <nav class="quickbar" aria-label="전체 메뉴">
+        <div class="wrap quickbar-inner" id="quickbar">
+          {nav.map((n) => (
+            <a href={href(n.path)} data-key={n.key} aria-current={current === n.key ? 'page' : undefined}>{n.label}</a>
+          ))}
+        </div>
+      </nav>
     </header>
 
     <main id="main" transition:name="main">
@@ -117,27 +114,16 @@ const memberCss = `:root{${memberVars}}
             try { localStorage.setItem('theme', next); } catch {}
           });
         }
-        const menuBtn = document.getElementById('menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        if (menuBtn && menu && !menuBtn.dataset.ready) {
-          menuBtn.dataset.ready = '1';
-          menuBtn.addEventListener('click', () => {
-            const open = menuBtn.getAttribute('aria-expanded') === 'true';
-            menuBtn.setAttribute('aria-expanded', String(!open));
-            menuBtn.setAttribute('aria-label', open ? '메뉴 열기' : '메뉴 닫기');
-            menu.hidden = open;
-          });
-        }
-        // 메뉴는 페이지가 바뀌어도 그대로 남으니 현재 위치 표시와 열림 상태를 다시 맞춘다
-        if (menuBtn && menu) {
-          menuBtn.setAttribute('aria-expanded', 'false');
-          menuBtn.setAttribute('aria-label', '메뉴 열기');
-          menu.hidden = true;
-        }
+        // 바로가기 막대는 페이지가 바뀌어도 그대로 남으니 현재 위치 표시를 다시 맞추고, 화면 밖이면 보이게 민다
         const current = document.querySelector<HTMLElement>('[data-current]')?.dataset.current ?? '';
-        document.querySelectorAll<HTMLAnchorElement>('.nav a[data-key]').forEach((a) => {
-          if (a.dataset.key === current) a.setAttribute('aria-current', 'page');
-          else a.removeAttribute('aria-current');
+        const bar = document.getElementById('quickbar');
+        document.querySelectorAll<HTMLAnchorElement>('.quickbar a[data-key]').forEach((a) => {
+          if (a.dataset.key !== current) { a.removeAttribute('aria-current'); return; }
+          a.setAttribute('aria-current', 'page');
+          if (bar) {
+            const left = a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2;
+            bar.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+          }
         });
       }
       document.addEventListener('astro:page-load', setup);
@@ -155,15 +141,18 @@ const memberCss = `:root{${memberVars}}
     -webkit-backdrop-filter: saturate(180%) blur(18px);
     border-bottom: 1px solid var(--line);
   }
-  .nav-inner { display: flex; align-items: center; gap: 16px; height: 60px; }
+  .nav-inner { display: flex; align-items: center; gap: 16px; height: 52px; }
   .logo { display: inline-flex; align-items: center; gap: 9px; font-weight: 800; font-size: 18px; text-decoration: none; letter-spacing: -0.02em; flex: none; }
   .logo-mark { width: 28px; height: 28px; border-radius: 8px; background: var(--accent); color: #18181b; display: grid; place-items: center; font-size: 16px; }
-  .links { display: none; gap: 2px; margin-left: 8px; align-self: stretch; align-items: stretch; overflow-x: auto; scrollbar-width: none; }
-  .links a, .mobile-menu a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 15px; border-radius: 999px; }
-  .links a { padding: 0 10px; white-space: nowrap; display: flex; align-items: center; }
-  .links a:hover { color: var(--text); }
-  .links a[aria-current='page'] { color: var(--text); font-weight: 700; box-shadow: inset 0 -2px 0 var(--accent); border-radius: 0; }
-  .mobile-menu a[aria-current='page'] { font-weight: 800; box-shadow: inset 3px 0 0 var(--accent); }
+  .quickbar { border-top: 1px solid var(--line); }
+  .quickbar-inner { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .quickbar-inner::-webkit-scrollbar { display: none; }
+  .quickbar a {
+    flex: none; padding: 10px 11px; white-space: nowrap; text-decoration: none;
+    color: var(--muted); font-weight: 600; font-size: 15px;
+  }
+  .quickbar a:hover { color: var(--text); }
+  .quickbar a[aria-current='page'] { color: var(--text); font-weight: 800; box-shadow: inset 0 -2px 0 var(--accent); }
   .nav-actions { margin-left: auto; display: flex; gap: 4px; }
   .icon-btn { width: 40px; height: 40px; border-radius: 12px; border: 0; background: transparent; color: var(--text); display: grid; place-items: center; cursor: pointer; }
   .icon-btn:hover { background: var(--bg-soft); }
@@ -173,14 +162,6 @@ const memberCss = `:root{${memberVars}}
   @media (prefers-color-scheme: dark) {
     :global(:root:not([data-theme='light'])) .i-sun { display: none; }
     :global(:root:not([data-theme='light'])) .i-moon { display: block; }
-  }
-  .mobile-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding-top: 4px; padding-bottom: 14px; }
-  .mobile-menu[hidden] { display: none; }
-  .mobile-menu a { padding: 11px 14px; background: var(--bg-soft); border-radius: 10px; color: var(--text); }
-  @media (min-width: 1000px) {
-    .links { display: flex; }
-    .menu-btn { display: none; }
-    .mobile-menu { display: none !important; }
   }
   .footer { border-top: 1px solid var(--line); padding: 28px 0 40px; font-size: 14px; color: var(--muted); }
   .footer-links { display: flex; flex-wrap: wrap; gap: 6px; font-weight: 600; color: var(--text); }

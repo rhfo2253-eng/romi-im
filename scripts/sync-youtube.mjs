@@ -53,17 +53,22 @@ const toSeconds = (t) => t?.match(/^\d+(:\d{2}){1,2}$/) ? t.split(':').reduce((a
 /** 썸네일 위 길이 표시 (동영상 탭에만 있음) */
 export const lengths = new Map();
 
-/** 채널 탭(videos, shorts)의 영상 id 목록. 다음 페이지가 있으면 끝까지 넘긴다. */
-async function listTab(tab) {
-  const html = await (await fetch(`https://www.youtube.com/@${HANDLE}/${tab}`, { headers: { 'accept-language': 'ko-KR' } })).text();
+/** 동영상 탭에서 읽은 제목 */
+export const titles = new Map();
+
+/** 채널 탭(videos, shorts)의 영상 id 목록. 다음 페이지가 있으면 maxPages까지 넘긴다. */
+export async function listTab(tab, handle = HANDLE, maxPages = 20) {
+  const html = await (await fetch(`https://www.youtube.com/@${handle}/${tab}`, { headers: { 'accept-language': 'ko-KR' } })).text();
   const start = html.indexOf('ytInitialData = ');
   if (start < 0) throw new Error(`${tab} 탭을 읽지 못함`);
   let data = JSON.parse(html.slice(start + 'ytInitialData = '.length).match(/^(\{[\s\S]*?\});<\/script>/)[1]);
   const ids = [];
-  for (let page = 0; page < 20; page++) {
+  for (let page = 0; page < maxPages; page++) {
     for (const l of findAll(data, 'lockupViewModel')) {
       if (!l.contentId) continue;
       ids.push(l.contentId);
+      const title = l.metadata?.lockupMetadataViewModel?.title?.content;
+      if (title) titles.set(l.contentId, title);
       const sec = toSeconds(findAll(l, 'thumbnailBadgeViewModel')[0]?.text);
       if (sec) lengths.set(l.contentId, sec);
     }
@@ -84,7 +89,7 @@ function parseKoreanDate(text) {
 }
 
 /** 영상 한 개의 제목, 공개일, 설명란, 설명란 속 링크 */
-async function videoInfo(id) {
+export async function videoInfo(id) {
   const d = await innertube('next', { videoId: id });
   const desc = findAll(d, 'attributedDescription')[0];
   const title = findAll(d, 'videoPrimaryInfoRenderer').flatMap((r) => r.title?.runs ?? []).map((r) => r.text).join('')
@@ -136,10 +141,25 @@ export function membersIn(text) {
     .map(([id]) => id);
 }
 
+/** 설명란의 멤버 해시태그(#메이 #도희 …). 채널 주인이 직접 단 태그라 제목 속 언급보다 정확하다. */
+export function membersFromHashtags(description) {
+  const tags = new Set([...description.matchAll(/#([^\s#]+)/g)].map((m) => m[1]));
+  return Object.entries(MEMBER_NAMES)
+    .filter(([, names]) => names.some((n) => tags.has(n)))
+    .map(([id]) => id);
+}
+
 /** 공개(또는 일부 공개) 영상이면 true, 비공개·삭제면 false */
 async function isWatchable(id) {
   const res = await fetch(`https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`);
   return res.ok;
+}
+
+/** 멤버: 설명란 해시태그가 있으면 그것, 없으면 제목에 나온 이름 */
+function pickMembers(info) {
+  const tagged = membersFromHashtags(info.description);
+  if (tagged.length) return { members: tagged, membersFrom: 'hashtag' };
+  return { members: membersIn(info.title), membersFrom: 'title' };
 }
 
 const weverseOf = (info) => info.links.find((u) => u.includes('weverse.io/saymyname/live/')) ?? null;
@@ -160,7 +180,8 @@ async function main() {
     const e = byYoutube.get(id);
     const d = e?.data;
     if (d && d.duration == null && lengths.has(id)) { d.duration = lengths.get(id); mark(e, '길이'); }
-    const needs = !d || !d.publishDate || d.chapters.some((c) => c.time == null) || !d.weverseUrl;
+    // membersFrom: hashtag(설명란 태그) / title(제목으로 추정) / manual(주인이 고침, 자동으로 안 바꿈)
+    const needs = !d || !d.publishDate || d.chapters.some((c) => c.time == null) || !d.weverseUrl || !d.membersFrom;
     if (!needs) continue;
     const info = await videoInfo(id);
     const chapters = parseChapters(info.description);
@@ -173,7 +194,7 @@ async function main() {
         publishDate: info.publishDate,
         youtubeId: id,
         duration: lengths.get(id) ?? null,
-        members: membersIn(`${info.title} ${info.description}`),
+        ...pickMembers(info),
         anniversary: null,
         chapters: chapters ?? [],
         shorts: [],
@@ -194,9 +215,12 @@ async function main() {
     if (!d.publishDate && info.publishDate) { d.publishDate = info.publishDate; touched = true; }
     if (chapters && d.chapters.some((c) => c.time == null)) { d.chapters = chapters; touched = true; }
     if (!d.weverseUrl && weverseOf(info)) { d.weverseUrl = weverseOf(info); touched = true; }
-    if (!d.members.length) {
-      const found = membersIn(`${info.title} ${info.description}`);
-      if (found.length) { d.members = found; touched = true; }
+    if (!d.membersFrom) {
+      const picked = pickMembers(info);
+      // 태그가 없으면 이미 있는 멤버(정리 파일에서 온 것)를 그대로 두고 출처만 남긴다
+      if (picked.membersFrom === 'hashtag' || !d.members.length) Object.assign(d, picked);
+      else d.membersFrom = 'file';
+      touched = true;
     }
     if (touched) mark(e, '갱신');
   }
@@ -210,13 +234,23 @@ async function main() {
     if (!(await isWatchable(d.youtubeId))) { d.publishDate = null; mark(e, '비공개로 숨김'); }
   }
 
-  for (const id of await listTab('shorts')) {
+  const shortIds = await listTab('shorts');
+  const listedShorts = new Set(shortIds);
+  // 쇼츠 공개 여부: 채널 Shorts 탭에 있으면 공개, 없으면 영상 상태를 확인(예약·비공개면 숨김)
+  for (const e of episodes) {
+    for (const s of e.data.shorts) {
+      const isPublic = listedShorts.has(s.youtubeId) || (await isWatchable(s.youtubeId));
+      if (s.public !== isPublic) { s.public = isPublic; mark(e, isPublic ? '쇼츠 공개' : '쇼츠 숨김'); }
+    }
+  }
+
+  for (const id of shortIds) {
     if (knownShorts.has(id)) continue;
     const info = await videoInfo(id);
     const main = info.links.map((u) => u.match(/(?:watch\?v=|youtu\.be\/)([\w-]{11})/)?.[1]).find((v) => v && byYoutube.has(v));
     if (!main) continue;
     const e = byYoutube.get(main);
-    e.data.shorts.push({ youtubeId: id, title: info.title.replace(/\s*#\S+/g, '').trim() });
+    e.data.shorts.push({ youtubeId: id, title: info.title.replace(/\s*#\S+/g, '').trim(), public: true });
     knownShorts.add(id);
     mark(e, '쇼츠 추가');
   }

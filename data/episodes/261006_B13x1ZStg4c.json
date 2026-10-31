@@ -66,22 +66,27 @@
   "shorts": [
     {
       "youtubeId": "1i6iH5uthv8",
-      "title": "와사비 안 맵다더니… 🥵"
+      "title": "와사비 안 맵다더니… 🥵",
+      "public": true
     },
     {
       "youtubeId": "xXfb6SPtfAg",
-      "title": "직접 부르는 셀프 생일 노래 🎂"
+      "title": "직접 부르는 셀프 생일 노래 🎂",
+      "public": true
     },
     {
       "youtubeId": "-S_IW995mGE",
-      "title": "생일에 회 시키고 야르 외치는 토미"
+      "title": "생일에 회 시키고 야르 외치는 토미",
+      "public": true
     },
     {
       "youtubeId": "NvkGRdCDOik",
-      "title": "열두 살에 데뷔해 인생의 반을 아이돌로 산 토미"
+      "title": "열두 살에 데뷔해 인생의 반을 아이돌로 산 토미",
+      "public": true
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/4-242206608",
   "thumbnail": null,
-  "no": 5
+  "no": 5,
+  "membersFrom": "hashtag"
 }

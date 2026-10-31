@@ -4,7 +4,7 @@ import EpisodeCard from '../components/EpisodeCard.astro';
 import MemberDots from '../components/MemberDots.astro';
 import SampleBadge from '../components/SampleBadge.astro';
 import Thumb from '../components/Thumb.astro';
-import { episodes, members, lives, events, discography, photos, href, episodeHref, formatDate, channelUrl } from '../lib/data';
+import { episodes, members, lives, events, discography, officialAccounts, href, episodeHref, formatDate, channelUrl } from '../lib/data';
 
 const [latest, ...rest] = episodes;
 const recent = rest.slice(0, 4);
@@ -14,7 +14,7 @@ const scheduleCount = events.filter((e) => e.type === 'broadcast' || e.type === 
 const menu = [
   { name: '압축본', count: `${episodes.length}편`, desc: '장면 이름 검색, 멤버·월별 보기', path: '/episodes/' },
   { name: '쇼츠', count: `${shortsCount}개`, desc: '압축본에서 나온 세로 영상', path: '/shorts/' },
-  { name: '사진', count: `게시물 ${photos.length}개`, desc: '공식 X·인스타그램 게시물', path: '/photos/' },
+  { name: '공식 채널', count: `계정 ${officialAccounts.length}개`, desc: '공식 계정, 공식 유튜브 최신 영상, 공식 SNS 게시물', path: '/official/' },
   { name: '멤버', count: `${members.length}명`, desc: '생일, 멤버 색, 출연 압축본', path: '/members/' },
   { name: '라이브 기록', count: `${lives.length}회`, desc: '압축본 없는 라이브 포함 전체 목록', path: '/lives/' },
   { name: '디스코그래피', count: `${discography.length}개`, desc: '발매일, 타이틀곡, 뮤직비디오', path: '/discography/' },

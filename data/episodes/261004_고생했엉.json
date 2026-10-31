@@ -9,9 +9,9 @@
   "duration": 739,
   "members": [
     "hitomi",
-    "junhwi",
     "mei",
-    "soha"
+    "soha",
+    "junhwi"
   ],
   "anniversary": null,
   "chapters": [
@@ -59,17 +59,21 @@
   "shorts": [
     {
       "youtubeId": "hmtJSWJWuJo",
-      "title": "야식 먹다 시작된 치즈 늘어나기 경쟁"
+      "title": "야식 먹다 시작된 치즈 늘어나기 경쟁",
+      "public": true
     },
     {
       "youtubeId": "7DE_1998pg8",
-      "title": "한 달 동안 양배추만 3킬로 먹은 토미"
+      "title": "한 달 동안 양배추만 3킬로 먹은 토미",
+      "public": true
     },
     {
       "youtubeId": "hiIfTK6Yvgw",
-      "title": "팬콘 안 오면 많이 후회할 거예요"
+      "title": "팬콘 안 오면 많이 후회할 거예요",
+      "public": true
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/3-242073609",
-  "thumbnail": null
+  "thumbnail": null,
+  "membersFrom": "hashtag"
 }

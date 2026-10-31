@@ -77,17 +77,21 @@
   "shorts": [
     {
       "youtubeId": "QTQ3xVIPYck",
-      "title": "돼지 토끼라고 부르지 마세요 메이의 볼살 토끼 케이크"
+      "title": "돼지 토끼라고 부르지 마세요 메이의 볼살 토끼 케이크",
+      "public": true
     },
     {
       "youtubeId": "hf31JePSHK8",
-      "title": "직접 부르는 생일 노래 반짝반짝 아이돌 메이짱"
+      "title": "직접 부르는 생일 노래 반짝반짝 아이돌 메이짱",
+      "public": true
     },
     {
       "youtubeId": "Youfluak-mM",
-      "title": "토미 언니 생일 축하 글 보고 펑펑 운 메이"
+      "title": "토미 언니 생일 축하 글 보고 펑펑 운 메이",
+      "public": true
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/4-241793054",
-  "thumbnail": null
+  "thumbnail": null,
+  "membersFrom": "hashtag"
 }

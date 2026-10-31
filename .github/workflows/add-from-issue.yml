@@ -1,0 +1,52 @@
+name: 양식으로 라이브·사진 추가
+
+# 이슈 양식("라이브 기록 추가", "사진(공식 게시물) 추가")을 제출하면 data/에 넣고 사이트를 다시 올린다.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: data-edit
+  cancel-in-progress: false
+
+jobs:
+  add:
+    # 저장소 주인이 올린 양식만 처리한다
+    # 양식 제목으로 구분한다(라벨은 저장소에 미리 만들어 둬야 붙어서 쓰지 않음)
+    if: >-
+      github.event.issue.user.login == github.repository_owner &&
+      (startsWith(github.event.issue.title, '라이브 추가') || startsWith(github.event.issue.title, '사진 추가'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 데이터에 넣기
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_LABEL: ${{ startsWith(github.event.issue.title, '라이브 추가') && 'add-live' || 'add-photo' }}
+          ISSUE_DATE: ${{ github.event.issue.created_at }}
+        run: node scripts/add-from-issue.mjs
+      - name: 저장
+        run: |
+          if [ -n "$(git status --porcelain data)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data
+            git commit -m "양식으로 추가: ${{ github.event.issue.title }} (#${{ github.event.issue.number }})"
+            git pull --rebase
+            git push
+          fi
+      - name: 결과 남기고 이슈 닫기, 사이트 다시 올리기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body-file result.md
+          gh issue close ${{ github.event.issue.number }}
+          gh workflow run deploy.yml

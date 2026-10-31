@@ -5,11 +5,16 @@
   "publishDate": "2025-07-02",
   "youtubeId": "WzV7xp6K-VI",
   "duration": 754,
-  "members": [],
+  "members": [
+    "hitomi",
+    "mei",
+    "soha",
+    "dohee"
+  ],
   "anniversary": null,
   "chapters": [],
   "shorts": [],
   "weverseUrl": "https://weverse.io/saymyname/live/3-203189362",
   "thumbnail": null,
-  "membersFrom": "title"
+  "membersFrom": "manual"
 }

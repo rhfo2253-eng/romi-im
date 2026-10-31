@@ -5,11 +5,16 @@
   "publishDate": "2025-08-17",
   "youtubeId": "64xtTjTKaj8",
   "duration": 1385,
-  "members": [],
+  "members": [
+    "soha",
+    "dohee",
+    "junhwi",
+    "seungju"
+  ],
   "anniversary": null,
   "chapters": [],
   "shorts": [],
   "weverseUrl": "https://weverse.io/saymyname/live/4-195285856",
   "thumbnail": null,
-  "membersFrom": "title"
+  "membersFrom": "manual"
 }

@@ -5,11 +5,17 @@
   "publishDate": "2025-08-24",
   "youtubeId": "S96daSM2Dd4",
   "duration": 1195,
-  "members": [],
+  "members": [
+    "mei",
+    "kanny",
+    "soha",
+    "junhwi",
+    "seungju"
+  ],
   "anniversary": null,
   "chapters": [],
   "shorts": [],
   "weverseUrl": "https://weverse.io/saymyname/live/0-163253994",
   "thumbnail": null,
-  "membersFrom": "title"
+  "membersFrom": "manual"
 }

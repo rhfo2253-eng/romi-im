@@ -5,11 +5,13 @@
   "publishDate": "2026-01-21",
   "youtubeId": "cGPbew9q1oc",
   "duration": 1656,
-  "members": [],
+  "members": [
+    "mei"
+  ],
   "anniversary": null,
   "chapters": [],
   "shorts": [],
   "weverseUrl": "https://weverse.io/saymyname/live/0-168023999",
   "thumbnail": null,
-  "membersFrom": "title"
+  "membersFrom": "manual"
 }

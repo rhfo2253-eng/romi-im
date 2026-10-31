@@ -5,11 +5,15 @@
   "publishDate": "2025-07-21",
   "youtubeId": "20oBcMCs0xA",
   "duration": 2250,
-  "members": [],
+  "members": [
+    "hitomi",
+    "dohee",
+    "junhwi"
+  ],
   "anniversary": null,
   "chapters": [],
   "shorts": [],
   "weverseUrl": "https://weverse.io/saymyname/live/4-198821929",
   "thumbnail": null,
-  "membersFrom": "title"
+  "membersFrom": "manual"
 }

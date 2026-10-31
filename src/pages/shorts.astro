@@ -1,45 +1,15 @@
 ---
-import Base from '../layouts/Base.astro';
-import MemberDots from '../components/MemberDots.astro';
-import SampleBadge from '../components/SampleBadge.astro';
-import { episodes, episodeHref, formatDate } from '../lib/data';
-
-const shorts = episodes.flatMap((e) => e.shorts.map((s) => ({ ...s, episode: e })));
+import { href } from '../lib/data';
+// 쇼츠 모아보기 페이지는 없앴다. 쇼츠는 각 압축본 페이지와 멤버 페이지에서 본다.
+const to = href('/episodes/');
 ---
-<Base title="쇼츠 모아보기" current="shorts">
-  <header class="page-head">
-    <h1>쇼츠 모아보기</h1>
-    <p>압축본에서 나온 세로 영상입니다. 카드 아래 "본편 보기"를 누르면 원래 압축본으로 갑니다.</p>
-  </header>
-
-  {shorts.length === 0 ? <p class="empty">등록된 쇼츠가 없습니다.</p> : (
-    <div class="shorts">
-      {shorts.map((s) => (
-        <article class="card lift short">
-          <a class="vert" href={s.episode.sample ? episodeHref(s.episode.id) : `https://www.youtube.com/shorts/${s.youtubeId}`} target={s.episode.sample ? undefined : '_blank'} rel="noopener" aria-label={`${s.title} 쇼츠 보기`}>
-            {s.episode.sample
-              ? <div class="thumb-placeholder"><span>샘플 쇼츠</span></div>
-              : <img src={`https://i.ytimg.com/vi/${s.youtubeId}/oardefault.jpg`} alt="" loading="lazy" />}
-          </a>
-          <div class="body">
-            <SampleBadge show={!!s.episode.sample} />
-            <h2>{s.title}</h2>
-            <MemberDots ids={s.episode.members} />
-            <a class="to-main" href={episodeHref(s.episode.id)}>본편 보기 · {formatDate(s.episode.liveDate)}</a>
-          </div>
-        </article>
-      ))}
-    </div>
-  )}
-</Base>
-
-<style>
-  .shorts { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  @media (min-width: 640px) { .shorts { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); } }
-  .short { padding: 6px; display: flex; flex-direction: column; }
-  .vert { display: block; aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; background: var(--bg-soft); }
-  .vert img { width: 100%; height: 100%; object-fit: cover; }
-  .body { padding: 10px 6px 6px; display: grid; gap: 6px; justify-items: start; }
-  h2 { font-size: 15px; font-weight: 700; }
-  .to-main { font-size: 13px; font-weight: 700; color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
-</style>
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+    <title>압축본으로 이동</title>
+  </head>
+  <body><a href={to}>압축본 페이지로 이동</a></body>
+</html>

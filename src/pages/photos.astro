@@ -1,7 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import MemberDots from '../components/MemberDots.astro';
-import { photos, members, formatDate } from '../lib/data';
+import { photos, members, formatDate, sameDay, episodes, episodeHref } from '../lib/data';
+
+const episodeById = new Map(episodes.map((e) => [e.id, e]));
+const matchesOf = (url: string) => sameDay.filter((m) => m.photo === url).flatMap((m) => {
+  const e = episodeById.get(m.episode);
+  return e ? [{ ...m, e }] : [];
+});
 
 const official = [
   { name: 'X', url: 'https://x.com/sa2m2nam3' },
@@ -15,6 +21,7 @@ const platformName = { x: 'X', instagram: '인스타그램', weverse: '위버스
   <header class="page-head">
     <h1>사진</h1>
     <p>세이마이네임 공식 X·인스타그램 게시물입니다. 사진 파일은 이 사이트에 저장하지 않고 원래 게시물을 그대로 띄웁니다. 게시물이 지워지면 여기서도 사라집니다.</p>
+    <p class="small">사진 아래 "같은 날로 보이는 라이브"는 사진과 라이브 영상 장면의 옷·머리·장소를 비교해 자동으로 추정한 것입니다. 사진이 올라온 날 하루 전부터 7일 뒤까지의 라이브만 비교합니다. 틀릴 수 있습니다.</p>
   </header>
 
   <ul class="official">
@@ -48,6 +55,24 @@ const platformName = { x: 'X', instagram: '인스타그램', weverse: '위버스
               <a href={p.url}>{p.note ?? '공식 인스타그램 게시물'} (불러오는 중)</a>
             </blockquote>
           )}
+          {(() => {
+            const ms = matchesOf(p.url);
+            if (!ms.length) return null;
+            const ambiguous = ms.some((m) => m.ambiguous);
+            return (
+              <div class="sameday">
+                <strong>{ambiguous ? '같은 옷이 여러 날 라이브에 보입니다' : '같은 날로 보이는 라이브'}</strong>
+                <ul>
+                  {ms.map((m) => (
+                    <li>
+                      <a href={episodeHref(m.e.id)}>{formatDate(m.e.liveDate)} · {m.e.title}</a>
+                      <span class="muted">{m.status === 'confirmed' ? ' (확인됨)' : ` (추정 · 비슷함 ${Math.round((m.score ?? 0) * 100)}점)`}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })()}
           {p.platform === 'weverse' && (
             <a class="card lift link" href={p.url} target="_blank" rel="noopener">
               <strong>위버스에서 보기 ↗</strong>
@@ -118,4 +143,8 @@ const platformName = { x: 'X', instagram: '인스타그램', weverse: '위버스
   .post :global(.twitter-tweet), .post :global(.instagram-media) { margin: 0 !important; }
   blockquote { margin: 0; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); font-size: 14px; }
   .link { padding: 16px; display: grid; gap: 4px; }
+  .small { font-size: 13px; }
+  .sameday { margin-top: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); font-size: 14px; }
+  .sameday ul { margin: 4px 0 0; padding-left: 1.1em; }
+  .sameday a { font-weight: 600; }
 </style>

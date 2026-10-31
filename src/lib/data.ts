@@ -3,6 +3,8 @@ import livesJson from '../../data/lives.json';
 import discographyJson from '../../data/discography.json';
 import eventsJson from '../../data/events.json';
 import photosJson from '../../data/photos.json';
+import sameDayJson from '../../data/sameday.json';
+import sameDayReviewJson from '../../data/sameday-review.json';
 
 export interface Fact { label: string; value: string; source: string }
 export interface Member {
@@ -53,6 +55,32 @@ export interface Photo {
   url: string; platform: 'x' | 'instagram' | 'weverse'; date: string; members: string[]; note?: string;
 }
 export const photos = (photosJson as Photo[]).toSorted((a, b) => b.date.localeCompare(a.date));
+
+/**
+ * 같은 날 추정: 자동 결과(scripts/sameday.mjs)에 주인 확인(data/sameday-review.json)을 덮어쓴다.
+ * - confirmed: 주인이 확인한 짝(자동 결과에 없어도 표시)
+ * - rejected: 주인이 아니라고 한 짝(표시 안 함)
+ * - 그 밖에는 자동 결과 중 기준을 넘은 것(high)만 표시
+ */
+export interface SameDay {
+  photo: string; episode: string; score: number | null; status: 'confirmed' | 'guess'; ambiguous: boolean;
+}
+interface SameDayAuto { photo: string; episode: string; score: number; outfit: number; level: 'high' | 'check'; ambiguous: boolean }
+interface SameDayReview { photo: string; episode: string; status: 'confirmed' | 'rejected' }
+export const sameDay: SameDay[] = (() => {
+  const key = (x: { photo: string; episode: string }) => `${x.photo} ${x.episode}`;
+  const review = new Map((sameDayReviewJson as SameDayReview[]).map((r) => [key(r), r.status]));
+  const list: SameDay[] = [];
+  for (const m of sameDayJson as SameDayAuto[]) {
+    const r = review.get(key(m));
+    if (r === 'rejected' || (m.level !== 'high' && r !== 'confirmed')) continue;
+    list.push({ photo: m.photo, episode: m.episode, score: m.score, status: r === 'confirmed' ? 'confirmed' : 'guess', ambiguous: r === 'confirmed' ? false : m.ambiguous });
+  }
+  for (const r of sameDayReviewJson as SameDayReview[]) {
+    if (r.status === 'confirmed' && !list.some((x) => key(x) === key(r))) list.push({ photo: r.photo, episode: r.episode, score: null, status: 'confirmed', ambiguous: false });
+  }
+  return list.filter((x) => publicIds.has(x.episode));
+})();
 
 export const memberById = new Map(members.map((m) => [m.id, m]));
 

@@ -29,6 +29,14 @@ jobs:
       - run: npm ci
       - name: 유튜브 새 영상 확인
         run: node scripts/sync-youtube.mjs
+      # 이미지 모델과 이미 계산한 사진·장면 특징을 다음 실행에서 다시 쓴다
+      - uses: actions/cache@v4
+        with:
+          path: .cache
+          key: sameday-${{ github.run_id }}
+          restore-keys: sameday-
+      - name: 같은 날 추정 (사진 ↔ 라이브)
+        run: node scripts/sameday.mjs
       - name: 바뀐 데이터 저장
         run: |
           if [ -n "$(git status --porcelain data)" ]; then

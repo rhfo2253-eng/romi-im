@@ -666,7 +666,11 @@
     "id": "260502_R4GnuG9v9RM",
     "date": "2026-05-02",
     "title": "막내즈의 칸쵸깡 이름 찾기",
-    "members": [],
+    "members": [
+      "dohee",
+      "junhwi",
+      "seungju"
+    ],
     "duration": null,
     "weverseUrl": "https://weverse.io/saymyname/live/4-228703931",
     "episodes": [
@@ -999,7 +1003,9 @@
     "id": "251225_cGPbew9q1oc",
     "date": "2025-12-25",
     "title": "세마넴 라이브 압축",
-    "members": [],
+    "members": [
+      "mei"
+    ],
     "duration": null,
     "weverseUrl": "https://weverse.io/saymyname/live/0-168023999",
     "episodes": [
@@ -1334,7 +1340,13 @@
     "id": "250823_S96daSM2Dd4",
     "date": "2025-08-23",
     "title": "세미 릴레이 라이브",
-    "members": [],
+    "members": [
+      "mei",
+      "kanny",
+      "soha",
+      "junhwi",
+      "seungju"
+    ],
     "duration": null,
     "weverseUrl": "https://weverse.io/saymyname/live/0-163253994",
     "episodes": [
@@ -1391,6 +1403,7 @@
     "date": "2025-08-08",
     "title": "라이브 방송으로 돌아온 도희",
     "members": [
+      "mei",
       "dohee"
     ],
     "duration": null,
@@ -1426,7 +1439,12 @@
     "id": "250701_WzV7xp6K-VI",
     "date": "2025-07-01",
     "title": "실전압축 세마넴 라이브",
-    "members": [],
+    "members": [
+      "hitomi",
+      "mei",
+      "soha",
+      "dohee"
+    ],
     "duration": null,
     "weverseUrl": "https://weverse.io/saymyname/live/3-203189362",
     "episodes": [
@@ -1468,7 +1486,10 @@
     "date": "2025-06-14",
     "title": "히부장님 신난 날 = 명절 분위기",
     "members": [
-      "hitomi"
+      "mei",
+      "soha",
+      "dohee",
+      "junhwi"
     ],
     "duration": null,
     "weverseUrl": "https://weverse.io/saymyname/live/4-201615090",

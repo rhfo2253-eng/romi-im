@@ -36,6 +36,42 @@
     "source": "https://www.youtube.com/watch?v=pGD28xs4nsM"
   },
   {
+    "id": "hitomi-lyrics-ufo",
+    "member": "hitomi",
+    "type": "작사",
+    "title": "UFO (ATTENT!ON) (미니 3집 &Our Vibe 타이틀곡)",
+    "date": "2025-12-29",
+    "url": null,
+    "source": "https://music.bugs.co.kr/track/6398298"
+  },
+  {
+    "id": "kanny-lyrics-ufo",
+    "member": "kanny",
+    "type": "작사",
+    "title": "UFO (ATTENT!ON) (미니 3집 &Our Vibe 타이틀곡)",
+    "date": "2025-12-29",
+    "url": null,
+    "source": "https://music.bugs.co.kr/track/6398298"
+  },
+  {
+    "id": "dohee-lyrics-ufo",
+    "member": "dohee",
+    "type": "작사",
+    "title": "UFO (ATTENT!ON) (미니 3집 &Our Vibe 타이틀곡)",
+    "date": "2025-12-29",
+    "url": null,
+    "source": "https://music.bugs.co.kr/track/6398298"
+  },
+  {
+    "id": "soha-ost-out-the-door",
+    "member": "soha",
+    "type": "솔로 OST",
+    "title": "문을 나선 순간 (Out the door) — 채널A '여행을 대신해 드립니다' OST Part.6",
+    "date": "2025-08-17",
+    "url": "https://www.youtube.com/watch?v=6xE-89S6i6o",
+    "source": "https://www.etnews.com/20250817000058"
+  },
+  {
     "id": "dohee-cover-tabun",
     "member": "dohee",
     "type": "커버 영상",
@@ -60,15 +96,6 @@
     "title": "난 오늘 밤하늘에서 가장 빛나는 별이 된다 (미니 1집 SAY MY NAME)",
     "date": "2024-10-16",
     "url": null,
-    "source": "https://www.wikitree.co.kr/articles/987384"
-  },
-  {
-    "id": "hitomi-lyrics-8llowme",
-    "member": "hitomi",
-    "type": "작사",
-    "title": "8llowme (미니 1집 SAY MY NAME)",
-    "date": "2024-10-16",
-    "url": null,
-    "source": "https://www.wikitree.co.kr/articles/987384"
+    "source": "https://music.bugs.co.kr/artist/80321906/tracks"
   }
 ]

@@ -3,6 +3,7 @@
 // - 채널 "동영상" 탭에 공개된 영상 = 압축본. 데이터에 없으면 새 파일을 만든다.
 // - 이미 있는 편: 비어 있는 공개일·길이·장면 시간·멤버·위버스 주소를 영상 정보로 채운다.
 //   채널에 없는 편(비공개·예약)은 공개일을 비워 둬서 사이트에 안 보인다.
+// - 공개였다가 비공개·삭제된 편은 공개일을 지워 다시 숨긴다.
 // - 채널 "Shorts" 탭의 쇼츠는 설명란의 본편 링크를 보고 해당 편에 붙인다.
 //
 // 로그인이나 API 키 없이 누구나 볼 수 있는 채널 페이지와 영상 정보만 쓴다.
@@ -135,6 +136,12 @@ export function membersIn(text) {
     .map(([id]) => id);
 }
 
+/** 공개(또는 일부 공개) 영상이면 true, 비공개·삭제면 false */
+async function isWatchable(id) {
+  const res = await fetch(`https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`);
+  return res.ok;
+}
+
 const weverseOf = (info) => info.links.find((u) => u.includes('weverse.io/saymyname/live/')) ?? null;
 
 async function main() {
@@ -194,10 +201,19 @@ async function main() {
     if (touched) mark(e, '갱신');
   }
 
+  // 공개였다가 비공개·삭제된 편은 공개일을 지워 사이트에서 숨긴다.
+  // 채널 목록에 없다는 것만으로는 판단하지 않고(목록을 덜 읽었을 수 있음) 영상 상태를 한 번 더 확인한다.
+  const listed = new Set(videoIds);
+  for (const e of episodes) {
+    const d = e.data;
+    if (d.sample || !d.publishDate || listed.has(d.youtubeId)) continue;
+    if (!(await isWatchable(d.youtubeId))) { d.publishDate = null; mark(e, '비공개로 숨김'); }
+  }
+
   for (const id of await listTab('shorts')) {
     if (knownShorts.has(id)) continue;
     const info = await videoInfo(id);
-    const main = info.links.map((u) => u.match(/watch\?v=([\w-]{11})/)?.[1]).find((v) => v && byYoutube.has(v));
+    const main = info.links.map((u) => u.match(/(?:watch\?v=|youtu\.be\/)([\w-]{11})/)?.[1]).find((v) => v && byYoutube.has(v));
     if (!main) continue;
     const e = byYoutube.get(main);
     e.data.shorts.push({ youtubeId: id, title: info.title.replace(/\s*#\S+/g, '').trim() });

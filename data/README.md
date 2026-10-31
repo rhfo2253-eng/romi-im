@@ -32,6 +32,11 @@
 | `thumbnail` | 따로 쓸 썸네일 주소. `null`이면 유튜브 썸네일(채널이 만든 것)을 씀 | `null` |
 | `sample` | 샘플이면 `true`(실제 편에는 빼기) | |
 
+**자동 갱신**: GitHub Actions가 매시간(`scripts/sync-youtube.mjs`) 채널의 공개 영상을 확인합니다.
+- 이미 있는 편의 영상이 공개되면 `publishDate`를 채워서 사이트에 나타나게 합니다.
+- 영상 설명란에 `0:00 장면 이름` 줄이 3개 이상 있으면 장면 시간을 채웁니다.
+- 제목에 "세마넴 라이브 압축"과 `(YYMMDD)`가 들어간 새 영상은 파일을 새로 만듭니다(멤버는 제목에 나온 이름으로 추정, 쇼츠는 비어 있음).
+
 세마넴라이브압축 작업의 `edl.py`와 연결하면: `TITLE` → `title`, `CHAPTERS` → `chapters`(시간을 초로 바꿔서), `SHORTS` → `shorts`, 업로드 결과 → `youtubeId`.
 
 ## `lives.json` — 전체 위버스 라이브 기록

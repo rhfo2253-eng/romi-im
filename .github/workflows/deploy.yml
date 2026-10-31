@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # 공개일이 된 압축본이 사이트에 나타나도록 매일 00:07(한국 시간)에 다시 올린다
+  # 매시간 유튜브 채널을 확인해 새로 공개된 압축본을 반영하고 다시 올린다
   schedule:
-    - cron: '7 15 * * *'
+    - cron: '7 * * * *'
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -27,6 +27,17 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: 유튜브 새 영상 확인
+        run: node scripts/sync-youtube.mjs
+      - name: 바뀐 데이터 저장
+        run: |
+          if [ -n "$(git status --porcelain data)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data
+            git commit -m "유튜브 새 영상 반영"
+            git push
+          fi
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

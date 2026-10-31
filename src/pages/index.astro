@@ -4,7 +4,7 @@ import EpisodeCard from '../components/EpisodeCard.astro';
 import MemberDots from '../components/MemberDots.astro';
 import SampleBadge from '../components/SampleBadge.astro';
 import Thumb from '../components/Thumb.astro';
-import { episodes, members, lives, events, discography, href, episodeHref, formatDate, channelUrl } from '../lib/data';
+import { episodes, members, lives, events, discography, photos, href, episodeHref, formatDate, channelUrl } from '../lib/data';
 
 const [latest, ...rest] = episodes;
 const recent = rest.slice(0, 4);
@@ -14,6 +14,7 @@ const scheduleCount = events.filter((e) => e.type === 'broadcast' || e.type === 
 const menu = [
   { name: '압축본', count: `${episodes.length}편`, desc: '장면 이름 검색, 멤버·월별 보기', path: '/episodes/' },
   { name: '쇼츠', count: `${shortsCount}개`, desc: '압축본에서 나온 세로 영상', path: '/shorts/' },
+  { name: '사진', count: `게시물 ${photos.length}개`, desc: '공식 X·인스타그램 게시물 모음', path: '/photos/' },
   { name: '멤버', count: `${members.length}명`, desc: '생일, 멤버 색, 출연 압축본', path: '/members/' },
   { name: '라이브 기록', count: `${lives.length}회`, desc: '압축본 없는 라이브 포함 전체 목록', path: '/lives/' },
   { name: '디스코그래피', count: `${discography.length}개`, desc: '발매일, 타이틀곡, 뮤직비디오', path: '/discography/' },
@@ -141,7 +142,9 @@ const days = [
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
   .menu { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  @media (min-width: 720px) { .menu { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  @media (min-width: 720px) { .menu { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+  /* 11칸이라 마지막 칸을 넓혀 줄을 맞춘다 */
+  .menu li:last-child { grid-column: span 2; }
   .item { height: 100%; padding: 14px; display: grid; gap: 2px; align-content: start; }
   .name { font-size: 16px; font-weight: 800; }
   .count { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }

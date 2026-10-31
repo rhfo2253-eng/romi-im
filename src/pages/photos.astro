@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import MemberDots from '../components/MemberDots.astro';
+import { photos, members, formatDate } from '../lib/data';
+
+const official = [
+  { name: 'X', url: 'https://x.com/sa2m2nam3' },
+  { name: 'X (일본)', url: 'https://x.com/sa2m2nam3_JP' },
+  { name: '인스타그램', url: 'https://www.instagram.com/sa2m2nam3/' },
+  { name: '위버스', url: 'https://weverse.io/saymyname' },
+];
+const platformName = { x: 'X', instagram: '인스타그램', weverse: '위버스' } as const;
+---
+<Base title="사진" current="photos">
+  <header class="page-head">
+    <h1>사진</h1>
+    <p>세이마이네임 공식 X·인스타그램 게시물 모음. 사진 파일은 이 사이트에 저장하지 않고 원래 게시물을 그대로 띄움. 게시물이 지워지면 여기서도 안 보임.</p>
+  </header>
+
+  <ul class="official">
+    {official.map((o) => <li><a class="btn" href={o.url} target="_blank" rel="noopener">공식 {o.name} ↗</a></li>)}
+  </ul>
+
+  <div class="chip-row" role="group" aria-label="멤버로 거르기" id="photo-filter">
+    <button class="chip" type="button" data-member="" aria-pressed="true">전체</button>
+    {members.map((m) => (
+      <button class="chip" type="button" data-member={m.id} aria-pressed="false">
+        <span class="dot" style={`background:var(--m-${m.id})`}></span>{m.name}
+      </button>
+    ))}
+  </div>
+
+  {photos.length === 0 ? <p class="empty">등록된 게시물 없음</p> : (
+    <ul class="posts">
+      {photos.map((p) => (
+        <li class="post" data-members={p.members.join(' ')}>
+          <div class="meta">
+            <span>{formatDate(p.date)} · {platformName[p.platform]}</span>
+            <MemberDots ids={p.members} />
+          </div>
+          {p.platform === 'x' && (
+            <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none">
+              <a href={p.url.replace('://x.com/', '://twitter.com/')}>{p.note ?? '공식 X 게시물'} (불러오는 중)</a>
+            </blockquote>
+          )}
+          {p.platform === 'instagram' && (
+            <blockquote class="instagram-media" data-instgrm-permalink={p.url} data-instgrm-version="14">
+              <a href={p.url}>{p.note ?? '공식 인스타그램 게시물'} (불러오는 중)</a>
+            </blockquote>
+          )}
+          {p.platform === 'weverse' && (
+            <a class="card lift link" href={p.url} target="_blank" rel="noopener">
+              <strong>위버스에서 보기 ↗</strong>
+              {p.note && <span class="muted">{p.note}</span>}
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+  <p class="empty" id="photo-none" hidden>이 멤버의 게시물 없음</p>
+</Base>
+
+<script>
+  // X·인스타그램이 제공하는 퍼가기 스크립트. 페이지에 게시물이 있을 때만 한 번 불러온다.
+  function loadScript(src: string) {
+    if (document.querySelector(`script[src="${src}"]`)) return false;
+    const s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    document.body.append(s);
+    return true;
+  }
+
+  function setup() {
+    const filter = document.getElementById('photo-filter');
+    if (!filter) return;
+
+    const w = window as unknown as {
+      twttr?: { widgets?: { load: (el?: Element) => void } };
+      instgrm?: { Embeds?: { process: () => void } };
+    };
+    if (document.querySelector('.twitter-tweet')) {
+      if (!loadScript('https://platform.twitter.com/widgets.js')) w.twttr?.widgets?.load();
+    }
+    if (document.querySelector('.instagram-media')) {
+      if (!loadScript('https://www.instagram.com/embed.js')) w.instgrm?.Embeds?.process();
+    }
+
+    const chips = [...filter.querySelectorAll<HTMLButtonElement>('[data-member]')];
+    const posts = [...document.querySelectorAll<HTMLElement>('.post')];
+    const none = document.getElementById('photo-none')!;
+    chips.forEach((c) => c.addEventListener('click', () => {
+      const id = c.dataset.member || '';
+      chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      let shown = 0;
+      posts.forEach((p) => {
+        const ok = !id || (p.dataset.members || '').split(' ').includes(id);
+        p.hidden = !ok;
+        if (ok) shown++;
+      });
+      none.hidden = shown > 0 || posts.length === 0;
+    }));
+  }
+  document.addEventListener('astro:page-load', setup);
+</script>
+
+<style>
+  .official { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .official .btn { font-size: 14px; padding: 7px 12px; }
+  #photo-filter { margin-bottom: 18px; }
+  .posts { list-style: none; margin: 0; padding: 0; columns: 1; column-gap: 16px; }
+  @media (min-width: 720px) { .posts { columns: 2; } }
+  @media (min-width: 1000px) { .posts { columns: 3; } }
+  .post { break-inside: avoid; margin-bottom: 16px; }
+  .post[hidden] { display: none; }
+  .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .post :global(.twitter-tweet), .post :global(.instagram-media) { margin: 0 !important; }
+  blockquote { margin: 0; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); font-size: 14px; }
+  .link { padding: 16px; display: grid; gap: 4px; }
+</style>

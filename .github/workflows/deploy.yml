@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # 공개일이 된 압축본이 사이트에 나타나도록 매일 00:07(한국 시간)에 다시 올린다
+  schedule:
+    - cron: '7 15 * * *'
 
 permissions:
   contents: read

@@ -10,7 +10,6 @@ const episodeTitle = new Map(episodes.map((e) => [e.id, e.title]));
   <header class="page-head">
     <h1>라이브 기록</h1>
     <p>위버스 라이브 전체 목록입니다. 압축본이 없는 라이브도 들어 있고, 압축본이 있으면 "압축본 보기" 링크가 붙습니다.</p>
-    <p class="small"><a href="https://github.com/rhfo2253-eng/romi-im/issues/new?template=live.yml" target="_blank" rel="noopener">빠진 라이브 추가하기 ↗</a></p>
   </header>
   {lives.length === 0 ? <p class="empty">등록된 라이브가 없습니다.</p> : (
     <ol class="lives">
@@ -64,5 +63,4 @@ const episodeTitle = new Map(episodes.map((e) => [e.id, e.title]));
   .actions { display: flex; gap: 6px; flex-wrap: wrap; }
   .actions a { text-decoration: none; }
   .strong { color: var(--text); border-color: var(--line-strong); font-weight: 700; }
-  .small { font-size: 14px; }
 </style>

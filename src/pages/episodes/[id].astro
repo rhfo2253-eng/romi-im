@@ -46,7 +46,7 @@ const embed = (id: string, start = 0, autoplay = false) =>
         <div class="members-row">
           <MemberDots ids={e.members} names />
           {(e.membersFrom === 'title' || !e.members.length) && !e.sample && (
-            <a class="unverified" href="https://github.com/rhfo2253-eng/romi-im/issues/new?template=members.yml" target="_blank" rel="noopener">{e.members.length ? '멤버 미확인 (제목으로 추정)' : '멤버 미확인'}</a>
+            <span class="unverified">{e.members.length ? '멤버 미확인 (제목으로 추정)' : '멤버 미확인'}</span>
           )}
         </div>
         <div class="links">

@@ -7,7 +7,15 @@
   "publishDate": "2026-10-26",
   "youtubeId": "7XoR3_HRTnE",
   "duration": 697,
-  "members": [],
+  "members": [
+    "hitomi",
+    "mei",
+    "kanny",
+    "soha",
+    "dohee",
+    "junhwi",
+    "seungju"
+  ],
   "anniversary": "데뷔 2주년",
   "chapters": [
     {
@@ -66,5 +74,5 @@
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/1-181036825",
   "thumbnail": null,
-  "membersFrom": "title"
+  "membersFrom": "manual"
 }

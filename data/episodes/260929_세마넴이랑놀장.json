@@ -92,23 +92,28 @@
   "shorts": [
     {
       "youtubeId": "l0vIq4JXGKk",
-      "title": "다리가 간지럽다더니 엄마!!!"
+      "title": "다리가 간지럽다더니 엄마!!!",
+      "public": false
     },
     {
       "youtubeId": "rrOBBAk7b-g",
-      "title": "하트 만들어 달랬더니 세마넴 다섯 명"
+      "title": "하트 만들어 달랬더니 세마넴 다섯 명",
+      "public": false
     },
     {
       "youtubeId": "i9mKh-LuZDw",
-      "title": "과자로 입술 만들기 메이까지 합류"
+      "title": "과자로 입술 만들기 메이까지 합류",
+      "public": false
     },
     {
       "youtubeId": "ozjU7S6bloo",
-      "title": "소하한테 안 어울리는 직업 세스코 직원?"
+      "title": "소하한테 안 어울리는 직업 세스코 직원?",
+      "public": false
     },
     {
       "youtubeId": "e2q2BEjSB3A",
-      "title": "거미는 절대 안 죽였는데 태어나서 처음 거미를"
+      "title": "거미는 절대 안 죽였는데 태어나서 처음 거미를",
+      "public": false
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/3-241884786",

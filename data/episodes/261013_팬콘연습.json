@@ -58,17 +58,21 @@
   "shorts": [
     {
       "youtubeId": "wC-RKeFM4Aw",
-      "title": "갑자기 잠자리 사진을 받은 토미의 반응"
+      "title": "갑자기 잠자리 사진을 받은 토미의 반응",
+      "public": true
     },
     {
       "youtubeId": "-Vgk0d9XdWE",
-      "title": "팬콘 스포 해 달라는 로미에게 승주였으면 그냥 말했을 거예요"
+      "title": "팬콘 스포 해 달라는 로미에게 승주였으면 그냥 말했을 거예요",
+      "public": true
     },
     {
       "youtubeId": "C-fVGGOBGis",
-      "title": "5시간 연습하고 켠 라이브 죄송합니다 무한 반복"
+      "title": "5시간 연습하고 켠 라이브 죄송합니다 무한 반복",
+      "public": true
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/1-180971234",
-  "thumbnail": null
+  "thumbnail": null,
+  "membersFrom": "hashtag"
 }

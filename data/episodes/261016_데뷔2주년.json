@@ -50,17 +50,21 @@
   "shorts": [
     {
       "youtubeId": "CuV957BPnU8",
-      "title": "50주년에도 춤출 수 있을까? 지팡이 들고 하는 세마넴"
+      "title": "50주년에도 춤출 수 있을까? 지팡이 들고 하는 세마넴",
+      "public": true
     },
     {
       "youtubeId": "iu8B-jfepLg",
-      "title": "공연장엔 음식 반입 금지라서 종이 케이크 받은 세마넴"
+      "title": "공연장엔 음식 반입 금지라서 종이 케이크 받은 세마넴",
+      "public": true
     },
     {
       "youtubeId": "F4WN6-yK_rU",
-      "title": "13년생 로미 등장에 1학년 조용히 해 주세요"
+      "title": "13년생 로미 등장에 1학년 조용히 해 주세요",
+      "public": true
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/1-181036825",
-  "thumbnail": null
+  "thumbnail": null,
+  "membersFrom": "title"
 }

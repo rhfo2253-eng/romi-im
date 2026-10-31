@@ -1,4 +1,4 @@
-name: 양식으로 라이브·사진 추가
+name: 양식으로 라이브·사진 추가, 멤버 고치기
 
 # 이슈 양식("라이브 기록 추가", "사진(공식 게시물) 추가")을 제출하면 data/에 넣고 사이트를 다시 올린다.
 on:
@@ -20,7 +20,7 @@ jobs:
     # 양식 제목으로 구분한다(라벨은 저장소에 미리 만들어 둬야 붙어서 쓰지 않음)
     if: >-
       github.event.issue.user.login == github.repository_owner &&
-      (startsWith(github.event.issue.title, '라이브 추가') || startsWith(github.event.issue.title, '사진 추가'))
+      (startsWith(github.event.issue.title, '라이브 추가') || startsWith(github.event.issue.title, '사진 추가') || startsWith(github.event.issue.title, '멤버 고치기'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
       - name: 데이터에 넣기
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
-          ISSUE_LABEL: ${{ startsWith(github.event.issue.title, '라이브 추가') && 'add-live' || 'add-photo' }}
+          ISSUE_LABEL: ${{ startsWith(github.event.issue.title, '라이브 추가') && 'add-live' || startsWith(github.event.issue.title, '멤버 고치기') && 'fix-members' || 'add-photo' }}
           ISSUE_DATE: ${{ github.event.issue.created_at }}
         run: node scripts/add-from-issue.mjs
       - name: 저장

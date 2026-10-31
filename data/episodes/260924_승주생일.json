@@ -100,15 +100,18 @@
   "shorts": [
     {
       "youtubeId": "Ds3oboN796Q",
-      "title": "생일에 키가 0.3cm 큰 승주"
+      "title": "생일에 키가 0.3cm 큰 승주",
+      "public": false
     },
     {
       "youtubeId": "R6OVf2rm678",
-      "title": "롯데 집안에서 태어난 기아 팬 승주"
+      "title": "롯데 집안에서 태어난 기아 팬 승주",
+      "public": false
     },
     {
       "youtubeId": "-JJiorqXLq4",
-      "title": "10년생 친구들한테 받은 승주의 생일 축하"
+      "title": "10년생 친구들한테 받은 승주의 생일 축하",
+      "public": false
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/1-180512867",

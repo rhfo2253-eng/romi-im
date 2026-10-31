@@ -33,6 +33,11 @@ const episodeTitle = new Map(episodes.map((e) => [e.id, e.title]));
               {l.noticeUrl && <a class="badge" href={l.noticeUrl} target="_blank" rel="noopener">공식 공지 ↗</a>}
             </div>
           </div>
+          {l.thumbnail && (
+            <a class="live-thumb" href={l.weverseUrl ?? undefined} target="_blank" rel="noopener" aria-label="위버스에서 보기">
+              <img src={l.thumbnail} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </a>
+          )}
         </li>
       ))}
     </ol>
@@ -40,8 +45,16 @@ const episodeTitle = new Map(episodes.map((e) => [e.id, e.title]));
 </Base>
 <style>
   .lives { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-  .live { padding: 16px; display: grid; gap: 10px; }
-  @media (min-width: 640px) { .live { grid-template-columns: 130px 1fr; } }
+  .live { padding: 16px; display: grid; gap: 10px; grid-template-columns: 1fr 112px; }
+  .live .date, .live .body { grid-column: 1; }
+  .live-thumb { grid-column: 2; grid-row: 1 / span 2; align-self: start; display: block; border-radius: 8px; overflow: hidden; background: var(--line); aspect-ratio: 16 / 9; }
+  .live-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (min-width: 640px) {
+    .live { grid-template-columns: 130px 1fr 176px; }
+    .live .date { grid-column: 1; grid-row: 1; }
+    .live .body { grid-column: 2; grid-row: 1; }
+    .live-thumb { grid-column: 3; grid-row: 1; }
+  }
   .date { display: flex; gap: 10px; align-items: baseline; }
   @media (min-width: 640px) { .date { flex-direction: column; gap: 2px; } }
   .date .muted { font-size: 13px; font-variant-numeric: tabular-nums; }

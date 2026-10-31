@@ -26,6 +26,8 @@ export interface Live {
   duration: number | null; weverseUrl: string | null; episodes: string[];
   /** 공식 X의 라이브 시작 공지 */
   noticeUrl?: string;
+  /** 위버스 라이브 썸네일 주소 (파일은 저장하지 않고 위버스 주소를 그대로 씀) */
+  thumbnail?: string;
 }
 export interface Release {
   id: string; title: string; type: string; releaseDate: string | null; status?: string; titleTrack: string | null;

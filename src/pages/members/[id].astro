@@ -1,13 +1,14 @@
 ---
 import Base from '../../layouts/Base.astro';
 import EpisodeCard from '../../components/EpisodeCard.astro';
-import { members, episodes, href, episodeHref, type Member } from '../../lib/data';
+import { members, episodes, href, episodeHref, formatDate, memberActivities, type Member } from '../../lib/data';
 
 export function getStaticPaths() {
   return members.map((m) => ({ params: { id: m.id }, props: { member: m } }));
 }
 const { member: m } = Astro.props as { member: Member };
 const eps = episodes.filter((e) => e.members.includes(m.id));
+const activities = memberActivities.filter((a) => a.member === m.id);
 const shorts = eps.flatMap((e) => e.shorts.map((s) => ({ ...s, episode: e })));
 ---
 <Base title={m.name} current="members">
@@ -32,6 +33,21 @@ const shorts = eps.flatMap((e) => e.shorts.map((s) => ({ ...s, episode: e })));
     </dl>
     <p class="note muted">항목마다 출처 링크가 있습니다. 틀린 곳은 사이트 맨 아래 메일 주소로 알려 주세요.</p>
   </section>
+
+  {activities.length > 0 && (
+    <section class="section">
+      <div class="section-title"><h2>개인 활동</h2><a href={href('/discography/#solo')}>디스코그래피</a></div>
+      <ul class="acts">
+        {activities.map((a) => (
+          <li>
+            <span class="badge">{a.type}</span>
+            {a.url ? <a href={a.url} target="_blank" rel="noopener">{a.title} ↗</a> : <span>{a.title}</span>}
+            <span class="muted">{formatDate(a.date)}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   <section class="section">
     <div class="section-title"><h2>{m.name}의 압축본</h2><a href={`${href('/episodes/')}?member=${m.id}`}>거르기로 보기 →</a></div>
@@ -62,4 +78,7 @@ const shorts = eps.flatMap((e) => e.shorts.map((s) => ({ ...s, episode: e })));
   dd { margin: 0; }
   .note { font-size: 13px; margin-top: 8px; }
   .shorts { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+  .acts { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .acts li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; font-size: 15px; }
+  .acts a { font-weight: 600; }
 </style>

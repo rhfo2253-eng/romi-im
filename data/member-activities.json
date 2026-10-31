@@ -1,0 +1,74 @@
+[
+  {
+    "id": "seungju-cover-jetaime",
+    "member": "seungju",
+    "type": "커버 영상",
+    "title": "조이(JOY) - Je T'aime",
+    "date": "2026-10-21",
+    "url": "https://www.youtube.com/watch?v=4iCvJB1xAgI",
+    "source": "https://www.youtube.com/watch?v=4iCvJB1xAgI"
+  },
+  {
+    "id": "kanny-cover-sunflower",
+    "member": "kanny",
+    "type": "커버 영상",
+    "title": "Post Malone, Swae Lee - Sunflower",
+    "date": "2026-10-03",
+    "url": "https://www.youtube.com/watch?v=8RoNNDQcDfk",
+    "source": "https://www.youtube.com/watch?v=8RoNNDQcDfk"
+  },
+  {
+    "id": "soha-cover-square",
+    "member": "soha",
+    "type": "커버 영상",
+    "title": "백예린 - Square",
+    "date": "2026-09-20",
+    "url": "https://www.youtube.com/watch?v=Ha8-HJd8wWU",
+    "source": "https://www.youtube.com/watch?v=Ha8-HJd8wWU"
+  },
+  {
+    "id": "mei-cover-aikatsu",
+    "member": "mei",
+    "type": "커버 영상",
+    "title": "アイカツ! - アイドル活動! (뮤직비디오 재현)",
+    "date": "2026-09-02",
+    "url": "https://www.youtube.com/watch?v=pGD28xs4nsM",
+    "source": "https://www.youtube.com/watch?v=pGD28xs4nsM"
+  },
+  {
+    "id": "dohee-cover-tabun",
+    "member": "dohee",
+    "type": "커버 영상",
+    "title": "YOASOBI - 아마도(たぶん)",
+    "date": "2025-06-15",
+    "url": "https://www.youtube.com/watch?v=-TmolDfxfTE",
+    "source": "https://www.youtube.com/watch?v=-TmolDfxfTE"
+  },
+  {
+    "id": "hitomi-lyrics-first-day",
+    "member": "hitomi",
+    "type": "작사",
+    "title": "처음 만난 그날처럼 (미니 2집 My Name Is...)",
+    "date": "2025-03-13",
+    "url": null,
+    "source": "https://sports.khan.co.kr/article/202503121451003"
+  },
+  {
+    "id": "hitomi-lyrics-brightest-star",
+    "member": "hitomi",
+    "type": "작사",
+    "title": "난 오늘 밤하늘에서 가장 빛나는 별이 된다 (미니 1집 SAY MY NAME)",
+    "date": "2024-10-16",
+    "url": null,
+    "source": "https://www.wikitree.co.kr/articles/987384"
+  },
+  {
+    "id": "hitomi-lyrics-8llowme",
+    "member": "hitomi",
+    "type": "작사",
+    "title": "8llowme (미니 1집 SAY MY NAME)",
+    "date": "2024-10-16",
+    "url": null,
+    "source": "https://www.wikitree.co.kr/articles/987384"
+  }
+]

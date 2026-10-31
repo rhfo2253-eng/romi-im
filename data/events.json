@@ -154,5 +154,19 @@
     "type": "broadcast",
     "title": "Mnet 'IDOL'S TABLE' 히토미 출연 (오후 8시)",
     "source": "https://x.com/sa2m2nam3/status/2112856420215382253"
+  },
+  {
+    "id": "2026-01-10-tgc-shizuoka",
+    "date": "2026-01-10",
+    "type": "event",
+    "title": "'SDGs推進 TGC しずおか 2026' 히토미 출연 (일본)",
+    "source": "https://x.com/sa2m2nam3_JP/status/1983835406601974012"
+  },
+  {
+    "id": "2026-10-31-shanghai",
+    "date": "2026-10-31",
+    "type": "event",
+    "title": "SAY MY NAME FAN EVENT IN SHANGHAI (중국 상하이)",
+    "source": "https://weverse.io/saymyname/notice/39726"
   }
 ]

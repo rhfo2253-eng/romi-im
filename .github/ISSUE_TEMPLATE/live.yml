@@ -1,0 +1,43 @@
+name: 라이브 기록 추가
+description: 위버스 라이브를 라이브 기록에 추가합니다. 제출하면 1~3분 뒤 사이트에 반영됩니다.
+title: "라이브 추가"
+body:
+  - type: input
+    id: date
+    attributes:
+      label: 날짜
+      description: "예: 2026-10-30"
+      placeholder: "2026-10-30"
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: 라이브 제목
+      placeholder: "위버스 라이브 제목"
+    validations:
+      required: true
+  - type: checkboxes
+    id: members
+    attributes:
+      label: 나온 멤버
+      options:
+        - label: 히토미
+        - label: 슈이
+        - label: 메이
+        - label: 카니
+        - label: 소하
+        - label: 도희
+        - label: 준휘
+        - label: 승주
+  - type: input
+    id: weverse
+    attributes:
+      label: 위버스 주소 (선택)
+      description: 위버스 앱에서 공유 → 링크 복사
+      placeholder: "https://weverse.io/saymyname/live/..."
+  - type: input
+    id: duration
+    attributes:
+      label: 길이 (선택)
+      placeholder: "예: 1:02:03 또는 45:10"

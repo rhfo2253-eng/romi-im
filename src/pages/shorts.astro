@@ -9,10 +9,10 @@ const shorts = episodes.flatMap((e) => e.shorts.map((s) => ({ ...s, episode: e }
 <Base title="쇼츠 모아보기" current="shorts">
   <header class="page-head">
     <h1>쇼츠 모아보기</h1>
-    <p>압축본에서 나온 세로 영상. 각 카드 아래 "본편 보기"로 원래 압축본 이동.</p>
+    <p>압축본에서 나온 세로 영상입니다. 카드 아래 "본편 보기"를 누르면 원래 압축본으로 갑니다.</p>
   </header>
 
-  {shorts.length === 0 ? <p class="empty">등록된 쇼츠 없음</p> : (
+  {shorts.length === 0 ? <p class="empty">등록된 쇼츠가 없습니다.</p> : (
     <div class="shorts">
       {shorts.map((s) => (
         <article class="card lift short">

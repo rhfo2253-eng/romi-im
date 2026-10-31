@@ -14,7 +14,7 @@ const scheduleCount = events.filter((e) => e.type === 'broadcast' || e.type === 
 const menu = [
   { name: '압축본', count: `${episodes.length}편`, desc: '장면 이름 검색, 멤버·월별 보기', path: '/episodes/' },
   { name: '쇼츠', count: `${shortsCount}개`, desc: '압축본에서 나온 세로 영상', path: '/shorts/' },
-  { name: '사진', count: `게시물 ${photos.length}개`, desc: '공식 X·인스타그램 게시물 모음', path: '/photos/' },
+  { name: '사진', count: `게시물 ${photos.length}개`, desc: '공식 X·인스타그램 게시물', path: '/photos/' },
   { name: '멤버', count: `${members.length}명`, desc: '생일, 멤버 색, 출연 압축본', path: '/members/' },
   { name: '라이브 기록', count: `${lives.length}회`, desc: '압축본 없는 라이브 포함 전체 목록', path: '/lives/' },
   { name: '디스코그래피', count: `${discography.length}개`, desc: '발매일, 타이틀곡, 뮤직비디오', path: '/discography/' },
@@ -22,7 +22,7 @@ const menu = [
   { name: '처음 오신 분께', count: '용어 6개', desc: '멤버 이름, 팬덤 이름, 자주 쓰는 말', path: '/guide/' },
   { name: '운영 원칙', count: '8개 항목', desc: '싣는 정보 기준, 삭제 요청 방법', path: '/principles/' },
   { name: '사이트 소개', count: '연락처', desc: '비공식 팬 사이트 안내, 문의 메일', path: '/about/' },
-  { name: '유튜브 채널', count: '@smn00000', desc: 'Romi_Im 채널로 이동', url: channelUrl },
+  { name: '유튜브 채널', count: '@smn00000', desc: 'Romi_Im 채널 바로가기', url: channelUrl },
 ];
 
 // 다가오는 날은 보는 날짜에 따라 바뀌므로 브라우저에서 계산한다
@@ -34,7 +34,7 @@ const days = [
 <Base current="home">
   <section class="hero">
     <h1>Romi_Im</h1>
-    <p class="muted">세이마이네임 위버스 라이브 압축본 모음 · 비공식 팬 사이트</p>
+    <p class="muted">세이마이네임 위버스 라이브 압축본을 모아 둔 비공식 팬 사이트입니다.</p>
     <form class="search" action={href('/episodes/')} method="get" role="search">
       <label class="sr" for="home-q">압축본 장면 검색</label>
       <input class="input" id="home-q" name="q" type="search" placeholder="장면 이름 검색 (예: 케이크)" autocomplete="off" />
@@ -72,7 +72,7 @@ const days = [
             <SampleBadge show={!!latest.sample} />
           </div>
         </a>
-      ) : <p class="empty">등록된 압축본 없음</p>}
+      ) : <p class="empty">등록된 압축본이 없습니다.</p>}
     </section>
 
     <section class="section">
@@ -112,7 +112,7 @@ const days = [
     if (!list.length) {
       const li = document.createElement('li');
       li.className = 'muted';
-      li.textContent = '등록된 날 없음';
+      li.textContent = '등록된 날이 없습니다.';
       ul.append(li);
       return;
     }

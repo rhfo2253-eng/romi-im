@@ -2,22 +2,22 @@
 import Base from '../layouts/Base.astro';
 import { contactEmail } from '../lib/data';
 
-const updated = '2026-10-30';
+const updated = '2026-10-31';
 const rules = [
-  { promise: '비공식 팬 사이트임을 표시', why: '모든 페이지 맨 아래에 표시. 공식 로고 사용 안 함.' },
-  { promise: '출처 있는 공개 정보만 게재', why: '공식 채널, 기사, 백과사전 등 공개 자료에 나온 정보만 출처 링크와 함께 게재. 출처 없는 정보는 넣지 않음.' },
-  { promise: '사생활·루머 게재 안 함', why: '멤버가 직접 공개하지 않은 개인 정보와 확인되지 않은 소문은 다루지 않음.' },
-  { promise: '공식 사진·영상 재업로드 안 함', why: '사진·영상 파일을 이 사이트에 저장하지 않음. 영상은 유튜브 퍼가기와 링크, 공식 사진은 X·인스타그램 원래 게시물 퍼가기와 위버스 링크로만 표시. 원래 게시물이 지워지면 이 사이트에서도 안 보임.' },
-  { promise: '노래 가사 게재 안 함', why: '곡은 제목, 발매일, 공식 뮤직비디오 링크만 게재.' },
-  { promise: '비교·비방 글 게재 안 함', why: '다른 팬, 다른 그룹과의 순위 비교나 비난 글은 넣지 않음.' },
-  { promise: '광고 없음', why: '광고 배너, 제휴 링크를 넣지 않음.' },
-  { promise: '삭제 요청 시 즉시 삭제', why: `${contactEmail}로 요청을 받으면 확인 후 바로 삭제 또는 수정.` },
+  { promise: '비공식 팬 사이트라고 밝힙니다.', why: '모든 페이지 맨 아래에 적어 둡니다. 공식 로고는 쓰지 않습니다.' },
+  { promise: '출처가 있는 공개 정보만 싣습니다.', why: '공식 채널, 기사, 백과사전처럼 공개된 자료에 나온 정보만 출처 링크와 함께 싣습니다. 출처가 없는 정보는 넣지 않습니다.' },
+  { promise: '사생활과 루머는 싣지 않습니다.', why: '멤버가 직접 공개하지 않은 개인 정보와 확인되지 않은 소문은 다루지 않습니다.' },
+  { promise: '공식 사진과 영상을 다시 올리지 않습니다.', why: '사진·영상 파일은 이 사이트에 저장하지 않습니다. 영상은 유튜브 퍼가기와 링크로, 공식 사진은 X·인스타그램 원래 게시물 퍼가기와 위버스 링크로만 보여 줍니다. 원래 게시물이 지워지면 이 사이트에서도 사라집니다.' },
+  { promise: '노래 가사는 싣지 않습니다.', why: '곡은 제목, 발매일, 공식 뮤직비디오 링크만 싣습니다.' },
+  { promise: '비교하거나 깎아내리는 글은 싣지 않습니다.', why: '다른 팬, 다른 그룹과의 순위 비교나 비난 글은 넣지 않습니다.' },
+  { promise: '광고를 붙이지 않습니다.', why: '광고 배너와 제휴 링크를 넣지 않습니다.' },
+  { promise: '삭제 요청을 받으면 바로 내립니다.', why: `${contactEmail}로 요청을 받으면 확인 후 바로 지우거나 고칩니다.` },
 ];
 ---
 <Base title="운영 원칙" current="principles">
   <header class="page-head">
     <h1>운영 원칙</h1>
-    <p>이 사이트에 싣는 정보와 싣지 않는 정보의 기준. 변경 시 아래 날짜 갱신.</p>
+    <p>이 사이트에 싣는 정보와 싣지 않는 정보의 기준입니다. 원칙을 바꾸면 아래 날짜를 고칩니다.</p>
   </header>
 
   <ol class="rows rules">
@@ -35,11 +35,11 @@ const rules = [
   <section class="section">
     <div class="section-title"><h2>삭제·정정 요청 방법</h2></div>
     <ol class="steps">
-      <li>해당 페이지 주소와 내용 기재</li>
-      <li>삭제 또는 수정이 필요한 이유 기재</li>
-      <li><a href={`mailto:${contactEmail}?subject=${encodeURIComponent('[Romi_Im] 삭제·정정 요청')}`}>{contactEmail}</a>로 발송</li>
+      <li>해당 페이지 주소와 내용을 적어 주세요.</li>
+      <li>지우거나 고쳐야 하는 이유를 적어 주세요.</li>
+      <li><a href={`mailto:${contactEmail}?subject=${encodeURIComponent('[Romi_Im] 삭제·정정 요청')}`}>{contactEmail}</a>로 보내 주세요.</li>
     </ol>
-    <p class="strong">요청 확인 즉시 삭제합니다.</p>
+    <p class="strong">요청을 확인하면 바로 내립니다.</p>
   </section>
 
   <p class="updated muted">최종 수정: <time datetime={updated}>{updated.replace(/-/g, '. ')}.</time></p>

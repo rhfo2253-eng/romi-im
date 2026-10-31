@@ -4,6 +4,7 @@ import discographyJson from '../../data/discography.json';
 import eventsJson from '../../data/events.json';
 import photosJson from '../../data/photos.json';
 import officialVideosJson from '../../data/official-videos.json';
+import memberActivitiesJson from '../../data/member-activities.json';
 
 export interface Fact { label: string; value: string; source: string }
 export interface Member {
@@ -39,6 +40,10 @@ export const members = membersJson as Member[];
 export const discography = (discographyJson as Release[]).toSorted((a, b) =>
   (b.releaseDate ?? '9999').localeCompare(a.releaseDate ?? '9999'));
 export const events = eventsJson as SiteEvent[];
+
+/** 멤버 개인 활동. 세이마이네임 데뷔(2024-10-16) 이후 세이마이네임 멤버로서 한 것만(이전 그룹 시절 활동 제외) */
+export interface MemberActivity { id: string; member: string; type: string; title: string; date: string; url: string | null; source: string }
+export const memberActivities = (memberActivitiesJson as MemberActivity[]).toSorted((a, b) => b.date.localeCompare(a.date));
 
 const episodeModules = import.meta.glob<Episode>('../../data/episodes/*.json', { eager: true, import: 'default' });
 

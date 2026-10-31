@@ -1,12 +1,22 @@
 ---
 import Base from '../layouts/Base.astro';
-import { discography, formatDate } from '../lib/data';
+import { discography, formatDate, memberActivities, members } from '../lib/data';
+
+// 멤버 개인 활동을 멤버 순서대로 묶는다
+const byMember = members
+  .map((m) => ({ m, items: memberActivities.filter((a) => a.member === m.id) }))
+  .filter((x) => x.items.length);
 ---
 <Base title="디스코그래피" current="discography">
   <header class="page-head">
     <h1>디스코그래피</h1>
     <p>앨범·싱글 제목, 타이틀곡, 발매일, 공식 뮤직비디오 링크입니다. 가사는 싣지 않습니다.</p>
   </header>
+  <nav class="jump" aria-label="이 페이지 안 바로가기">
+    <a href="#group">그룹 발매</a>
+    <a href="#solo">멤버 개인 활동</a>
+  </nav>
+  <h2 class="part" id="group">그룹 발매</h2>
   <ol class="timeline">
     {discography.map((r) => (
       <li class="card release">
@@ -27,6 +37,28 @@ import { discography, formatDate } from '../lib/data';
       </li>
     ))}
   </ol>
+
+  <section class="section" id="solo">
+    <h2 class="part">멤버 개인 활동</h2>
+    <p class="muted small">세이마이네임 데뷔(2024년 10월 16일) 이후 세이마이네임 멤버로서 한 활동만 넣습니다. 아이즈원 시절 등 데뷔 전 활동은 넣지 않습니다. 지금까지 멤버 개인 이름으로 낸 음원(솔로 싱글·솔로 OST)은 없고, 공식 채널의 커버 영상과 작사 참여가 있습니다.</p>
+    <div class="solo">
+      {byMember.map(({ m, items }) => (
+        <section class="card solo-member">
+          <h3><span class="dot" style={`background:var(--m-${m.id})`}></span>{m.name}</h3>
+          <ul>
+            {items.map((a) => (
+              <li>
+                <span class="badge">{a.type}</span>
+                {a.url ? <a href={a.url} target="_blank" rel="noopener">{a.title} ↗</a> : <span>{a.title}</span>}
+                <span class="muted">{formatDate(a.date)}</span>
+                {!a.url && <a class="source" href={a.source} target="_blank" rel="noopener">출처</a>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </section>
 </Base>
 <style>
   .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
@@ -35,4 +67,14 @@ import { discography, formatDate } from '../lib/data';
   h2 { font-size: 24px; font-weight: 800; }
   .links { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
   .small { font-size: 13px; }
+  .jump { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .jump a { font-size: 14px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
+  .part { font-size: 18px; font-weight: 800; margin: 18px 0 12px; scroll-margin-top: 110px; }
+  #solo { scroll-margin-top: 110px; }
+  .solo { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); margin-top: 12px; }
+  .solo-member { padding: 16px; }
+  .solo-member h3 { display: flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+  .solo-member ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .solo-member li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; font-size: 14px; }
+  .solo-member li a:not(.source) { font-weight: 600; }
 </style>

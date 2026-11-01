@@ -77,7 +77,13 @@
       "time": 770
     }
   ],
-  "shorts": [],
+  "shorts": [
+    {
+      "youtubeId": "MiPrH79kkoc",
+      "title": "팬이 물었다 \"Can you fly?\" 날 수 있어요!",
+      "public": true
+    }
+  ],
   "weverseUrl": "https://weverse.io/saymyname/live/0-181270032",
   "thumbnail": null
 }

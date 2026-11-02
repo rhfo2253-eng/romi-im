@@ -5,7 +5,7 @@
 공통 규칙
 - 날짜는 `YYYY-MM-DD` 형식(예: `2026-10-19`)으로 씁니다.
 - 길이와 시간은 **초** 단위 숫자로 씁니다(예: 3분 25초 → `205`).
-- 멤버는 아래 멤버 id로 적습니다: `hitomi` `shuie` `mei` `kanny` `soha` `dohee` `junhwi` `seungju`
+- 멤버는 멤버 id로 적습니다. **멤버 id·이름·표기의 기준(진실의 원천)은 `data/members.json` 하나뿐**입니다. 다른 파일·코드·문서에 이름 목록을 따로 적지 말고 이 파일을 보세요. `npm run build`가 먼저 `scripts/check-data.mjs`로 모든 데이터의 멤버 id와 양식 체크박스가 이 파일과 맞는지 확인하고, 어긋나면 빌드를 멈춥니다.
 - `"sample": true`가 붙은 항목은 화면 확인용 샘플입니다. 사이트에 "샘플" 표시가 붙습니다. 실제 데이터가 들어오면 샘플 파일·항목은 지웁니다.
 - 세이마이네임 공개 정보(멤버, 디스코그래피, 기념일)에는 반드시 `source`(출처 URL)를 답니다. 출처가 없으면 넣지 않습니다.
 - 가사, 사생활, 루머, 공식 사진·영상 파일은 넣지 않습니다.
@@ -54,19 +54,31 @@
 | `episodes` | 이 라이브로 만든 압축본 `id` 목록(아직 비공개인 편은 사이트에 자동으로 안 보임). 한 라이브를 여러 편으로 나눴으면 여러 개, 없으면 `[]` |
 | `sample` | 샘플이면 `true` |
 
-## `members.json` — 멤버
+## `members.json` — 멤버 (진실의 원천)
+
+멤버에 관한 핵심 값은 모두 여기에만 적습니다. 사이트(`src/lib/data.ts`), 유튜브 동기화·양식 처리 스크립트(`scripts/lib/members.mjs`), 생일 달력이 모두 이 파일을 읽습니다.
 
 | 칸 | 뜻 |
 |---|---|
-| `id` | 멤버 id(위 목록, 바꾸지 않기) |
-| `name` | 화면에 보이는 이름 |
-| `color` | 멤버 색(점, 밑줄, 필터 칩에만 씀) |
-| `colorDark` | 어두운 모드에서 대신 쓸 색(선택). 준휘처럼 검정이면 밝은 회색으로 |
-| `colorName` | 색 이름(예: `"노랑"`) |
-| `colorSource` | 멤버 색 출처 URL |
-| `facts` | 공개 정보 목록. 항목마다 `label`, `value`, `source`(출처 URL) |
+| `id` | 멤버 id. 공식 영문 표기를 소문자로(예: `seungjoo`). 바꾸면 모든 데이터가 따라 바뀌어야 하므로, 바꿀 일이 있으면 `npm run check`로 확인 |
+| `name` | 한국어 이름(화면 표시, 이슈 양식 체크박스와 같아야 함) |
+| `englishName` | 공식 영문 표기(인코드 공식 프로필 기준) |
+| `japaneseName` | 일본어 표기(공식 X 해시태그 기준) |
+| `realName` | 본명(공식 프로필 표기) |
+| `birthday` | 생년월일 `YYYY-MM-DD`. 달력의 생일은 이 값으로 자동으로 만들어지므로 `events.json`에 생일을 따로 넣지 않음 |
+| `position` | 포지션(공식 프로필) |
+| `nationality` | 국적 |
+| `aliases` | 별명(예: `토미`, `히부장`). 영상 제목·해시태그에서 멤버를 찾을 때 씀 |
+| `weverseNicknames` | 위버스 라이브를 켠 개인 계정 이름(예: `햄토미`) |
+| `color`, `colorDark`, `colorName`, `colorSource` | 멤버 색과 출처 |
+| `sources` | `profile`(공식 프로필), `nationality`(국적 출처), `birthday`(생일만 따로 확인한 출처, 선택) |
+| `facts` | 그 밖의 공개 정보(경력, 데뷔·합류 등). 항목마다 `label`, `value`, `source` |
 
-생일을 확인하면 `facts`에 `{"label": "생일", "value": "10월 6일", "source": "..."}`처럼 넣고, 달력에도 보이게 `events.json`에 `type: "birthday"`로 추가합니다.
+### 정보 출처 기준
+
+1. **인코드(iNKODE) 공식 프로필**: https://in-kode.com/say_my_name.html. 이름·영문 표기·본명·생년월일·포지션은 이 페이지가 기준입니다.
+2. 공식 프로필에 없는 정보는 공식 SNS(X·위버스), 기사로 확인합니다.
+3. 한국어 위키백과는 연예 정보 갱신이 늦을 수 있으므로 단독 출처로 쓰지 않고, 나무위키 등과 서로 맞춰 본 뒤에 씁니다.
 
 ## `discography.json` — 앨범·곡
 
@@ -90,7 +102,7 @@
 | `id` | 겹치지 않는 이름 |
 | `date` | 날짜. 매년 반복하는 날은 처음 날짜(예: 데뷔일 `2024-10-16`) |
 | `repeat` | 매년 반복이면 `"yearly"`, 아니면 빼기 |
-| `type` | `"birthday"`(생일), `"anniversary"`(기념일), `"broadcast"`(방송·유튜브 출연), `"event"`(공연·행사·시구 등) |
+| `type` | `"anniversary"`(기념일), `"broadcast"`(방송·유튜브 출연), `"event"`(공연·행사·시구 등) |
 | `title` | 달력에 보일 이름 |
 | `source` | 출처 URL |
 
@@ -112,8 +124,8 @@
 
 | 칸 | 뜻 | 예 |
 |---|---|---|
-| `id` | 겹치지 않는 이름 | `"seungju-cover-jetaime"` |
-| `member` | 멤버 id | `"seungju"` |
+| `id` | 겹치지 않는 이름 | `"seungjoo-cover-jetaime"` |
+| `member` | 멤버 id | `"seungjoo"` |
 | `type` | `"커버 영상"`, `"작사"`, `"솔로 OST"`, `"피처링"` 등 | `"커버 영상"` |
 | `title` | 곡·영상 제목 | `"조이(JOY) - Je T'aime"` |
 | `date` | 공개·발매일 | `"2026-10-21"` |

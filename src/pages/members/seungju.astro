@@ -1,0 +1,15 @@
+---
+import { href } from '../../lib/data';
+// 승주의 id가 공식 영문 표기(SEUNGJOO)에 맞춰 seungjoo로 바뀌었다. 예전 주소는 새 주소로 보낸다.
+const to = href('/members/seungjoo/');
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+    <title>승주 페이지로 이동</title>
+  </head>
+  <body><a href={to}>승주 페이지로 이동</a></body>
+</html>

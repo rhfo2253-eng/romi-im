@@ -11,6 +11,7 @@
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { membersFromHashtags, membersMentioned } from './lib/members.mjs';
 
 const HANDLE = 'smn00000';
 const EPISODE_DIR = 'data/episodes';
@@ -18,10 +19,7 @@ const LIVES_FILE = 'data/lives.json';
 const dryRun = process.argv.includes('--dry-run');
 const CLIENT = { clientName: 'WEB', clientVersion: '2.20251001.00.00', hl: 'ko', gl: 'KR' };
 
-const MEMBER_NAMES = {
-  hitomi: ['히토미', '토미', '히부장'], shuie: ['슈이'], mei: ['메이'], kanny: ['카니'],
-  soha: ['소하', '민하'], dohee: ['도희'], junhwi: ['준휘'], seungju: ['승주'],
-};
+
 
 const kstDate = (d) => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(d);
 
@@ -135,19 +133,9 @@ export function cleanTitle(title) {
     .trim() || title;
 }
 
-export function membersIn(text) {
-  return Object.entries(MEMBER_NAMES)
-    .filter(([, names]) => names.some((n) => text.includes(n)))
-    .map(([id]) => id);
-}
-
-/** 설명란의 멤버 해시태그(#메이 #도희 …). 채널 주인이 직접 단 태그라 제목 속 언급보다 정확하다. */
-export function membersFromHashtags(description) {
-  const tags = new Set([...description.matchAll(/#([^\s#]+)/g)].map((m) => m[1]));
-  return Object.entries(MEMBER_NAMES)
-    .filter(([, names]) => names.some((n) => tags.has(n)))
-    .map(([id]) => id);
-}
+// 멤버 이름 목록은 data/members.json에서 온다(scripts/lib/members.mjs)
+export const membersIn = membersMentioned;
+export { membersFromHashtags };
 
 /** 공개(또는 일부 공개) 영상이면 true, 비공개·삭제면 false */
 async function isWatchable(id) {

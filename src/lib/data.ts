@@ -7,8 +7,14 @@ import officialVideosJson from '../../data/official-videos.json';
 import memberActivitiesJson from '../../data/member-activities.json';
 
 export interface Fact { label: string; value: string; source: string }
+/** 멤버 정보의 진실의 원천은 data/members.json. 이름·생일 등을 다른 곳에 따로 적지 않는다. */
 export interface Member {
-  id: string; name: string; color: string; colorDark?: string; colorName: string; colorSource?: string; facts: Fact[];
+  id: string; name: string; englishName: string; japaneseName: string; realName: string; birthday: string;
+  position: string; nationality: string; aliases: string[]; weverseNicknames: string[];
+  color: string; colorDark?: string; colorName: string; colorSource?: string;
+  /** profile: 공식 프로필(인코드), nationality: 국적 출처, birthday: 생일만 따로 확인한 출처(있으면) */
+  sources: { profile: string; nationality: string; birthday?: string };
+  facts: Fact[];
 }
 /** time: 장면 시작 초. 모르면 null(누르면 처음부터 재생) */
 export interface Chapter { title: string; time: number | null }
@@ -41,7 +47,14 @@ export const members = membersJson as Member[];
 // 발매일이 정해지지 않은 예정작이 맨 앞
 export const discography = (discographyJson as Release[]).toSorted((a, b) =>
   (b.releaseDate ?? '9999').localeCompare(a.releaseDate ?? '9999'));
-export const events = eventsJson as SiteEvent[];
+// 생일은 members.json의 birthday에서 만든다(events.json에 따로 적지 않음)
+export const events: SiteEvent[] = [
+  ...(eventsJson as SiteEvent[]),
+  ...members.map((m) => ({
+    id: `birthday-${m.id}`, date: m.birthday, repeat: 'yearly' as const, type: 'birthday',
+    title: `${m.name} 생일`, source: m.sources.birthday ?? m.sources.profile,
+  })),
+];
 
 /** 멤버 개인 활동. 세이마이네임 데뷔(2024-10-16) 이후 세이마이네임 멤버로서 한 것만(이전 그룹 시절 활동 제외) */
 export interface MemberActivity { id: string; member: string; type: string; title: string; date: string; url: string | null; source: string }

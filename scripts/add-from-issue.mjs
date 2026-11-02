@@ -4,12 +4,8 @@
 // 환경 변수: ISSUE_BODY(이슈 본문), ISSUE_LABEL(add-live, add-photo, fix-members), ISSUE_DATE(이슈 만든 날, ISO)
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { memberIdByName, membersFromHashtags } from './lib/members.mjs';
 
-const NAMES = { 히토미: 'hitomi', 슈이: 'shuie', 메이: 'mei', 카니: 'kanny', 소하: 'soha', 도희: 'dohee', 준휘: 'junhwi', 승주: 'seungju' };
-const HASHTAGS = {
-  hitomi: ['#히토미', '#hitomi'], shuie: ['#슈이', '#shuie'], mei: ['#메이', '#mei'], kanny: ['#카니', '#kanny'],
-  soha: ['#소하', '#soha'], dohee: ['#도희', '#dohee'], junhwi: ['#준휘', '#junhwi'], seungju: ['#승주', '#seungjoo'],
-};
 const OFFICIAL_X = ['sa2m2nam3', 'sa2m2nam3_jp'];
 
 const kst = (d) => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(d);
@@ -24,7 +20,8 @@ function parseForm(body) {
   }
   return out;
 }
-const checked = (text) => [...(text ?? '').matchAll(/- \[[xX]\] (\S+)/g)].map((m) => NAMES[m[1]]).filter(Boolean);
+// 양식 체크박스 이름 → 멤버 id (이름 목록은 data/members.json)
+const checked = (text) => [...(text ?? '').matchAll(/- \[[xX]\] (\S+)/g)].map((m) => memberIdByName(m[1])).filter(Boolean);
 const toSeconds = (t) => (/^\d+(:\d{2}){1,2}$/.test(t ?? '') ? t.split(':').reduce((a, n) => a * 60 + Number(n), 0) : null);
 
 const result = [];
@@ -75,7 +72,7 @@ if (process.env.ISSUE_LABEL === 'add-photo') {
       if (!res.ok) { result.push(`게시물을 찾지 못했습니다(지워졌거나 비공개): ${url}`); continue; }
       const html = (await res.json()).html ?? '';
       const text = html.replace(/<[^>]+>/g, ' ').split('&mdash;')[0].toLowerCase();
-      const members = Object.entries(HASHTAGS).filter(([, tags]) => tags.some((t) => text.includes(t))).map(([id]) => id);
+      const members = membersFromHashtags(text);
       // 게시물 번호에 올린 시각이 들어 있다
       const date = kst(new Date(Number((BigInt(x[2]) >> 22n) + 1288834974657n)));
       photos.push({ url, platform: 'x', date, members: members.length ? members : formMembers });

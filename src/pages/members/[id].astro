@@ -24,7 +24,14 @@ const shorts = eps.flatMap((e) => e.shorts.map((s) => ({ ...s, episode: e })));
   <section class="section">
     <div class="section-title"><h2>공개 정보</h2></div>
     <dl class="facts card">
-      {m.facts.map((f) => (
+      {[
+        { label: '영문 표기', value: m.englishName, source: m.sources.profile },
+        { label: '본명', value: m.realName, source: m.sources.profile },
+        { label: '생일', value: formatDate(m.birthday), source: m.sources.birthday ?? m.sources.profile },
+        { label: '포지션', value: m.position, source: m.sources.profile },
+        { label: '국적', value: m.nationality, source: m.sources.nationality },
+        ...m.facts,
+      ].map((f) => (
         <div>
           <dt>{f.label}</dt>
           <dd>{f.value} <a class="source" href={f.source} target="_blank" rel="noopener">출처</a></dd>

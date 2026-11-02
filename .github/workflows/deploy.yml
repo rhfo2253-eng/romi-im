@@ -4,9 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # 매시간 유튜브 채널을 확인해 새로 공개된 압축본을 반영하고 다시 올린다
+  # 한국 시간 18:30부터 4시간마다(18:30, 22:30, 02:30, 06:30, 10:30, 14:30) 유튜브 채널을 확인해 반영하고 다시 올린다.
+  # cron은 UTC 기준이라 9시간 뺀 시각으로 적는다. GitHub 사정으로 몇 분~수십 분 늦게 시작할 수 있다.
   schedule:
-    - cron: '7 * * * *'
+    - cron: '30 1,5,9,13,17,21 * * *'
 
 permissions:
   contents: write

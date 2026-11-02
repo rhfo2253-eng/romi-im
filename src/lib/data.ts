@@ -69,7 +69,7 @@ export interface Photo {
 }
 export const photos = (photosJson as Photo[]).toSorted((a, b) => b.date.localeCompare(a.date));
 
-/** 공식 유튜브 채널 최신 영상(scripts/sync-official.mjs가 매시간 채움) */
+/** 공식 유튜브 채널 최신 영상(scripts/sync-official.mjs가 4시간마다 채움) */
 export interface OfficialVideo { youtubeId: string; title: string; publishDate: string | null; duration: number | null }
 export const officialVideos = officialVideosJson as OfficialVideo[];
 

@@ -1,5 +1,5 @@
 // 세이마이네임 공식 유튜브 채널(@sa2m2nam3)의 최신 영상 목록을 data/official-videos.json에 맞춘다.
-// GitHub Actions에서 매시간 실행. 로그인 없이 누구나 볼 수 있는 채널 페이지만 쓴다.
+// GitHub Actions에서 4시간마다 실행. 로그인 없이 누구나 볼 수 있는 채널 페이지만 쓴다.
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { listTab, videoInfo, titles, lengths } from './sync-youtube.mjs';

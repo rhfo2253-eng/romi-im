@@ -4,61 +4,65 @@
   "title": "다시 다시 다시! 처음 불러 보는 한국 노래, 카니 혼자 라이브 2편",
   "liveTitle": "Spider-Nan🕷️ 2편",
   "liveDate": "2026-10-03",
-  "publishDate": null,
+  "publishDate": "2026-11-02",
   "youtubeId": "0i0KvfInBlI",
-  "duration": null,
+  "duration": 884,
   "members": [
     "kanny"
   ],
   "anniversary": null,
   "chapters": [
     {
+      "title": "예고",
+      "time": 0
+    },
+    {
       "title": "인어 vs 요정",
-      "time": null
+      "time": 29
     },
     {
       "title": "멤버들이랑 태국 가고 싶어요",
-      "time": null
+      "time": 48
     },
     {
       "title": "감기 기운이 있어요",
-      "time": null
+      "time": 126
     },
     {
       "title": "컴백은 언제?",
-      "time": null
+      "time": 182
     },
     {
       "title": "월드투어 하고 싶어요",
-      "time": null
+      "time": 212
     },
     {
       "title": "Die For You & 광고",
-      "time": null
+      "time": 292
     },
     {
       "title": "When I Was Your Man",
-      "time": null
+      "time": 333
     },
     {
       "title": "연습생 때 부른 노래",
-      "time": null
+      "time": 406
     },
     {
       "title": "처음 불러 보는 한국 노래",
-      "time": null
+      "time": 433
     },
     {
       "title": "제일 좋아하는 노래",
-      "time": null
+      "time": 558
     },
     {
       "title": "배터리 3%, 마지막 노래",
-      "time": null
+      "time": 631
     },
     {
       "title": "자야 돼요, 고마워요",
-      "time": null
+      "time": 792
     }
   ],
   "shorts": [
@@ -70,14 +74,15 @@
     {
       "youtubeId": "Kuwsu4OwVis",
       "title": "이 노래만 부르면 눈물 나는 카니",
-      "public": false
+      "public": true
     },
     {
       "youtubeId": "ihk2mv3qwjM",
       "title": "멤버들이랑 꼭 같이 가고 싶은 카니의 태국 여행",
-      "public": false
+      "public": true
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/3-242020216",
-  "thumbnail": null
+  "thumbnail": null,
+  "membersFrom": "hashtag"
 }

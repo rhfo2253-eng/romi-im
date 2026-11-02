@@ -4,118 +4,123 @@
   "title": "다섯 명이 다 같이 과자 입술ㅋㅋ 도희·소하·준휘·승주·메이",
   "liveTitle": "세마넴이랑 놀장",
   "liveDate": "2026-09-29",
-  "publishDate": null,
+  "publishDate": "2026-11-02",
   "youtubeId": "VVJSMwDbD-8",
-  "duration": null,
+  "duration": 1575,
   "members": [
-    "dohee",
+    "mei",
     "soha",
+    "dohee",
     "junhwi",
-    "seungju",
-    "mei"
+    "seungju"
   ],
   "anniversary": null,
   "chapters": [
     {
+      "title": "예고",
+      "time": 0
+    },
+    {
       "title": "대학 축제 다녀왔어요",
-      "time": null
+      "time": 38
     },
     {
       "title": "생일 사진이 70장",
-      "time": null
+      "time": 90
     },
     {
       "title": "내일 시험이에요",
-      "time": null
+      "time": 135
     },
     {
       "title": "혼자 점 뺐다가",
-      "time": null
+      "time": 163
     },
     {
       "title": "과자 입술",
-      "time": null
+      "time": 201
     },
     {
       "title": "MBTI는 정의할 수 없어",
-      "time": null
+      "time": 297
     },
     {
       "title": "스킨십은 어려워",
-      "time": null
+      "time": 394
     },
     {
       "title": "누가 제일 잼민이?",
-      "time": null
+      "time": 468
     },
     {
       "title": "'의자'를 '이자'라고",
-      "time": null
+      "time": 536
     },
     {
       "title": "다 같이 하트",
-      "time": null
+      "time": 645
     },
     {
       "title": "도희 먹방",
-      "time": null
+      "time": 674
     },
     {
       "title": "머리 길이와 염색",
-      "time": null
+      "time": 732
     },
     {
       "title": "팬콘 스포 해 주세요",
-      "time": null
+      "time": 845
     },
     {
       "title": "안 어울리는 직업 찾기",
-      "time": null
+      "time": 983
     },
     {
       "title": "팬콘 꼭 와 주세요",
-      "time": null
+      "time": 1207
     },
     {
       "title": "처음 죽인 거미",
-      "time": null
+      "time": 1343
     },
     {
       "title": "다리가 간지러워",
-      "time": null
+      "time": 1432
     },
     {
       "title": "내일도 축제",
-      "time": null
+      "time": 1512
     }
   ],
   "shorts": [
     {
       "youtubeId": "l0vIq4JXGKk",
       "title": "다리가 간지럽다더니 엄마!!!",
-      "public": false
+      "public": true
     },
     {
       "youtubeId": "rrOBBAk7b-g",
       "title": "하트 만들어 달랬더니 세마넴 다섯 명",
-      "public": false
+      "public": true
     },
     {
       "youtubeId": "i9mKh-LuZDw",
       "title": "과자로 입술 만들기 메이까지 합류",
-      "public": false
+      "public": true
     },
     {
       "youtubeId": "ozjU7S6bloo",
       "title": "소하한테 안 어울리는 직업 세스코 직원?",
-      "public": false
+      "public": true
     },
     {
       "youtubeId": "e2q2BEjSB3A",
       "title": "거미는 절대 안 죽였는데 태어나서 처음 거미를",
-      "public": false
+      "public": true
     }
   ],
   "weverseUrl": "https://weverse.io/saymyname/live/3-241884786",
-  "thumbnail": null
+  "thumbnail": null,
+  "membersFrom": "hashtag"
 }
